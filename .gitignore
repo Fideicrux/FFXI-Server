@@ -165,8 +165,8 @@ navmeshes/*.nav
 tags
 log/**
 !log/.gitkeep
-/navmeshes/
-/losmeshes/
+/navmeshes
+/losmeshes
 
 # Lua Developement Tools project files
 .metadata/**
