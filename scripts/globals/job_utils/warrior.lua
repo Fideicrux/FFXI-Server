@@ -34,6 +34,10 @@ end
 xi.job_utils.warrior.useAggressor = function(player, target, ability)
     local merits = player:getMerit(xi.merit.AGGRESSIVE_AIM)
 
+     -- Remove Defender or Retaliation if active
+    player:delStatusEffect(xi.effect.DEFENDER)
+    player:delStatusEffect(xi.effect.RETALIATION)
+
     player:addStatusEffect(xi.effect.AGGRESSOR, merits, 0, 180 + player:getMod(xi.mod.AGGRESSOR_DURATION))
 
     return xi.effect.AGGRESSOR
