@@ -32,7 +32,12 @@ end
 -- Ability Use Functions
 -----------------------------------
 xi.job_utils.warrior.useAggressor = function(player, target, ability)
+
+    --Can remove.
     local merits = player:getMerit(xi.merit.AGGRESSIVE_AIM)
+
+    --Duration
+    local duration = 7200
 
      -- Remove Defender or Retaliation if active
     player:delStatusEffect(xi.effect.DEFENDER)
