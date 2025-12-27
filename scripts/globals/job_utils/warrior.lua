@@ -55,7 +55,7 @@ xi.job_utils.warrior.useBerserk = function(player, target, ability)
     local levelScale   = math.floor((warriorLevel - 25) / 5)
 
     -- Get Power and duration (Base 15, Duration 7200)
-    local power    = 15 + player:getMod(xi.mod.BERSERK_POTENCY) + utils.clamp(levelScale, 0, 10)
+    local power    = (15 + utils.clamp(levelScale, 0, 10)) + player:getMod(xi.mod.BERSERK_POTENCY) 
     local duration = 7200
 
     -- Remove Defender or Retaliation if active
