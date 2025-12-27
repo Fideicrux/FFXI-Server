@@ -32,18 +32,22 @@ end
 -- Ability Use Functions
 -----------------------------------
 xi.job_utils.warrior.useAggressor = function(player, target, ability)
-
+    -- Check for warrior main job
+    local warriorLevel = player:getMainJob() == xi.job.WAR and player:getMainLvl() or 0
     --Can remove.
     local merits = player:getMerit(xi.merit.AGGRESSIVE_AIM)
 
-    --Duration
-    
+    --Power, Scaling, and Duration
+    local levelScale = math.floor((warriorLevel - 20) / 5)
+    local power    = 15 + utils.clamp(levelScale, 0, 10)
+    local duration = 7200
 
      -- Remove Defender or Retaliation if active
     player:delStatusEffect(xi.effect.DEFENDER)
     player:delStatusEffect(xi.effect.RETALIATION)
 
-    player:addStatusEffect(xi.effect.AGGRESSOR, merits, 0, 7200 + player:getMod(xi.mod.AGGRESSOR_DURATION))
+    -- Apply Aggressor
+    player:addStatusEffect(xi.effect.AGGRESSOR, power, 0, duration)
 
     return xi.effect.AGGRESSOR
 end
@@ -87,18 +91,23 @@ xi.job_utils.warrior.useBrazenRush = function(player, target, ability)
 end
 
 xi.job_utils.warrior.useDefender = function(player, target, ability)
-    -- Get bonus from WAR lvl as main Job
+    -- Check for warrior main job
     local warriorLevel = player:getMainJob() == xi.job.WAR and player:getMainLvl() or 0
-    local levelScale   = math.floor((warriorLevel - 40) / 10) * 2
 
-    -- Get Power and duration.
-    local power    = 25 + utils.clamp(levelScale, 0, 10)
-    local duration = 180 + player:getMod(xi.mod.DEFENDER_DURATION)
+    local levelScale = math.floor((warriorLevel - 20) / 5)
+    local power    = 15 + utils.clamp(levelScale, 0, 10)
+    local duration = 7200
 
+    -- Remove any other stances
+    player:delStatusEffect(xi.effect.BERSERK)
+    player:delStatusEffect(xi.effect.AGGRESSOR)
+
+    -- Apply Defender
     player:addStatusEffect(xi.effect.DEFENDER, power, 0, duration)
 
     return xi.effect.DEFENDER
 end
+
 
 xi.job_utils.warrior.useMightyStrikes = function(player, target, ability)
     player:addStatusEffect(xi.effect.MIGHTY_STRIKES, 1, 0, 60)

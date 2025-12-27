@@ -5,23 +5,29 @@
 local effectObject = {}
 
 effectObject.onEffectGain = function(target, effect)
+    local power   = effect:getPower()
     local jpLevel = target:getJobPointLevel(xi.jp.AGGRESSOR_EFFECT)
 
-    --Get Warrior Level
-    local warriorLevel = target:getMainJob() == xi.job.WAR and target:getMainLvl() or 0
-    local levelScale = math.floor((warriorLevel - 25) / 5)
+    -- Accuracy bonuses
+    target:addMod(xi.mod.ACC,  power + jpLevel)
+    target:addMod(xi.mod.RACC, power + jpLevel)
 
-    --effects
-    effect:addMod(xi.mod.RACC, effect:getPower() + jpLevel)
-    effect:addMod(xi.mod.ACC, 15 + utils.clamp(levelScale, 0, 10) + jpLevel)
-    effect:addMod(xi.mod.RACC, 15 + utils.clamp(levelScale, 0, 10))
-    effect:addMod(xi.mod.EVA, -15)
+    -- Evasion penalty (stance drawback)
+    target:addMod(xi.mod.EVA, -power)
 end
 
 effectObject.onEffectTick = function(target, effect)
 end
 
 effectObject.onEffectLose = function(target, effect)
+    local power   = effect:getPower()
+    local jpLevel = target:getJobPointLevel(xi.jp.AGGRESSOR_EFFECT)
+
+    target:delMod(xi.mod.ACC,  power + jpLevel)
+    target:delMod(xi.mod.RACC, power + jpLevel)
+    
+    target:delMod(xi.mod.EVA, -power)
+
 end
 
 return effectObject
