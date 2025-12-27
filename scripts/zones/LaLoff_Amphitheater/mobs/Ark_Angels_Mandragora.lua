@@ -1,0 +1,27 @@
+-----------------------------------
+-- Area: LaLoff Amphitheater
+--  Mob: Ark Angel's Mandragora
+-----------------------------------
+---@type TMobEntity
+local entity = {}
+
+-- TODO: Determine spell list and behavior.  Potentially includes Breakga and Bindga, unless they're TP moves.
+
+entity.onMobEngage = function(mob, target)
+    local mobid = mob:getID()
+
+    for member = mobid-3, mobid + 4 do
+        local m = GetMobByID(member)
+        if m and m:getCurrentAction() == xi.action.category.ROAMING then
+            m:updateEnmity(target)
+        end
+    end
+end
+
+entity.onMobFight = function(mob, target)
+end
+
+entity.onMobDeath = function(mob, player, optParams)
+end
+
+return entity
