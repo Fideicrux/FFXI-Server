@@ -13,8 +13,8 @@ effectObject.onEffectGain = function(target, effect)
 
     --effects
     effect:addMod(xi.mod.RACC, effect:getPower() + jpLevel)
-    effect:addMod(xi.mod.ACCP, 15 + levelScale + jpLevel)
-    effect:addMod(xi.mod.RACCP, 15 + levelScale)
+    effect:addMod(xi.mod.ACCP, 15 + utils.clamp(levelScale, 0, 10) + jpLevel)
+    effect:addMod(xi.mod.RACCP, 15 + utils.clamp(levelScale, 0, 10))
     effect:addMod(xi.mod.EVA, -15)
 end
 
