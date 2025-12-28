@@ -32,9 +32,8 @@ end
 -- Ability Use Functions
 -----------------------------------
 
---STANCE
 xi.job_utils.warrior.useAggressor = function(player, target, ability)
-    -- Check for warrior main job
+    -- Check for War Job and Level
     local warriorLevel = player:getMainJob() == xi.job.WAR and player:getMainLvl() or 0
     --Can remove.
     local merits = player:getMerit(xi.merit.AGGRESSIVE_AIM)
@@ -47,7 +46,7 @@ xi.job_utils.warrior.useAggressor = function(player, target, ability)
      -- Remove any other stances
     player:delStatusEffect(xi.effect.BERSERK)
     player:delStatusEffect(xi.effect.DEFENDER)
-    player:delStatusEffect(xi.effect.RETALIATION)
+    player:delStatusEffect(xi.effect.AGGRESSOR)
 
     -- Apply Aggressor
     player:addStatusEffect(xi.effect.AGGRESSOR, power, 0, duration)
@@ -56,7 +55,7 @@ xi.job_utils.warrior.useAggressor = function(player, target, ability)
 end
 
 xi.job_utils.warrior.useBerserk = function(player, target, ability)
-    -- Get bonus from WAR lvl as main Job
+    -- Check for War Job and Level
     local warriorLevel = player:getMainJob() == xi.job.WAR and player:getMainLvl() or 0
     -- New scaling: hits 10 at level 75 ( (75-25)/5 = 10 )
     local levelScale   = math.floor((warriorLevel - 25) / 5)
@@ -65,11 +64,12 @@ xi.job_utils.warrior.useBerserk = function(player, target, ability)
     local power    = (15 + utils.clamp(levelScale, 0, 10)) + player:getMod(xi.mod.BERSERK_POTENCY) 
     local duration = 7200
 
-    -- Remove any other stances
+    -- Remove any stances
     player:delStatusEffect(xi.effect.AGGRESSOR)
     player:delStatusEffect(xi.effect.DEFENDER)
-    player:delStatusEffect(xi.effect.RETALIATION)
+    player:delStatusEffect(xi.effect.BERSERK)
 
+    -- Apply This Effect
     player:addStatusEffect(xi.effect.BERSERK, power, 0, duration)
 
     return xi.effect.BERSERK
@@ -94,11 +94,11 @@ xi.job_utils.warrior.useBrazenRush = function(player, target, ability)
     return xi.effect.BRAZEN_RUSH
 end
 
---STANCE
+-- DEFENSIVE STANCE --
 xi.job_utils.warrior.useDefender = function(player, target, ability)
-    -- Check for warrior main job
+    -- Check for War Job and Level
     local warriorLevel = player:getMainJob() == xi.job.WAR and player:getMainLvl() or 0
-
+    -- Scaling from level 20
     local levelScale = math.floor((warriorLevel - 20) / 5)
     local power    = 15 + utils.clamp(levelScale, 0, 10)
     local duration = 7200
@@ -106,8 +106,7 @@ xi.job_utils.warrior.useDefender = function(player, target, ability)
     -- Remove any other stances
     player:delStatusEffect(xi.effect.AGGRESSOR)
     player:delStatusEffect(xi.effect.BERSERK)
-    player:delStatusEffect(xi.effect.RETALIATION)
-
+    player:delStatusEffect(xi.effect.DEFENDER)
 
     -- Apply Self
     player:addStatusEffect(xi.effect.DEFENDER, power, 0, duration)
@@ -131,13 +130,7 @@ end
 --STANCE
 xi.job_utils.warrior.useRetaliation = function(player, target, ability)
     local power    = 1
-    local duration = 7200
-
-    -- Remove Self and Others Stances
-    player:delStatusEffect(xi.effect.AGGRESSOR)
-    player:delStatusEffect(xi.effect.BERSERK)
-    player:delStatusEffect(xi.effect.DEFENDER)
-    player:delStatusEffect(xi.effect.RETALIATION)
+    local duration = 240
 
     player:addStatusEffect(xi.effect.RETALIATION, power, 0, duration)
 
@@ -155,7 +148,8 @@ end
 xi.job_utils.warrior.useWarcry = function(player, target, ability)
     local merit    = player:getMerit(xi.merit.SAVAGERY)
     local warLevel = utils.getActiveJobLevel(player, xi.job.WAR)
-    --Scale the current 75 max to have the same value as 99 rate
+    
+    --Scale 99 value to fit current level 75 max
     local power = (math.floor((warLevel * 99 / 300) + 4.75) / 256) * 100
     local duration = 60
 
