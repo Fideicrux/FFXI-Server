@@ -54,22 +54,22 @@ xi.job_utils.warrior.useAggressor = function(player, target, ability)
     return xi.effect.AGGRESSOR
 end
 
+-- ATTACK STANCE (BERSERK) --
+-- ATTACK STANCE (BERSERK) --
+-- ATTACK STANCE (BERSERK) --
 xi.job_utils.warrior.useBerserk = function(player, target, ability)
-    -- Check for War Job and Level
     local warriorLevel = player:getMainJob() == xi.job.WAR and player:getMainLvl() or 0
-    -- New scaling: hits 10 at level 75 ( (75-25)/5 = 10 )
-    local levelScale   = math.floor((warriorLevel - 25) / 5)
+    
+    local levelScale = utils.clamp(math.floor((warriorLevel - 10) / 5), 0, 13)
 
-    -- Get Power and duration (Base 15, Duration 7200)
-    local power    = (15 + utils.clamp(levelScale, 0, 10)) + player:getMod(xi.mod.BERSERK_POTENCY) 
+    local power = 15 + levelScale + player:getMod(xi.mod.BERSERK_POTENCY)
     local duration = 7200
 
-    -- Remove any stances
-    player:delStatusEffect(xi.effect.AGGRESSOR)
+    -- Remove conflicting stances.
     player:delStatusEffect(xi.effect.DEFENDER)
     player:delStatusEffect(xi.effect.BERSERK)
 
-    -- Apply This Effect
+    -- Apply Berserk using 'power' for both ATK and DEF scaling.
     player:addStatusEffect(xi.effect.BERSERK, power, 0, duration)
 
     return xi.effect.BERSERK
@@ -96,20 +96,20 @@ end
 
 -- DEFENSIVE STANCE --
 xi.job_utils.warrior.useDefender = function(player, target, ability)
-    -- Check for War Job and Level
     local warriorLevel = player:getMainJob() == xi.job.WAR and player:getMainLvl() or 0
-    -- Scaling from level 20
+    
+    --Standard Defense %
+    local defPower = 25 
+    
+    --PDT % Scaling (Starts at 5, ends at 15)
     local levelScale = math.floor((warriorLevel - 20) / 5)
-    local power    = 15 + utils.clamp(levelScale, 0, 10)
+    local pdtPower = 5 + utils.clamp(levelScale, 0, 11)
     local duration = 7200
 
-    -- Remove any other stances
-    player:delStatusEffect(xi.effect.AGGRESSOR)
     player:delStatusEffect(xi.effect.BERSERK)
     player:delStatusEffect(xi.effect.DEFENDER)
 
-    -- Apply Self
-    player:addStatusEffect(xi.effect.DEFENDER, power, 0, duration)
+    player:addStatusEffect(xi.effect.DEFENDER, defPower, pdtPower, duration)
 
     return xi.effect.DEFENDER
 end

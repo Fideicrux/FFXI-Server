@@ -267,3 +267,5 @@ __pycache__
 sanity_checks_summary.md
 changed-files.txt
 clang_tidy_summary.md
+scripts/globals/spells/modify_spelldamage.py
+.gitignore
