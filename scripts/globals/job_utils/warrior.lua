@@ -60,7 +60,7 @@ end
 
 xi.job_utils.warrior.useBloodRage = function(player, target, ability)
     local power    = 20 + player:getJobPointLevel(xi.jp.BLOOD_RAGE_EFFECT)
-    local duration = 30 + player:getMod(xi.mod.ENHANCES_BLOOD_RAGE)
+    local duration = 60 + player:getMod(xi.mod.ENHANCES_BLOOD_RAGE)
 
     target:addStatusEffect(xi.effect.BLOOD_RAGE, power, 0, duration)
 
@@ -112,7 +112,7 @@ end
 
 xi.job_utils.warrior.useRetaliation = function(player, target, ability)
     local power    = 1
-    local duration = 240
+    local duration = 600
 
     player:addStatusEffect(xi.effect.RETALIATION, power, 0, duration)
 
@@ -121,7 +121,7 @@ end
 
 xi.job_utils.warrior.useTomahawk = function(player, target, ability)
     local merits   = player:getMerit(xi.merit.TOMAHAWK) - 15
-    local duration = 30 + merits
+    local duration = 25 + merits
 
     target:addStatusEffectEx(xi.effect.TOMAHAWK, 0, 25, 3, duration, 0, 0, 0)
     player:removeAmmo(1)
