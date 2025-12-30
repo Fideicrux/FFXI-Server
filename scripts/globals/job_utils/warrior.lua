@@ -33,30 +33,13 @@ end
 -----------------------------------
 
 xi.job_utils.warrior.useAggressor = function(player, target, ability)
-    -- Check for War Job and Level
-    local warriorLevel = player:getMainJob() == xi.job.WAR and player:getMainLvl() or 0
-    --Can remove.
     local merits = player:getMerit(xi.merit.AGGRESSIVE_AIM)
 
-    --Power, Scaling, and Duration
-    local levelScale = math.floor((warriorLevel - 20) / 5)
-    local power    = 15 + utils.clamp(levelScale, 0, 10)
-    local duration = 7200
-
-     -- Remove any other stances
-    player:delStatusEffect(xi.effect.BERSERK)
-    player:delStatusEffect(xi.effect.DEFENDER)
-    player:delStatusEffect(xi.effect.AGGRESSOR)
-
-    -- Apply Aggressor
-    player:addStatusEffect(xi.effect.AGGRESSOR, power, 0, duration)
+    player:addStatusEffect(xi.effect.AGGRESSOR, merits, 0, 180 + player:getMod(xi.mod.AGGRESSOR_DURATION))
 
     return xi.effect.AGGRESSOR
 end
 
--- ATTACK STANCE (BERSERK) --
--- ATTACK STANCE (BERSERK) --
--- ATTACK STANCE (BERSERK) --
 xi.job_utils.warrior.useBerserk = function(player, target, ability)
     local warriorLevel = player:getMainJob() == xi.job.WAR and player:getMainLvl() or 0
     
@@ -127,7 +110,6 @@ xi.job_utils.warrior.useRestraint = function(player, target, ability)
     return xi.effect.RESTRAINT
 end
 
---STANCE
 xi.job_utils.warrior.useRetaliation = function(player, target, ability)
     local power    = 1
     local duration = 240
