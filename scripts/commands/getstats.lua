@@ -62,6 +62,11 @@ commandObj.onTrigger = function(player, option)
                 player:printToPlayer(string.format('Total Store TP: %i ', target:getMod(xi.mod.STORETP)), xi.msg.channel.SYSTEM_3)
                 player:printToPlayer(string.format('%s\'s base Treasure Hunter with current equipment: %i', target:getName(), target:getMod(xi.mod.TREASURE_HUNTER)), xi.msg.channel.SYSTEM_3)
                 player:printToPlayer(string.format('Total JA Haste: %i ', target:getMod(xi.mod.HASTE_ABILITY)), xi.msg.channel.SYSTEM_3)
+                player:printToPlayer(string.format('Total MA Haste: %i ', target:getMod(xi.mod.HASTE_MAGIC)), xi.msg.channel.SYSTEM_3)
+                player:printToPlayer(string.format('Total Gear Haste: %i ', target:getMod(xi.mod.HASTE_GEAR)), xi.msg.channel.SYSTEM_3)
+                player:printToPlayer(string.format('Total 2H Haste: %i ', target:getMod(xi.mod.TWOHAND_HASTE_ABILITY)), xi.msg.channel.SYSTEM_3
+                player:printToPlayer(string.format('Total DA: %i ', target:getMod(xi.mod.DOUBLE_ATTACK)), xi.msg.channel.SYSTEM_3)
+                player:printToPlayer(string.format('Total TA: %i ', target:getMod(xi.mod.TRIPLE_ATTACK)), xi.msg.channel.SYSTEM_3)
             elseif targetType == xi.objType.MOB then
                 player:printToPlayer(string.format('Mob\'s current Treasure Hunter Tier: %i', target:getTHlevel()), xi.msg.channel.SYSTEM_3)
                 player:printToPlayer(string.format('Battletime: %i ', target:getBattleTime()), xi.msg.channel.SYSTEM_3)
@@ -80,6 +85,8 @@ commandObj.onTrigger = function(player, option)
             player:printToPlayer(string.format('Ranged Weap Dmg: %i ', target:getRangedDmg()), xi.msg.channel.SYSTEM_3)
             player:printToPlayer(string.format('Magic Attack bonus: %i ', target:getMod(xi.mod.MATT)), xi.msg.channel.SYSTEM_3)
             player:printToPlayer(string.format('Magic Accuracy bonus: %i ', target:getMod(xi.mod.MACC)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Total TP Bonus: %i ', target:getMod(xi.mod.TP_BONUS)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Total ATKPercent: %i ', target:getMod(xi.mod.ATTP)), xi.msg.channel.SYSTEM_3)
 
             return
         end,
@@ -91,6 +98,14 @@ commandObj.onTrigger = function(player, option)
             player:printToPlayer(string.format('Defense Base: %i ', target:getMod(xi.mod.DEF)), xi.msg.channel.SYSTEM_3)
             player:printToPlayer(string.format('Total Defense: %i ', target:getStat(xi.mod.DEF)), xi.msg.channel.SYSTEM_3)
             player:printToPlayer(string.format('Magic Defense bonus: %i ', target:getMod(xi.mod.MDEF)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Total DEFPercent: %i ', target:getMod(xi.mod.DEFP)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Total -DT: %i ', target:getMod(xi.mod.DMG)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Total -PDT: %i ', target:getMod(xi.mod.DMGPHYS)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Total -UPDT: %i ', target:getMod(xi.mod.UDMGPHYS)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Total -RDT: %i ', target:getMod(xi.mod.DMGRANGE)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Total -URDT: %i ', target:getMod(xi.mod.UDMGRANGE)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Total -MDT: %i ', target:getMod(xi.mod.DMGMAGIC)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Total -UMDT: %i ', target:getMod(xi.mod.UDMGMAGIC)), xi.msg.channel.SYSTEM_3)
 
             return
         end,
