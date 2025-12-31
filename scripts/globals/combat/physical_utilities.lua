@@ -49,7 +49,7 @@ local wsElementalProperties =
 xi.combat.physical.pDifWeaponCapTable =
 {
     -- [Skill/weapon type used] = { pre-cRatio caps, pre-randomizer pDIF cap }, Values from: https://www.bg-wiki.com/ffxi/PDIF
-    [xi.skill.NONE            ] = { 3,      3    }, -- We will use this for mobs.
+    [xi.skill.NONE            ] = { 2.75,   2.85 }, -- We will use this for mobs.
     [xi.skill.HAND_TO_HAND    ] = { 3.875,  3.5  },
     [xi.skill.DAGGER          ] = { 3.625,  3.25 },
     [xi.skill.SWORD           ] = { 3.625,  3.25 },
@@ -602,7 +602,11 @@ xi.combat.physical.calculateMeleePDIF = function(actor, target, weaponType, wsAt
     ----------------------------------------
     -- Step 3: wRatio and pDif Caps (Melee)
     ----------------------------------------
-    local wRatio             = baseRatio + (isCritical and 1 or 0)
+    local wRatio = baseRatio
+        if isCritical then
+            local defScale = utils.clamp(targetDefense / actorAttack, 0.2, 0.6)
+            wRatio = baseRatio + (1 * (1 - defScale))
+        end
     local pDifUpperCap       = 0
     local pDifLowerCap       = 0
     local damageLimitPlus    = actor:getMod(xi.mod.DAMAGE_LIMIT) / 100
