@@ -43,8 +43,7 @@ end
 xi.job_utils.warrior.useBerserk = function(player, target, ability)
     local warriorLevel = player:getMainJob() == xi.job.WAR and player:getMainLvl() or 0
     
-    local levelScale = utils.clamp(math.floor((warriorLevel - 10) / 5), 0, 13)
-
+    local levelScale = utils.clamp(math.floor((warriorLevel - 10) * 15 / 65), 0, 15)
     local power = 15 + levelScale + player:getMod(xi.mod.BERSERK_POTENCY)
     local duration = 7200
 
@@ -85,8 +84,7 @@ xi.job_utils.warrior.useDefender = function(player, target, ability)
     local defPower = 25 
     
     --PDT % Scaling (Starts at 5, ends at 15)
-    local levelScale = math.floor((warriorLevel - 20) / 5)
-    local pdtPower = 5 + utils.clamp(levelScale, 0, 11)
+    local pdtPower = utils.clamp(1 + math.floor((warriorLevel - 25) * 14 / 50), 1, 15)
     local duration = 7200
 
     player:delStatusEffect(xi.effect.BERSERK)
@@ -123,7 +121,7 @@ xi.job_utils.warrior.useTomahawk = function(player, target, ability)
     local merits   = player:getMerit(xi.merit.TOMAHAWK) - 15
     local duration = 25 + merits
 
-    target:addStatusEffectEx(xi.effect.TOMAHAWK, 0, 25, 3, duration, 0, 0, 0)
+    target:addStatusEffectEx(xi.effect.TOMAHAWK, 0, 25, 3, duration)
     player:removeAmmo(1)
 end
 
@@ -132,7 +130,7 @@ xi.job_utils.warrior.useWarcry = function(player, target, ability)
     local warLevel = utils.getActiveJobLevel(player, xi.job.WAR)
     
     --Scale 99 value to fit current level 75 max
-    local power = (math.floor((warLevel * 99 / 300) + 4.75) / 256) * 100
+    local power = math.floor((((35 + (warLevel - 25) * 64 / 50) / 4) + 4.75)) / 256 * 100
     local duration = 60
 
     duration = duration + player:getMod(xi.mod.WARCRY_DURATION)
