@@ -73,7 +73,7 @@ xi.job_utils.white_mage.useAfflatusSolace = function(player, target, ability)
 end
 
 xi.job_utils.white_mage.useAsylum = function(player, target, ability)
-    target:addStatusEffect(xi.effect.ASYLUM, 3, 0, 30)
+    target:addStatusEffect(xi.effect.ASYLUM, 3, 0, 60)
 
     return xi.effect.ASYLUM
 end
@@ -126,6 +126,10 @@ xi.job_utils.white_mage.useDevotion = function(player, target, ability)
 end
 
 xi.job_utils.white_mage.useDivineCaress = function(player, target, ability)
+    local maxMP = player:getMaxMP()
+    local mpRestore = math.floor(maxMP * 0.25)
+
+    player:addMP(mpRestore)
     player:addStatusEffect(xi.effect.DIVINE_CARESS_I, 3, 0, 60)
 
     return xi.effect.DIVINE_CARESS_I
