@@ -22,7 +22,22 @@ end
 -- Ability Use Functions
 -----------------------------------
 xi.job_utils.black_mage.useCascade = function(player, target, ability)
-    player:addStatusEffect(xi.effect.CASCADE, 1, 0, 60)
+
+    -- Get current TP (0–3000)
+    local tp = player:getTP()
+    -- If no TP... notta
+    if tp <= 0 then
+        return xi.msg.basic.NOT_ENOUGH_TP, 0
+    end
+
+    -- Calculate 20% of current TP
+    local magicDamageBonus = math.floor(tp * 0.20)
+
+    -- Consume all TP
+    player:setTP(0)
+
+    -- Apply effect with calculated power
+    player:addStatusEffect(xi.effect.CASCADE, magicDamageBonus, 0, 30)
 
     return xi.effect.CASCADE
 end
@@ -53,6 +68,10 @@ xi.job_utils.black_mage.useManaWall = function(player, target, ability)
 end
 
 xi.job_utils.black_mage.useManawell = function(player, target, ability)
+    local maxMP = player:getMaxMP()
+    local mpRestore = math.floor(maxMP * 0.20)
+
+    player:addMP(mpRestore)
     target:addStatusEffect(xi.effect.MANAWELL, 1, 0, 60)
 
     return xi.effect.MANAWELL
