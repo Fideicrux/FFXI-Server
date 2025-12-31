@@ -64,7 +64,7 @@ commandObj.onTrigger = function(player, option)
                 player:printToPlayer(string.format('Total JA Haste: %i ', target:getMod(xi.mod.HASTE_ABILITY)), xi.msg.channel.SYSTEM_3)
                 player:printToPlayer(string.format('Total MA Haste: %i ', target:getMod(xi.mod.HASTE_MAGIC)), xi.msg.channel.SYSTEM_3)
                 player:printToPlayer(string.format('Total Gear Haste: %i ', target:getMod(xi.mod.HASTE_GEAR)), xi.msg.channel.SYSTEM_3)
-                player:printToPlayer(string.format('Total 2H Haste: %i ', target:getMod(xi.mod.TWOHAND_HASTE_ABILITY)), xi.msg.channel.SYSTEM_3
+                player:printToPlayer(string.format('Total 2H Haste: %i ', target:getMod(xi.mod.TWOHAND_HASTE_ABILITY)), xi.msg.channel.SYSTEM_3)
                 player:printToPlayer(string.format('Total DA: %i ', target:getMod(xi.mod.DOUBLE_ATTACK)), xi.msg.channel.SYSTEM_3)
                 player:printToPlayer(string.format('Total TA: %i ', target:getMod(xi.mod.TRIPLE_ATTACK)), xi.msg.channel.SYSTEM_3)
             elseif targetType == xi.objType.MOB then
