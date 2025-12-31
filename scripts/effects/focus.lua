@@ -8,7 +8,7 @@ local effectObject = {}
 -- TODO: implement focus ranged accuracy bonus (needs verification)
 effectObject.onEffectGain = function(target, effect)
     local bonusPower = effect:getPower()
-    local monkLevel = utils.getActiveJobLevel(target, xi.job.MNK) + 1
+    local monkLevel = (utils.getActiveJobLevel(target, xi.job.MNK) + 1) * 1.32
 
     -- https://wiki.ffo.jp/html/2841.html
     effect:addMod(xi.mod.ACC, monkLevel + bonusPower)

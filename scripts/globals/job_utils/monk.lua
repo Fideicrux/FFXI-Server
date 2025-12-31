@@ -31,7 +31,7 @@ end
 -- Ability Use Functions
 -----------------------------------
 xi.job_utils.monk.useBoost = function(player, target, ability)
-    local power = 12.5 + (0.10 * player:getMod(xi.mod.BOOST_EFFECT))
+    local power = 12.5 + (0.10 * player:getMod(xi.mod.BOOST_EFFECT)) * 1.5
 
     if player:hasStatusEffect(xi.effect.BOOST) then
         local effect = player:getStatusEffect(xi.effect.BOOST)
@@ -82,7 +82,7 @@ xi.job_utils.monk.useChiBlast = function(player, target, ability)
         multiplier = (boost:getPower() / 100) * 4 -- power is the raw % atk boost
     end
 
-    local dmg = math.floor(player:getStat(xi.mod.MND) * (0.5 + (math.random() / 2))) * multiplier
+    local dmg = math.floor(player:getStat(xi.mod.VIT) * (0.5 + (math.random() / 2))) * multiplier
 
     dmg = xi.ability.adjustDamage(dmg, player, ability, target, xi.attackType.BREATH, xi.damageType.ELEMENTAL, xi.mobskills.shadowBehavior.IGNORE_SHADOWS)
     target:takeDamage(dmg, player, xi.attackType.BREATH, xi.damageType.ELEMENTAL)
@@ -104,7 +104,12 @@ end
 xi.job_utils.monk.useDodge = function(player, target, ability)
     local jpLevel  = target:getJobPointLevel(xi.jp.DODGE_EFFECT)
     local dodgeMod = target:getMod(xi.mod.DODGE_EFFECT)
-    player:addStatusEffect(xi.effect.DODGE, jpLevel + dodgeMod, 0, 30)
+    -- Remove conflicting stances
+    player:delStatusEffect(xi.effect.DODGE)
+    player:delStatusEffect(xi.effect.FOCUS)
+    
+    player:addStatusEffect(xi.effect.DODGE, jpLevel + dodgeMod, 0, 7200)
+    
 
     return xi.effect.DODGE
 end
@@ -112,7 +117,11 @@ end
 xi.job_utils.monk.useFocus = function(player, target, ability)
     local jpLevel  = target:getJobPointLevel(xi.jp.FOCUS_EFFECT)
     local focusMod = target:getMod(xi.mod.FOCUS_EFFECT)
-    player:addStatusEffect(xi.effect.FOCUS, jpLevel + focusMod, 0, 30)
+    -- Remove conflicting stances
+    player:delStatusEffect(xi.effect.DODGE)
+    player:delStatusEffect(xi.effect.FOCUS)
+    --Apply stance
+    player:addStatusEffect(xi.effect.FOCUS, jpLevel + focusMod, 0, 7200)
 
     return xi.effect.FOCUS
 end
