@@ -302,9 +302,9 @@ xi.spells.enfeebling.calculateDuration = function(caster, target, spellId, spell
     if skillType == xi.skill.ENFEEBLING_MAGIC then
         if caster:hasStatusEffect(xi.effect.SABOTEUR) then
             if target:isNM() then
-                duration = duration * 1.25
+                duration = duration * 2.5
             else
-                duration = duration * 2
+                duration = duration * 2.5
             end
         end
 
@@ -475,12 +475,12 @@ xi.spells.enfeebling.useEnfeeblingSpell = function(caster, target, spell)
     ------------------------------
     if target:addStatusEffect(spellEffect, potency, tick, duration, 0, subpotency) then
         -- Delete Stymie effect
-        if
-            skillType == xi.skill.ENFEEBLING_MAGIC and
-            caster:hasStatusEffect(xi.effect.STYMIE)
-        then
-            caster:delStatusEffect(xi.effect.STYMIE)
-        end
+        -- if
+        --     skillType == xi.skill.ENFEEBLING_MAGIC and
+        --     caster:hasStatusEffect(xi.effect.STYMIE)
+        -- then
+        --     caster:delStatusEffect(xi.effect.STYMIE)
+        -- end
 
         -- Add "Magic Burst!" message
         local _, skillchainCount = xi.magicburst.formMagicBurst(spellElement, target) -- External function. Not present in magic.lua.

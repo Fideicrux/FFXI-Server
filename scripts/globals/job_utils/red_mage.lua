@@ -22,7 +22,7 @@ end
 -- Ability Use Functions
 -----------------------------------
 xi.job_utils.red_mage.useChainspell = function(player, target, ability)
-    player:addStatusEffect(xi.effect.CHAINSPELL, 1, 0, 60)
+    player:addStatusEffect(xi.effect.CHAINSPELL, 1, 0, 30)
 
     return xi.effect.CHAINSPELL
 end
@@ -60,6 +60,10 @@ xi.job_utils.red_mage.useSaboteur = function(player, target, ability)
 end
 
 xi.job_utils.red_mage.useSpontaneity = function(player, target, ability)
+    local maxMP = target:getMaxMP()
+    local mpRestore = math.floor(maxMP * 0.20)
+
+    target:addMP(mpRestore)
     target:addStatusEffect(xi.effect.SPONTANEITY, 1, 0, 60)
 
     return xi.effect.SPONTANEITY

@@ -2280,12 +2280,6 @@ void CBattleEntity::OnCastFinished(CMagicState& state, action_t& action)
         {
             damage = luautils::OnSpellCast(this, PTarget, PSpell);
 
-            // Remove Saboteur
-            if (PSpell->getSkillType() == SKILLTYPE::SKILL_ENFEEBLING_MAGIC)
-            {
-                StatusEffectContainer->DelStatusEffect(EFFECT_SABOTEUR);
-            }
-
             if (msg == MsgBasic::NONE)
             {
                 msg = PSpell->getMessage();
