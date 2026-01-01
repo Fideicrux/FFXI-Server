@@ -71,7 +71,7 @@ xi.job_utils.warrior.useBloodRage = function(player, target, ability)
 end
 
 xi.job_utils.warrior.useBrazenRush = function(player, target, ability)
-    player:addStatusEffect(xi.effect.BRAZEN_RUSH, 100, 3, 30)
+    player:addStatusEffect(xi.effect.BRAZEN_RUSH, 100, 3, 60)
 
     return xi.effect.BRAZEN_RUSH
 end
@@ -103,14 +103,14 @@ xi.job_utils.warrior.useMightyStrikes = function(player, target, ability)
 end
 
 xi.job_utils.warrior.useRestraint = function(player, target, ability)
-    player:addStatusEffect(xi.effect.RESTRAINT, 0, 0, 300)
+    player:addStatusEffect(xi.effect.RESTRAINT, 0, 0, 180)
 
     return xi.effect.RESTRAINT
 end
 
 xi.job_utils.warrior.useRetaliation = function(player, target, ability)
     local power    = 1
-    local duration = 600
+    local duration = 7200
 
     player:addStatusEffect(xi.effect.RETALIATION, power, 0, duration)
 

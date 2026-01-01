@@ -298,6 +298,38 @@ end
 -- Enhancing Spell Final Potency function.
 xi.spells.enhancing.calculateEnhancingFinalPower = function(caster, target, spell, basePower, spellGroup, tier, spellEffect)
     local finalPower = basePower
+    ------------------------------------------------
+    -- STYMIE: Doubles potency of enhancing magic while active
+    ------------------------------------------------
+    if caster:hasStatusEffect(xi.effect.STYMIE) and basePower > 0 then
+        -- Exclude Protect / Shell
+        local excluded =
+        {
+            [xi.effect.PROTECT] = true,
+            [xi.effect.SHELL]   = true,
+        }
+
+        -- Detect Enspells (I & II)
+        local isEnspell =
+            (spellEffect >= xi.effect.ENFIRE and spellEffect <= xi.effect.ENWATER) or
+            (spellEffect >= xi.effect.ENFIRE_II and spellEffect <= xi.effect.ENWATER_II)
+
+        if not excluded[spellEffect] and not isEnspell then
+            finalPower = finalPower * 2
+        end
+    end
+
+        ------------------------------------------------
+    -- COMPOSURE: Triple Enspell damage (+200%)
+    ------------------------------------------------
+    if caster:hasStatusEffect(xi.effect.COMPOSURE) then
+        if
+            (spellEffect >= xi.effect.ENFIRE and spellEffect <= xi.effect.ENWATER) or
+            (spellEffect >= xi.effect.ENFIRE_II and spellEffect <= xi.effect.ENWATER_II)
+        then
+            finalPower = finalPower * 3
+        end
+    end
 
     --------------------
     -- Enboden effect.
