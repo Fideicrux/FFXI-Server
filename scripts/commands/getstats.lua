@@ -91,6 +91,9 @@ commandObj.onTrigger = function(player, option)
             player:printToPlayer(string.format('WS DAM: %i ', target:getMod(xi.mod.ALL_WSDMG_FIRST_HIT)), xi.msg.channel.SYSTEM_3)
             player:printToPlayer(string.format('Crit Rate: %i ', target:getMod(xi.mod.CRITHITRATE)), xi.msg.channel.SYSTEM_3)
             player:printToPlayer(string.format('Crit DAM: %i ', target:getMod(xi.mod.CRIT_DMG_INCREASE)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Fencer TP: %i ', target:getMod(xi.mod.FENCER_TP_BONUS)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Fencer Crit: %i ', target:getMod(xi.mod.FENCER_CRITHITRATE)), xi.msg.channel.SYSTEM_3)
+
 
             return
         end,
