@@ -1,4 +1,4 @@
-xi.help.jobs.WAR =
+xi.help.jobs["WAR"] =
 {
     abilities =
     {

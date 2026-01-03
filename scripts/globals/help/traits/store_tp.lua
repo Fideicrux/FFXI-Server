@@ -1,0 +1,28 @@
+xi.help.register{
+    type = "Trait",
+    name = "Store Tp",
+
+    description = {
+        "Passive trait: Store Tp.",
+    },
+
+    jobs = {
+        SAM = {
+            { level = 10, rank = 1, value = 10 },
+            { level = 25, rank = 2, value = 15 },
+            { level = 40, rank = 3, value = 20 },
+            { level = 55, rank = 4, value = 25 },
+            { level = 70, rank = 5, value = 30 },
+        },
+
+    },
+
+    notes = {
+        "Values shown are total bonuses at each rank.",
+        "Tuned for level 75-cap environment.",
+    },
+
+    aliases = {
+        "store tp",
+    },
+}

@@ -90,7 +90,7 @@ xi.job_utils.warrior.useDefender = function(player, target, ability)
     player:delStatusEffect(xi.effect.BERSERK)
     player:delStatusEffect(xi.effect.DEFENDER)
 
-    player:addStatusEffect(xi.effect.DEFENDER, defPower, pdtPower, duration)
+    player:addStatusEffect(xi.effect.DEFENDER, defPower, 0, duration, pdtPower)
 
     return xi.effect.DEFENDER
 end
