@@ -24,7 +24,7 @@ xi.job_utils.warrior.checkTomahawk = function(player, target, ability)
     if ammoID == xi.item.THROWING_TOMAHAWK then
         return 0, 0
     else
-        return xi.msg.basic.CANNOT_PERFORM, 0
+        return 0, 0
     end
 end
 
@@ -121,10 +121,10 @@ end
 
 xi.job_utils.warrior.useTomahawk = function(player, target, ability)
     local merits   = player:getMerit(xi.merit.TOMAHAWK) - 15
-    local duration = 25 + merits
+    local duration = 65 + merits
 
     target:addStatusEffectEx(xi.effect.TOMAHAWK, 0, 25, 3, duration)
-    player:removeAmmo(1)
+    --player:removeAmmo(1)
 end
 
 xi.job_utils.warrior.useWarcry = function(player, target, ability)
