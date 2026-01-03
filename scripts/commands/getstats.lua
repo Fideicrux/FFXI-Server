@@ -67,6 +67,7 @@ commandObj.onTrigger = function(player, option)
                 player:printToPlayer(string.format('Total 2H Haste: %i ', target:getMod(xi.mod.TWOHAND_HASTE_ABILITY)), xi.msg.channel.SYSTEM_3)
                 player:printToPlayer(string.format('Total DA: %i ', target:getMod(xi.mod.DOUBLE_ATTACK)), xi.msg.channel.SYSTEM_3)
                 player:printToPlayer(string.format('Total TA: %i ', target:getMod(xi.mod.TRIPLE_ATTACK)), xi.msg.channel.SYSTEM_3)
+                player:printToPlayer(string.format('Total QA: %i ', target:getMod(xi.mod.QUAD_ATTACK)), xi.msg.channel.SYSTEM_3)
             elseif targetType == xi.objType.MOB then
                 player:printToPlayer(string.format('Mob\'s current Treasure Hunter Tier: %i', target:getTHlevel()), xi.msg.channel.SYSTEM_3)
                 player:printToPlayer(string.format('Battletime: %i ', target:getBattleTime()), xi.msg.channel.SYSTEM_3)
@@ -87,6 +88,13 @@ commandObj.onTrigger = function(player, option)
             player:printToPlayer(string.format('Magic Accuracy bonus: %i ', target:getMod(xi.mod.MACC)), xi.msg.channel.SYSTEM_3)
             player:printToPlayer(string.format('Total TP Bonus: %i ', target:getMod(xi.mod.TP_BONUS)), xi.msg.channel.SYSTEM_3)
             player:printToPlayer(string.format('Total ATKPercent: %i ', target:getMod(xi.mod.ATTP)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('WS DAM: %i ', target:getMod(xi.mod.ALL_WSDMG_FIRST_HIT)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Crit Rate: %i ', target:getMod(xi.mod.CRITHITRATE)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Crit DAM: %i ', target:getMod(xi.mod.CRIT_DMG_INCREASE)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Fencer TP: %i ', target:getMod(xi.mod.FENCER_TP_BONUS)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Fencer Crit: %i ', target:getMod(xi.mod.FENCER_CRITHITRATE)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Kick Rate: %i ', target:getMod(xi.mod.KICK_ATTACK_RATE)), xi.msg.channel.SYSTEM_3)
+
 
             return
         end,
@@ -106,6 +114,11 @@ commandObj.onTrigger = function(player, option)
             player:printToPlayer(string.format('Total -URDT: %i ', target:getMod(xi.mod.UDMGRANGE)), xi.msg.channel.SYSTEM_3)
             player:printToPlayer(string.format('Total -MDT: %i ', target:getMod(xi.mod.DMGMAGIC)), xi.msg.channel.SYSTEM_3)
             player:printToPlayer(string.format('Total -UMDT: %i ', target:getMod(xi.mod.UDMGMAGIC)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Block Rate: %i ', target:getMod(xi.mod.SHIELDBLOCKRATE)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Counter Rate: %i ', target:getMod(xi.mod.COUNTER)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Guard Rate: %i ', target:getMod(xi.mod.ADDITIVE_GUARD)), xi.msg.channel.SYSTEM_3)
+            
+            
 
             return
         end,
