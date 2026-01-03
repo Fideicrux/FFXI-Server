@@ -87,6 +87,7 @@ commandObj.onTrigger = function(player, option)
             player:printToPlayer(string.format('Magic Accuracy bonus: %i ', target:getMod(xi.mod.MACC)), xi.msg.channel.SYSTEM_3)
             player:printToPlayer(string.format('Total TP Bonus: %i ', target:getMod(xi.mod.TP_BONUS)), xi.msg.channel.SYSTEM_3)
             player:printToPlayer(string.format('Total ATKPercent: %i ', target:getMod(xi.mod.ATTP)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('WS DAM: %i ', target:getMod(xi.mod.ALL_WSDMG_FIRST_HIT)), xi.msg.channel.SYSTEM_3)
 
             return
         end,
