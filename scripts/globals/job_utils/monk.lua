@@ -57,7 +57,7 @@ xi.job_utils.monk.useChakra = function(player, target, ability)
     local monkLevel         = utils.getActiveJobLevel(player, xi.job.MNK)
     local jpModifier        = target:getJobPointLevel(xi.jp.CHAKRA_EFFECT) -- NOTE: Level is the modified value, so 10 per point spent
     local hpModifier        = ((monkLevel + 1) * 0.2 / 100) * player:getMaxHP()
-    local chakraMultiplier  = 1 + player:getMod(xi.mod.CHAKRA_MULT) / 100
+    local chakraMultiplier  = 1.5 + player:getMod(xi.mod.CHAKRA_MULT) / 100
     local maxRecoveryAmount = (player:getStat(xi.mod.VIT) * 2 + hpModifier) * chakraMultiplier + jpModifier
     local recoveryAmount    = math.min(player:getMaxHP() - player:getHP(), maxRecoveryAmount)
 
