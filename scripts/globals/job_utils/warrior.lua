@@ -120,8 +120,8 @@ xi.job_utils.warrior.useRetaliation = function(player, target, ability)
 end
 
 xi.job_utils.warrior.useTomahawk = function(player, target, ability)
-    local merits   = player:getMerit(xi.merit.TOMAHAWK) - 15
-    local duration = 65 + merits
+    local merits   = player:getMerit(xi.merit.TOMAHAWK) + 40
+    local duration = 25 + merits
 
     target:addStatusEffectEx(xi.effect.TOMAHAWK, 0, 25, 3, duration)
     --player:removeAmmo(1)
