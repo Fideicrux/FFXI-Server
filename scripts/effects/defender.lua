@@ -5,14 +5,13 @@
 local effectObject = {}
 
 effectObject.onEffectGain = function(target, effect)
-    local defPower = effect:getPower()  -- 25
-    local pdtPower = effect:getSubPower()  -- 5 to 15
+    local defPower = effect:getPower()
     
     local jpLevel = target:getJobPointLevel(xi.jp.DEFENDER_EFFECT)
     local jpEffect = jpLevel * 3
 
     target:addMod(xi.mod.DEFP, defPower)
-    target:addMod(xi.mod.UDMGPHYS, -((pdtPower)*100))
+    target:addMod(xi.mod.UDMGPHYS, -(defPower*6.6667))
 
     -- Weakens attacks (Standard -15% penalty)
     target:addMod(xi.mod.RATTP, -15)
@@ -26,14 +25,13 @@ effectObject.onEffectTick = function(target, effect)
 end
 
 effectObject.onEffectLose = function(target, effect)
-    local defPower = effect:getPower()  -- 25
-    local pdtPower = effect:getSubPower()  -- 5 to 15
+    local defPower = effect:getPower()
     
     local jpLevel = target:getJobPointLevel(xi.jp.DEFENDER_EFFECT)
     local jpEffect = jpLevel * 3
 
     target:delMod(xi.mod.DEFP, defPower)
-    target:delMod(xi.mod.UDMGPHYS, -((pdtPower)*100))
+    target:addMod(xi.mod.UDMGPHYS, -(defPower*6.6667))
 
     -- Weakens attacks (Standard -15% penalty)
     target:delMod(xi.mod.RATTP, -15)

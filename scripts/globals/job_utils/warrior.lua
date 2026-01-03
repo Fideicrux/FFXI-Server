@@ -79,18 +79,20 @@ end
 -- DEFENSIVE STANCE --
 xi.job_utils.warrior.useDefender = function(player, target, ability)
     local warriorLevel = player:getMainJob() == xi.job.WAR and player:getMainLvl() or 0
-    
-    --Standard Defense %
-    local defPower = 25 
-    
-    --PDT % Scaling (Starts at 5, ends at 15)
-    local pdtPower = utils.clamp(1 + math.floor((warriorLevel - 25) * 14 / 50), 1, 15)
+
+    -- Standard Defense %
+    local basePower = 15
+
+    -- PDT % Scaling (5 → 15)
+    local scalePower = utils.clamp(1 + math.floor((warriorLevel - 25) * 14 / 50), 1, 15)
+    local defPower = basePower * scalePower
+
     local duration = 7200
 
     player:delStatusEffect(xi.effect.BERSERK)
     player:delStatusEffect(xi.effect.DEFENDER)
 
-    player:addStatusEffect(xi.effect.DEFENDER, defPower, 0, duration, pdtPower)
+    player:addStatusEffect(xi.effect.DEFENDER, defPower, 0, duration)
 
     return xi.effect.DEFENDER
 end
