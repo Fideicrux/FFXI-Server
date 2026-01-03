@@ -77,7 +77,7 @@ end
 
 xi.job_utils.monk.useChiBlast = function(player, target, ability)
     local boost = player:getStatusEffect(xi.effect.BOOST)
-    local multiplier = 1.0
+    local multiplier = 1.6
     if boost ~= nil then
         multiplier = (boost:getPower() / 100) * 4 -- power is the raw % atk boost
     end
