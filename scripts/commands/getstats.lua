@@ -93,6 +93,7 @@ commandObj.onTrigger = function(player, option)
             player:printToPlayer(string.format('Crit DAM: %i ', target:getMod(xi.mod.CRIT_DMG_INCREASE)), xi.msg.channel.SYSTEM_3)
             player:printToPlayer(string.format('Fencer TP: %i ', target:getMod(xi.mod.FENCER_TP_BONUS)), xi.msg.channel.SYSTEM_3)
             player:printToPlayer(string.format('Fencer Crit: %i ', target:getMod(xi.mod.FENCER_CRITHITRATE)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Kick Rate: %i ', target:getMod(xi.mod.KICK_ATTACK_RATE)), xi.msg.channel.SYSTEM_3)
 
 
             return
@@ -114,6 +115,9 @@ commandObj.onTrigger = function(player, option)
             player:printToPlayer(string.format('Total -MDT: %i ', target:getMod(xi.mod.DMGMAGIC)), xi.msg.channel.SYSTEM_3)
             player:printToPlayer(string.format('Total -UMDT: %i ', target:getMod(xi.mod.UDMGMAGIC)), xi.msg.channel.SYSTEM_3)
             player:printToPlayer(string.format('Block Rate: %i ', target:getMod(xi.mod.SHIELDBLOCKRATE)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Counter Rate: %i ', target:getMod(xi.mod.COUNTER)), xi.msg.channel.SYSTEM_3)
+            player:printToPlayer(string.format('Guard Rate: %i ', target:getMod(xi.mod.ADDITIVE_GUARD)), xi.msg.channel.SYSTEM_3)
+            
             
 
             return
