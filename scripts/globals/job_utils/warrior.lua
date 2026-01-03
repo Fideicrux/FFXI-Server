@@ -35,7 +35,7 @@ end
 xi.job_utils.warrior.useAggressor = function(player, target, ability)
     local merits = player:getMerit(xi.merit.AGGRESSIVE_AIM)
 
-    player:addStatusEffect(xi.effect.AGGRESSOR, merits, 0, 180 + player:getMod(xi.mod.AGGRESSOR_DURATION))
+    player:addStatusEffect(xi.effect.AGGRESSOR, merits, 0, 7200 + player:getMod(xi.mod.AGGRESSOR_DURATION))
 
     return xi.effect.AGGRESSOR
 end

@@ -32,7 +32,7 @@ CREATE TABLE `abilities` (
 --
 
 /*!40000 ALTER TABLE `abilities` DISABLE KEYS */;
-INSERT INTO `abilities` VALUES (16,'mighty_strikes',1,0,1,300,0,0,0,33,2000,0,6,0.0,0,0,1,300,0,0,NULL);
+INSERT INTO `abilities` VALUES (16,'mighty_strikes',1,0,1,360,0,0,0,33,2000,0,6,0.0,0,0,1,300,0,0,NULL);
 INSERT INTO `abilities` VALUES (17,'hundred_fists',2,0,1,3600,0,0,0,34,2000,0,6,0.0,0,0,1,300,0,0,NULL);
 INSERT INTO `abilities` VALUES (18,'benediction',3,0,1,3600,0,102,0,35,2000,0,6,0.0,1,14,0,0,0,0,NULL);
 INSERT INTO `abilities` VALUES (19,'manafont',4,0,1,3600,0,0,0,36,2000,0,6,0.0,0,0,1,0,0,0,NULL);
@@ -47,10 +47,10 @@ INSERT INTO `abilities` VALUES (27,'meikyo_shisui',12,0,1,3600,0,0,0,96,2000,0,6
 INSERT INTO `abilities` VALUES (28,'mijin_gakure',13,0,4,3600,0,110,0,93,2000,0,6,16.0,0,0,0,0,0,0,NULL);
 INSERT INTO `abilities` VALUES (29,'spirit_surge',14,0,1,3600,0,0,0,97,2000,0,6,0.0,0,0,0,0,0,0,'COP');
 INSERT INTO `abilities` VALUES (30,'astral_flow',15,0,1,3600,0,0,0,95,2000,0,6,0.0,0,0,0,0,0,0,NULL);
-INSERT INTO `abilities` VALUES (31,'berserk',1,10,1,5,1,115,0,0,2000,0,6,0.0,0,0,1,80,384,0,NULL);
-INSERT INTO `abilities` VALUES (32,'warcry',1,25,1,300,2,116,0,28,2000,0,6,0.0,1,14,1,300,388,0,NULL);
-INSERT INTO `abilities` VALUES (33,'defender',1,20,1,5,3,117,0,1,2000,0,6,0.0,0,0,1,80,386,0,NULL);
-INSERT INTO `abilities` VALUES (34,'aggressor',1,35,1,300,4,118,0,2,2000,0,6,0.0,0,0,1,80,390,0,NULL);
+INSERT INTO `abilities` VALUES (31,'berserk',1,10,1,60,1,115,0,0,2000,0,6,0.0,0,0,1,80,384,0,NULL);
+INSERT INTO `abilities` VALUES (32,'warcry',1,25,1,120,2,116,0,28,2000,0,6,0.0,1,14,1,300,388,0,NULL);
+INSERT INTO `abilities` VALUES (33,'defender',1,20,1,60,3,117,0,1,2000,0,6,0.0,0,0,1,80,386,0,NULL);
+INSERT INTO `abilities` VALUES (34,'aggressor',1,35,1,60,4,118,0,2,2000,0,6,0.0,0,0,1,80,390,0,NULL);
 INSERT INTO `abilities` VALUES (35,'provoke',1,5,4,15,5,119,0,3,2000,0,6,16.0,0,0,180,1800,0,0,NULL);
 INSERT INTO `abilities` VALUES (36,'focus',2,20,1,120,13,120,0,4,2000,0,6,0.0,0,0,1,300,448,0,NULL);
 INSERT INTO `abilities` VALUES (37,'dodge',2,10,1,120,14,121,0,5,2000,0,6,0.0,0,0,1,300,450,0,NULL);
