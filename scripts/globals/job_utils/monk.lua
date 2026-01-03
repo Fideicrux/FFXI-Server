@@ -135,13 +135,13 @@ xi.job_utils.monk.useFootwork = function(player, target, ability)
 end
 
 xi.job_utils.monk.useFormlessStrikes = function(player, target, ability)
-    player:addStatusEffect(xi.effect.FORMLESS_STRIKES, 1, 0, 180)
+    player:addStatusEffect(xi.effect.FORMLESS_STRIKES, 1, 0, 7200)
 
     return xi.effect.FORMLESS_STRIKES
 end
 
 xi.job_utils.monk.useHundredFists = function(player, target, ability)
-    player:addStatusEffect(xi.effect.HUNDRED_FISTS, 1, 0, 45)
+    player:addStatusEffect(xi.effect.HUNDRED_FISTS, 1, 0, 60)
 
     return xi.effect.HUNDRED_FISTS
 end
@@ -203,7 +203,7 @@ xi.job_utils.monk.useImpetus = function(player, target, ability)
 end
 
 xi.job_utils.monk.useInnerStrength = function(player, target, ability)
-    player:addStatusEffect(xi.effect.INNER_STRENGTH, 2, 0, 30)
+    player:addStatusEffect(xi.effect.INNER_STRENGTH, 2, 0, 60)
 
     return xi.effect.INNER_STRENGTH
 end
