@@ -96,6 +96,7 @@ xi.job_utils.monk.useCounterstance = function(player, target, ability)
     local power = 50 + player:getMod(xi.mod.COUNTERSTANCE_EFFECT)
 
     target:delStatusEffect(xi.effect.COUNTERSTANCE) --if not found this will do nothing
+    target:delStatusEffect(xi.effect.FOCUS)
     target:addStatusEffect(xi.effect.COUNTERSTANCE, power, 0, 7200)
 
     return xi.effect.COUNTERSTANCE
@@ -105,10 +106,8 @@ xi.job_utils.monk.useDodge = function(player, target, ability)
     local jpLevel  = target:getJobPointLevel(xi.jp.DODGE_EFFECT)
     local dodgeMod = target:getMod(xi.mod.DODGE_EFFECT)
     -- Remove conflicting stances
-    player:delStatusEffect(xi.effect.DODGE)
-    player:delStatusEffect(xi.effect.FOCUS)
-    
-    player:addStatusEffect(xi.effect.DODGE, jpLevel + dodgeMod, 0, 7200)
+  
+    player:addStatusEffect(xi.effect.DODGE, jpLevel + dodgeMod, 0, 60)
     
 
     return xi.effect.DODGE
@@ -118,7 +117,7 @@ xi.job_utils.monk.useFocus = function(player, target, ability)
     local jpLevel  = target:getJobPointLevel(xi.jp.FOCUS_EFFECT)
     local focusMod = target:getMod(xi.mod.FOCUS_EFFECT)
     -- Remove conflicting stances
-    player:delStatusEffect(xi.effect.DODGE)
+    player:delStatusEffect(xi.effect.COUNTERSTANCE)
     player:delStatusEffect(xi.effect.FOCUS)
     --Apply stance
     player:addStatusEffect(xi.effect.FOCUS, jpLevel + focusMod, 0, 7200)
