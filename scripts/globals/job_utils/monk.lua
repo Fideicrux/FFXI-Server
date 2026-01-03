@@ -166,9 +166,12 @@ end
 
 xi.job_utils.monk.useMantra = function(player, target, ability)
     local merits = player:getMerit(xi.merit.MANTRA)
+    local restore = math.floor(player:getHP() * 1.24)
 
     target:delStatusEffect(xi.effect.MAX_HP_BOOST) -- TODO: confirm which versions of HP boost mantra can overwrite
-    target:addStatusEffect(xi.effect.MAX_HP_BOOST, merits, 0, 180)
+    target:addStatusEffect(xi.effect.MAX_HP_BOOST, 20, 0, 180)
+
+    target:addHP(restore)
 
     return 0 -- xi.effect.MANTRA -- TODO: implement xi.effect.MANTRA
 end
