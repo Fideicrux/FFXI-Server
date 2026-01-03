@@ -159,14 +159,18 @@ xi.job_utils.monk.useImpetus = function(player, target, ability)
 end
 
 xi.job_utils.monk.useInnerStrength = function(player, target, ability)
+    local restoreHP = math.floor(player:getHP())
+
     player:addStatusEffect(xi.effect.INNER_STRENGTH, 2, 0, 60)
+
+    target:addHP(restoreHP)
 
     return xi.effect.INNER_STRENGTH
 end
 
 xi.job_utils.monk.useMantra = function(player, target, ability)
     local merits = player:getMerit(xi.merit.MANTRA)
-    local restore = math.floor(player:getHP() * 1.24)
+    local restore = math.floor(player:getHP() * 0.2)
 
     target:delStatusEffect(xi.effect.MAX_HP_BOOST) -- TODO: confirm which versions of HP boost mantra can overwrite
     target:addStatusEffect(xi.effect.MAX_HP_BOOST, 20, 0, 180)
