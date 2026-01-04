@@ -37,7 +37,7 @@ xi.job_utils.black_mage.useCascade = function(player, target, ability)
     player:setTP(0)
 
     -- Apply effect with calculated power
-    player:addStatusEffect(xi.effect.CASCADE, magicDamageBonus, 0, 30)
+    player:addStatusEffect(xi.effect.CASCADE, magicDamageBonus, 0, 60)
 
     return xi.effect.CASCADE
 end
