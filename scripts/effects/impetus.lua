@@ -9,8 +9,8 @@ effectObject.onEffectGain = function(target, effect)
     --target:addListener('MELEE_SWING_HIT', 'IMPETUS_HIT', xi.job_utils.monk.impetusHitListener)
 
     -- For reload from the DB (/logout, login), add the effect power
-    local mainPower = effect:getPower()    -- Stores Attack & Critical Hit Rate bonuses
-    local subPower  = effect:getSubPower() -- Stores Critical Hit Damage & Accuracy bonuses
+    --local mainPower = effect:getPower()    -- Stores Attack & Critical Hit Rate bonuses
+    --local subPower  = effect:getSubPower() -- Stores Critical Hit Damage & Accuracy bonuses
 
     target:addMod(xi.mod.ATT, 100)
     target:addMod(xi.mod.CRITHITRATE, 50)
@@ -34,8 +34,8 @@ effectObject.onEffectLose = function(target, effect)
     --target:removeListener('MELEE_SWING_HIT')
 
     -- TODO: Support Tantra Cyclas + 1 (does not give critical hit damage)
-    local mainPower = effect:getPower()    -- Stores Attack & Critical Hit Rate bonuses
-    local subPower  = effect:getSubPower() -- Stores Critical Hit Damage & Accuracy bonuses
+    --local mainPower = effect:getPower()    -- Stores Attack & Critical Hit Rate bonuses
+    --local subPower  = effect:getSubPower() -- Stores Critical Hit Damage & Accuracy bonuses
 
     target:delModMod(xi.mod.ATT, 100)
     target:delModMod(xi.mod.CRITHITRATE, 50)

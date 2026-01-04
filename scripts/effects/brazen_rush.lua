@@ -6,9 +6,9 @@ local effectObject = {}
 
 effectObject.onEffectGain = function(target, effect)
     local jpLevel = target:getJobPointLevel(xi.jp.BRAZEN_RUSH_EFFECT)
-    local drate = target:getMod(xi.mod.DOUBLE_ATTACK)
+    local darate = effect:getSubPower()
 
-    target:addMod(xi.mod.TRIPLE_ATTACK, drate)
+    target:addMod(xi.mod.TRIPLE_ATTACK, darate)
     target:addMod(xi.mod.ATT, 4 * jpLevel)
     target:addMod(xi.mod.DOUBLE_ATTACK, effect:getPower())
 end
@@ -24,8 +24,9 @@ end
 
 effectObject.onEffectLose = function(target, effect)
     local jpLevel = target:getJobPointLevel(xi.jp.BRAZEN_RUSH_EFFECT)
+    local darate = effect:getSubPower()
 
-    target:delMod(xi.mod.TRIPLE_ATTACK, drate)
+    target:delMod(xi.mod.TRIPLE_ATTACK, darate)
     target:delMod(xi.mod.ATT, 4 * jpLevel)
     target:delMod(xi.mod.DOUBLE_ATTACK, effect:getPower())
 end

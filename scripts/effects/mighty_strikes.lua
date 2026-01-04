@@ -6,7 +6,7 @@ local effectObject = {}
 
 effectObject.onEffectGain = function(target, effect)
     local jpLevel = target:getJobPointLevel(xi.jp.MIGHTY_STRIKES_EFFECT)
-    local crate = target:getStat(xi.mod.CRITHITRATE)
+    local crate = getSubPower()
 
     target:addMod(xi.mod.CRIT_DMG_INCREASE, crate)
     target:addMod(xi.mod.CRITHITRATE, 100)
@@ -19,6 +19,7 @@ end
 
 effectObject.onEffectLose = function(target, effect)
     local jpLevel = target:getJobPointLevel(xi.jp.MIGHTY_STRIKES_EFFECT)
+    local crate = getSubPower()
 
     target:addMod(xi.mod.CRIT_DMG_INCREASE, -(crate))
     target:addMod(xi.mod.CRITHITRATE, -100)
