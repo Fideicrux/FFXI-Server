@@ -12,7 +12,7 @@ xi.help = xi.help or {}
 require("scripts/globals/help/registry")
 
 -----------------------------------
--- Module list (AUTHORITATIVE)
+-- Module list 
 -- Only edit this section when adding files
 -----------------------------------
 
@@ -27,6 +27,22 @@ local HELP_MODULES =
     "scripts/helpdata/abilities/blm",
     "scripts/helpdata/abilities/rdm",
     "scripts/helpdata/abilities/thf",
+    "scripts/helpdata/abilities/pld",
+    "scripts/helpdata/abilities/drk",
+    "scripts/helpdata/abilities/bst",
+    "scripts/helpdata/abilities/brd",
+    "scripts/helpdata/abilities/rng",
+    "scripts/helpdata/abilities/smn",
+    "scripts/helpdata/abilities/sam",
+    "scripts/helpdata/abilities/nin",
+    "scripts/helpdata/abilities/drg",
+    "scripts/helpdata/abilities/blu",
+    "scripts/helpdata/abilities/cor",
+    "scripts/helpdata/abilities/pup",
+    "scripts/helpdata/abilities/dnc",
+    "scripts/helpdata/abilities/sch",
+    "scripts/helpdata/abilities/geo",
+    "scripts/helpdata/abilities/run",
 
     -- =========================
     -- Traits
