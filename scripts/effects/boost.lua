@@ -10,7 +10,7 @@ effectObject.onEffectGain = function(target, effect)
         local baseDamage = target:getWeaponDmg()
         local power      = math.max(0, (baseDamage * effect:getPower() / 100) - baseDamage)
 
-        effect:addMod(xi.mod.MAIN_DMG_RATING, power)
+        effect:addMod(xi.mod.MAIN_DMG_RATING, (baseDamage * 1.5))
     else
         effect:addMod(xi.mod.ATTP, effect:getPower())
     end

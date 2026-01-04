@@ -24,7 +24,7 @@ xi.job_utils.warrior.checkTomahawk = function(player, target, ability)
     if ammoID == xi.item.THROWING_TOMAHAWK then
         return 0, 0
     else
-        return xi.msg.basic.CANNOT_PERFORM, 0
+        return 0, 0
     end
 end
 
@@ -35,7 +35,7 @@ end
 xi.job_utils.warrior.useAggressor = function(player, target, ability)
     local merits = player:getMerit(xi.merit.AGGRESSIVE_AIM)
 
-    player:addStatusEffect(xi.effect.AGGRESSOR, merits, 0, 180 + player:getMod(xi.mod.AGGRESSOR_DURATION))
+    player:addStatusEffect(xi.effect.AGGRESSOR, merits, 0, 7200 + player:getMod(xi.mod.AGGRESSOR_DURATION))
 
     return xi.effect.AGGRESSOR
 end
@@ -120,11 +120,11 @@ xi.job_utils.warrior.useRetaliation = function(player, target, ability)
 end
 
 xi.job_utils.warrior.useTomahawk = function(player, target, ability)
-    local merits   = player:getMerit(xi.merit.TOMAHAWK) - 15
+    local merits   = player:getMerit(xi.merit.TOMAHAWK) + 40
     local duration = 25 + merits
 
     target:addStatusEffectEx(xi.effect.TOMAHAWK, 0, 25, 3, duration)
-    player:removeAmmo(1)
+    --player:removeAmmo(1)
 end
 
 xi.job_utils.warrior.useWarcry = function(player, target, ability)

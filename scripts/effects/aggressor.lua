@@ -9,7 +9,8 @@ effectObject.onEffectGain = function(target, effect)
     local jpLevel = target:getJobPointLevel(xi.jp.AGGRESSOR_EFFECT)
 
     -- Accuracy bonuses
-    effect:addMod(xi.mod.ALL_WSDMG_FIRST_HIT, power + jpLevel)
+    effect:addMod(xi.mod.ACC, 50)
+    effect:addMod(xi.mod.RACC, 50)
 
 
     -- Evasion penalty (stance drawback)

@@ -14,7 +14,8 @@ effectObject.onEffectGain = function(target, effect)
 
     effect:addMod(xi.mod.ATTP, power)
     effect:addMod(xi.mod.RATTP, power)
-    effect:addMod(xi.mod.TP_BONUS, effect:getSubPower())
+    effect:addMod(xi.mod.TP_BONUS, 500)
+    --effect:addMod(xi.mod.TP_BONUS, effect:getSubPower())
 
     -- Job Point Bonus
     effect:addMod(xi.mod.ATT, jpEffect)

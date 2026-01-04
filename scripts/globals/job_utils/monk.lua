@@ -57,7 +57,7 @@ xi.job_utils.monk.useChakra = function(player, target, ability)
     local monkLevel         = utils.getActiveJobLevel(player, xi.job.MNK)
     local jpModifier        = target:getJobPointLevel(xi.jp.CHAKRA_EFFECT) -- NOTE: Level is the modified value, so 10 per point spent
     local hpModifier        = ((monkLevel + 1) * 0.2 / 100) * player:getMaxHP()
-    local chakraMultiplier  = 1 + player:getMod(xi.mod.CHAKRA_MULT) / 100
+    local chakraMultiplier  = 1.5 + player:getMod(xi.mod.CHAKRA_MULT) / 100
     local maxRecoveryAmount = (player:getStat(xi.mod.VIT) * 2 + hpModifier) * chakraMultiplier + jpModifier
     local recoveryAmount    = math.min(player:getMaxHP() - player:getHP(), maxRecoveryAmount)
 
@@ -93,10 +93,11 @@ xi.job_utils.monk.useChiBlast = function(player, target, ability)
 end
 
 xi.job_utils.monk.useCounterstance = function(player, target, ability)
-    local power = 45 + player:getMod(xi.mod.COUNTERSTANCE_EFFECT)
+    local power = 50 + player:getMod(xi.mod.COUNTERSTANCE_EFFECT)
 
     target:delStatusEffect(xi.effect.COUNTERSTANCE) --if not found this will do nothing
-    target:addStatusEffect(xi.effect.COUNTERSTANCE, power, 0, 300)
+    target:delStatusEffect(xi.effect.FOCUS)
+    target:addStatusEffect(xi.effect.COUNTERSTANCE, power, 0, 7200)
 
     return xi.effect.COUNTERSTANCE
 end
@@ -105,10 +106,8 @@ xi.job_utils.monk.useDodge = function(player, target, ability)
     local jpLevel  = target:getJobPointLevel(xi.jp.DODGE_EFFECT)
     local dodgeMod = target:getMod(xi.mod.DODGE_EFFECT)
     -- Remove conflicting stances
-    player:delStatusEffect(xi.effect.DODGE)
-    player:delStatusEffect(xi.effect.FOCUS)
-    
-    player:addStatusEffect(xi.effect.DODGE, jpLevel + dodgeMod, 0, 7200)
+  
+    player:addStatusEffect(xi.effect.DODGE, jpLevel + dodgeMod, 0, 60)
     
 
     return xi.effect.DODGE
@@ -118,7 +117,7 @@ xi.job_utils.monk.useFocus = function(player, target, ability)
     local jpLevel  = target:getJobPointLevel(xi.jp.FOCUS_EFFECT)
     local focusMod = target:getMod(xi.mod.FOCUS_EFFECT)
     -- Remove conflicting stances
-    player:delStatusEffect(xi.effect.DODGE)
+    player:delStatusEffect(xi.effect.COUNTERSTANCE)
     player:delStatusEffect(xi.effect.FOCUS)
     --Apply stance
     player:addStatusEffect(xi.effect.FOCUS, jpLevel + focusMod, 0, 7200)
@@ -136,84 +135,47 @@ xi.job_utils.monk.useFootwork = function(player, target, ability)
 end
 
 xi.job_utils.monk.useFormlessStrikes = function(player, target, ability)
-    player:addStatusEffect(xi.effect.FORMLESS_STRIKES, 1, 0, 180)
+    player:addStatusEffect(xi.effect.FORMLESS_STRIKES, 1, 0, 7200)
 
     return xi.effect.FORMLESS_STRIKES
 end
 
 xi.job_utils.monk.useHundredFists = function(player, target, ability)
-    player:addStatusEffect(xi.effect.HUNDRED_FISTS, 1, 0, 45)
+    player:addStatusEffect(xi.effect.HUNDRED_FISTS, 1, 0, 60)
 
     return xi.effect.HUNDRED_FISTS
 end
 
 -- TODO: Support Tantra Cyclas + 1 (does not give critical hit damage)
 -- Probably will be exceptionally jank, very low priority
-xi.job_utils.monk.impetusMissListener = function(attacker, victim, attack)
-    local effect = attacker:getStatusEffect(xi.effect.IMPETUS)
+--Impetis Miss listener here
 
-    if effect then
-        local mainPower = effect:getPower()    -- Stores Attack & Critical Hit Rate bonuses
-        local subPower  = effect:getSubPower() -- Stores Critical Hit Damage & Accuracy bonuses
-
-        if mainPower > 0 then
-            attacker:delMod(xi.mod.ATT, mainPower * 2)
-            attacker:delMod(xi.mod.CRITHITRATE, mainPower)
-
-            effect:setPower(0)
-        end
-
-        if subPower > 0 then
-            attacker:delMod(xi.mod.ACC, subPower * 2)
-            attacker:delMod(xi.mod.CRIT_DMG_INCREASE, subPower)
-
-            effect:setSubPower(0)
-        end
-    end
-end
-
--- TODO: Support Tantra Cyclas + 1 (does not give critical hit damage)
--- Probably will be exceptionally jank, very low priority
-xi.job_utils.monk.impetusHitListener = function(attacker, victim, attack)
-    local effect = attacker:getStatusEffect(xi.effect.IMPETUS)
-
-    if effect then
-        local mainPower = effect:getPower()    -- Stores Attack & Critical Hit Rate bonuses
-        local subPower  = effect:getSubPower() -- Stores Critical Hit Damage & Accuracy bonuses
-
-        if mainPower < 50 then
-            attacker:addMod(xi.mod.ATT, 2)
-            attacker:addMod(xi.mod.CRITHITRATE, 1)
-
-            effect:setPower(mainPower + 1)
-        end
-
-        if attacker:getMod(xi.mod.AUGMENTS_IMPETUS) > 0 and subPower < 50 then
-            attacker:addMod(xi.mod.ACC, 2)
-            attacker:addMod(xi.mod.CRIT_DMG_INCREASE, 1)
-
-            effect:setSubPower(subPower + 1)
-        end
-    end
-end
+--impetis hitlistener here
 
 xi.job_utils.monk.useImpetus = function(player, target, ability)
-    player:addStatusEffect(xi.effect.IMPETUS, 0, 0, 180)
+    player:addStatusEffect(xi.effect.IMPETUS, 0, 0, 60)
 
     return xi.effect.IMPETUS
 end
 
 xi.job_utils.monk.useInnerStrength = function(player, target, ability)
-    player:addStatusEffect(xi.effect.INNER_STRENGTH, 2, 0, 30)
+    local restoreHP = math.floor(player:getHP())
+
+    player:addStatusEffect(xi.effect.INNER_STRENGTH, 2, 0, 60)
+
+    target:addHP(restoreHP)
 
     return xi.effect.INNER_STRENGTH
 end
 
 xi.job_utils.monk.useMantra = function(player, target, ability)
     local merits = player:getMerit(xi.merit.MANTRA)
+    local restore = math.floor(player:getHP() * 0.2)
 
     target:delStatusEffect(xi.effect.MAX_HP_BOOST) -- TODO: confirm which versions of HP boost mantra can overwrite
-    target:addStatusEffect(xi.effect.MAX_HP_BOOST, merits, 0, 180)
+    target:addStatusEffect(xi.effect.MAX_HP_BOOST, 20, 0, 180)
+
+    target:addHP(restore)
 
     return 0 -- xi.effect.MANTRA -- TODO: implement xi.effect.MANTRA
 end
