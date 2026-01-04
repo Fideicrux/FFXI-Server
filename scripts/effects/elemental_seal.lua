@@ -5,6 +5,10 @@
 local effectObject = {}
 
 effectObject.onEffectGain = function(target, effect)
+    local level = player:getMainJob() == xi.job.BLM and player:getMainLvl() or 25 
+    local power = level * 5 + 25  
+
+    target:addMod(xi.mod.MATT, power)
     -- Overwrites
     target:delStatusEffectSilent(xi.effect.DARK_SEAL)
     target:delStatusEffectSilent(xi.effect.DIVINE_EMBLEM)
@@ -15,6 +19,10 @@ effectObject.onEffectTick = function(target, effect)
 end
 
 effectObject.onEffectLose = function(target, effect)
+    local level = player:getMainJob() == xi.job.BLM and player:getMainLvl() or 25 
+    local power = level + 25 
+
+    target:delMod(xi.mod.MATT, power)
 end
 
 return effectObject
