@@ -18,6 +18,17 @@ xi.job_utils.warrior.checkMightyStrikes = function(player, target, ability)
     return 0, 0
 end
 
+xi.job_utils.warrior.checkTomahawk = function(player, target, ability)
+    local ammoID = player:getEquipID(xi.slot.AMMO)
+
+    if ammoID == xi.item.THROWING_TOMAHAWK then
+        return 0, 0
+    else
+        return 0, 0
+    end
+end
+
+
 -----------------------------------
 -- Ability Use Functions
 -----------------------------------
@@ -61,9 +72,9 @@ xi.job_utils.warrior.useBloodRage = function(player, target, ability)
 end
 
 xi.job_utils.warrior.useBrazenRush = function(player, target, ability)
-    local darate = player:getMod(xi.mod.DOUBLE_ATTACK)
+    local darate = math.min(player:getMod(xi.mod.DOUBLE_ATTACK), 100)
 
-    player:addStatusEffect(xi.effect.BRAZEN_RUSH, 100, 3, 60, darate)
+    player:addStatusEffect(xi.effect.BRAZEN_RUSH, 100, 0, 60, darate)
 
     return xi.effect.BRAZEN_RUSH
 end
@@ -97,7 +108,7 @@ end
 
 
 xi.job_utils.warrior.useMightyStrikes = function(player, target, ability)
-    local critDmg = math.min(player:getStat(xi.mod.CRITHITRATE), 25)
+    local critDmg = math.min(player:getMod(xi.mod.CRITHITRATE), 25)
 
     player:addStatusEffect(xi.effect.MIGHTY_STRIKES, 1, 0, 60, critDmg)
 
@@ -148,9 +159,10 @@ end
 
 xi.job_utils.warrior.useWarriorsCharge = function(player, target, ability)
     local merits = player:getMerit(xi.merit.WARRIORS_CHARGE)
-    local datkRate = player:getMod(xi.mod.DOUBLE_ATTACK)
+    local datkRate = math.min(player:getMod(xi.mod.DOUBLE_ATTACK), 100)
+    local duration = 60 - (merits)
 
-    player:addStatusEffect(xi.effect.WARRIORS_CHARGE, merits - 5, 0, 60, datkRate)
+    player:addStatusEffect(xi.effect.WARRIORS_CHARGE, datkRate, 0, duration)
 
     return xi.effect.WARRIORS_CHARGE
 end
