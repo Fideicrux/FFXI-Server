@@ -61,9 +61,9 @@ xi.job_utils.warrior.useBloodRage = function(player, target, ability)
 end
 
 xi.job_utils.warrior.useBrazenRush = function(player, target, ability)
-    local darate = player:getMod(xi.mod.DOUBLE_ATTACK)
+    local datkRate = player:getMod(xi.mod.DOUBLE_ATTACK)
 
-    player:addStatusEffect(xi.effect.BRAZEN_RUSH, 100, 3, 60, darate)
+    player:addStatusEffect(xi.effect.BRAZEN_RUSH, 100, 0, 60, datkRate)
 
     return xi.effect.BRAZEN_RUSH
 end
