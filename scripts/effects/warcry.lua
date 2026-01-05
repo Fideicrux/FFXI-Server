@@ -7,7 +7,7 @@ local effectObject = {}
 effectObject.onEffectGain = function(target, effect)
     local power    = effect:getPower()
     local jpEffect = target:getJobPointLevel(xi.jp.WARCRY_EFFECT) * 3
-    local merit = player:getMerit(xi.merit.WARCRY_RECAST)
+    local merit = target:getMerit(xi.merit.WARCRY_RECAST)
 
     target:addMod(xi.mod.ATTP, power)
     target:addMod(xi.mod.RATTP, power)
@@ -25,7 +25,7 @@ end
 effectObject.onEffectLose = function(target, effect)
     local power    = effect:getPower()
     local jpEffect = target:getJobPointLevel(xi.jp.WARCRY_EFFECT) * 3
-    local merit = player:getMerit(xi.merit.WARCRY_RECAST)
+    local merit = target:getMerit(xi.merit.WARCRY_RECAST)
 
     target:delMod(xi.mod.ATTP, power)
     target:delMod(xi.mod.RATTP, power)

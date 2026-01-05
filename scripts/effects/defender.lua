@@ -8,7 +8,7 @@ effectObject.onEffectGain = function(target, effect)
     local defPower = effect:getPower()
     local jpLevel = target:getJobPointLevel(xi.jp.DEFENDER_EFFECT)
     local jpEffect = jpLevel * 3
-    local merit = ((effect:getSubPower) * -100)
+    local merit = ((effect:getSubPower()) * -100)
 
     target:addMod(xi.mod.DEFP, defPower)
     target:addMod(xi.mod.UDMGPHYS, -defPower * 100)
@@ -27,9 +27,9 @@ end
 
 effectObject.onEffectLose = function(target, effect)
     local defPower = effect:getPower()
-    
     local jpLevel = target:getJobPointLevel(xi.jp.DEFENDER_EFFECT)
     local jpEffect = jpLevel * 3
+    local merit = ((effect:getSubPower()) * -100)
 
     target:delMod(xi.mod.DEFP, defPower)
     target:delMod(xi.mod.UDMGPHYS, -defPower * 100)
