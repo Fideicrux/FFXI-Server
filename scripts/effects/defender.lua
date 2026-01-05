@@ -31,7 +31,7 @@ effectObject.onEffectLose = function(target, effect)
     local jpEffect = jpLevel * 3
 
     target:delMod(xi.mod.DEFP, defPower)
-    target:addMod(xi.mod.UDMGPHYS, -(defPower*6.6667))
+    target:delMod(xi.mod.UDMGPHYS, -(defPower*6.6667))
 
     -- Weakens attacks (Standard -15% penalty)
     target:delMod(xi.mod.RATTP, -15)

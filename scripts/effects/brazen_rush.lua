@@ -14,12 +14,6 @@ effectObject.onEffectGain = function(target, effect)
 end
 
 effectObject.onEffectTick = function(target, effect)
-    --local prevPower = effect:getPower()
-    --local nextPower = prevPower - 10
-
-    --target:delMod(xi.mod.DOUBLE_ATTACK, prevPower)
-    --effect:setPower(nextPower)
-    --ddtarget:addMod(xi.mod.DOUBLE_ATTACK, nextPower)
 end
 
 effectObject.onEffectLose = function(target, effect)

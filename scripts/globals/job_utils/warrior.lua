@@ -18,16 +18,6 @@ xi.job_utils.warrior.checkMightyStrikes = function(player, target, ability)
     return 0, 0
 end
 
---xi.job_utils.warrior.checkTomahawk = function(player, target, ability)
-    --local ammoID = player:getEquipID(xi.slot.AMMO)
-
-    --if ammoID == xi.item.THROWING_TOMAHAWK then
-        --return 0, 0
-    --else
-        --return 0, 0
-    --end
---end
-
 -----------------------------------
 -- Ability Use Functions
 -----------------------------------
@@ -101,9 +91,9 @@ end
 
 
 xi.job_utils.warrior.useMightyStrikes = function(player, target, ability)
-    local = crate player:getStat(xi.mod.CRITHITRATE)
+    local critDmg = math.min(player:getStat(xi.mod.CRITHITRATE), 25)
 
-    player:addStatusEffect(xi.effect.MIGHTY_STRIKES, 1, 0, 60, crate)
+    player:addStatusEffect(xi.effect.MIGHTY_STRIKES, 1, 0, 60, critDmg)
 
     return xi.effect.MIGHTY_STRIKES
 end
@@ -152,9 +142,9 @@ end
 
 xi.job_utils.warrior.useWarriorsCharge = function(player, target, ability)
     local merits = player:getMerit(xi.merit.WARRIORS_CHARGE)
-    local drate = player:getMod(xi.mod.DOUBLE_ATTACK)
+    local datkRate = player:getMod(xi.mod.DOUBLE_ATTACK)
 
-    player:addStatusEffect(xi.effect.WARRIORS_CHARGE, merits - 5, 0, 60, drate)
+    player:addStatusEffect(xi.effect.WARRIORS_CHARGE, merits - 5, 0, 60, datkRate)
 
     return xi.effect.WARRIORS_CHARGE
 end

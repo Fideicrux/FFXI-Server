@@ -169,12 +169,12 @@ xi.job_utils.monk.useInnerStrength = function(player, target, ability)
 end
 
 xi.job_utils.monk.useMantra = function(player, target, ability)
-    local merits = player:getMerit(xi.merit.MANTRA)
-    local restore = math.floor(player:getMaxHP() * 0.2)
-
+    local merits = player:getMerit(xi.merit.MANTRA) -- This is unused below, fix?
+    
     target:delStatusEffect(xi.effect.MAX_HP_BOOST) -- TODO: confirm which versions of HP boost mantra can overwrite
     target:addStatusEffect(xi.effect.MAX_HP_BOOST, 20, 0, 180)
-
+    
+    local restore = math.floor(player:getMaxHP() * 0.2)
     target:addHP(restore)
 
     return 0 -- xi.effect.MANTRA -- TODO: implement xi.effect.MANTRA
