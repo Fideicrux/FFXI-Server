@@ -74,7 +74,7 @@ end
 xi.job_utils.warrior.useBrazenRush = function(player, target, ability)
     local datkRate = math.min(player:getMod(xi.mod.DOUBLE_ATTACK), 100)
 
-    player:addStatusEffect(xi.effect.BRAZEN_RUSH, 100, 0, 60, datkRate)
+    player:addStatusEffect(xi.effect.BRAZEN_RUSH, 100, 0, 60, 0, datkRate)
 
     return xi.effect.BRAZEN_RUSH
 end
@@ -110,7 +110,7 @@ end
 xi.job_utils.warrior.useMightyStrikes = function(player, target, ability)
     local critDmg = math.min(player:getMod(xi.mod.CRITHITRATE), 25)
 
-    player:addStatusEffect(xi.effect.MIGHTY_STRIKES, 1, 0, 60, critDmg)
+    player:addStatusEffect(xi.effect.MIGHTY_STRIKES, 1, 0, 60, 0, critDmg)
 
     return xi.effect.MIGHTY_STRIKES
 end
