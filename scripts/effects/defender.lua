@@ -10,7 +10,7 @@ effectObject.onEffectGain = function(target, effect)
     local jpEffect = jpLevel * 3
 
     target:addMod(xi.mod.DEFP, defPower)
-    target:addMod(xi.mod.UDMGPHYS, -defPower)
+    target:addMod(xi.mod.UDMGPHYS, -defPower * 100)
 
     -- The standard attack penalty remains constant
     target:addMod(xi.mod.RATTP, -15)
@@ -29,8 +29,8 @@ effectObject.onEffectLose = function(target, effect)
     local jpLevel = target:getJobPointLevel(xi.jp.DEFENDER_EFFECT)
     local jpEffect = jpLevel * 3
 
-    target:delMod(xi.mod.DEF, defPower)
-    target:delMod(xi.mod.UDMGPHYS, -defPower)
+    target:delMod(xi.mod.DEFP, defPower)
+    target:delMod(xi.mod.UDMGPHYS, -defPower * 100)
 
     -- Weakens attacks (Standard -15% penalty)
     target:delMod(xi.mod.RATTP, -15)
