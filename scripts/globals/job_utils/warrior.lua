@@ -72,18 +72,24 @@ end
 xi.job_utils.warrior.useDefender = function(player, target, ability)
     local warriorLevel = player:getMainJob() == xi.job.WAR and player:getMainLvl() or 0
 
-    -- Standard Defense %
-    local basePower = 15
+    -- Scale from 5 to 15 between level 20 and 75
+    local minLevel = 20
+    local maxLevel = 75
+    local minPower = 5
+    local maxPower = 15
 
-    -- PDT % Scaling (5 → 15)
-    local scalePower = utils.clamp(1 + math.floor((warriorLevel - 25) * 14 / 50), 1, 15)
-    local defPower = basePower * scalePower
+    -- Clamp the level to the scaling range to prevent it from going over 75.
+    -- This is good practice in case level cap is ever raised or other edge cases occur.
+    local clampedLevel = utils.clamp(warriorLevel, minLevel, maxLevel)
+
+    -- Calculate the power
+    local scaleFactor = (maxPower - minPower) / (maxLevel - minLevel)
+    local defPower = minPower + (clampedLevel - minLevel) * scaleFactor
 
     local duration = 7200
 
     player:delStatusEffect(xi.effect.BERSERK)
     player:delStatusEffect(xi.effect.DEFENDER)
-
     player:addStatusEffect(xi.effect.DEFENDER, defPower, 0, duration)
 
     return xi.effect.DEFENDER
