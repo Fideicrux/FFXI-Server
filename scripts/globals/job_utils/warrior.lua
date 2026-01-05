@@ -35,8 +35,9 @@ end
 
 xi.job_utils.warrior.useAggressor = function(player, target, ability)
     local merits = player:getMerit(xi.merit.AGGRESSIVE_AIM)
+    local merit = player:getMerit(xi.merit.AGGRESSOR_RECAST)
 
-    player:addStatusEffect(xi.effect.AGGRESSOR, merits, 0, 7200 + player:getMod(xi.mod.AGGRESSOR_DURATION))
+    player:addStatusEffect(xi.effect.AGGRESSOR, merits, 0, 7200 + player:getMod(xi.mod.AGGRESSOR_DURATION), 0 , merit)
 
     return xi.effect.AGGRESSOR
 end
@@ -47,13 +48,14 @@ xi.job_utils.warrior.useBerserk = function(player, target, ability)
     local levelScale = utils.clamp(math.floor((warriorLevel - 10) * 15 / 65), 0, 15)
     local power = 15 + levelScale + player:getMod(xi.mod.BERSERK_POTENCY)
     local duration = 7200
+    local merit = player:getMerit(xi.merit.BERSERK_RECAST)
 
     -- Remove conflicting stances.
     player:delStatusEffect(xi.effect.DEFENDER)
     player:delStatusEffect(xi.effect.BERSERK)
 
     -- Apply Berserk using 'power' for both ATK and DEF scaling.
-    player:addStatusEffect(xi.effect.BERSERK, power, 0, duration)
+    player:addStatusEffect(xi.effect.BERSERK, power, 0, duration, 0, merit)
 
     return xi.effect.BERSERK
 end
@@ -99,9 +101,11 @@ xi.job_utils.warrior.useDefender = function(player, target, ability)
 
     local duration = 7200
 
+    local merit = player:getMerit(xi.merit.DEFENDER_RECAST)
+
     player:delStatusEffect(xi.effect.BERSERK)
     player:delStatusEffect(xi.effect.DEFENDER)
-    player:addStatusEffect(xi.effect.DEFENDER, defPower, 0, duration)
+    player:addStatusEffect(xi.effect.DEFENDER, defPower, 0, duration, 0, merit)
 
     return xi.effect.DEFENDER
 end
@@ -131,8 +135,8 @@ xi.job_utils.warrior.useRetaliation = function(player, target, ability)
 end
 
 xi.job_utils.warrior.useTomahawk = function(player, target, ability)
-    local merits   = player:getMerit(xi.merit.TOMAHAWK) + 40
-    local duration = 25 + merits
+    local merits   = player:getMerit(xi.merit.TOMAHAWK)
+    local duration = 35 + merits
 
     target:addStatusEffectEx(xi.effect.TOMAHAWK, 0, 25, 3, duration)
     --player:removeAmmo(1)
@@ -141,6 +145,7 @@ end
 xi.job_utils.warrior.useWarcry = function(player, target, ability)
     local merit    = player:getMerit(xi.merit.SAVAGERY)
     local warLevel = utils.getActiveJobLevel(player, xi.job.WAR)
+    local warmerit = player:getMerit(xi.merit.WARCRY_RECAST)
     
     --Scale 99 value to fit current level 75 max
     local power = math.floor((((35 + (warLevel - 25) * 64 / 50) / 4) + 4.75)) / 256 * 100

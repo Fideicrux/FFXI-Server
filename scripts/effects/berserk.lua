@@ -10,6 +10,7 @@ effectObject.onEffectGain = function(target, effect)
     -- Attack scaling UP
     target:addMod(xi.mod.ATTP, power)
     target:addMod(xi.mod.RATTP, power)
+    target:addMod(xi.mod.CRIT_DMG_INCREASE, effect:getSubPower())
     
     -- Flat 15% Defense down
     target:addMod(xi.mod.DEFP, -15)
@@ -31,6 +32,7 @@ effectObject.onEffectLose = function(target, effect)
     target:delMod(xi.mod.DEFP, -15)
     target:delMod(xi.mod.ATT, jpEffect)
     target:delMod(xi.mod.RATT, jpEffect)
+    target:delMod(xi.mod.CRIT_DMG_INCREASE, effect:getSubPower())
 end
 
 return effectObject

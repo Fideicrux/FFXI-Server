@@ -7,10 +7,12 @@ local effectObject = {}
 effectObject.onEffectGain = function(target, effect)
     local power   = effect:getPower()
     local jpLevel = target:getJobPointLevel(xi.jp.AGGRESSOR_EFFECT)
+    local accuracy = effect:getSubPower()
 
     -- Accuracy bonuses
-    effect:addMod(xi.mod.ACC, 50)
-    effect:addMod(xi.mod.RACC, 50)
+    target:addMod(xi.mod.ACC, 50 + accuracy) 
+    target:addMod(xi.mod.RACC, 50 + accuracy)
+    target:addMod(xi.mod.CRIT_HIT_RATE, power)
 
 
     -- Evasion penalty (stance drawback)
@@ -21,6 +23,11 @@ effectObject.onEffectTick = function(target, effect)
 end
 
 effectObject.onEffectLose = function(target, effect)
+    target:delMod(xi.mod.ACC, 50 + accuracy) 
+    target:delMod(xi.mod.RACC, 50 + accuracy)
+    target:delMod(xi.mod.CRIT_HIT_RATE, power)
+
+    
 end
 
 return effectObject
