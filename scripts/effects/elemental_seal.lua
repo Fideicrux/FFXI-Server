@@ -5,8 +5,8 @@
 local effectObject = {}
 
 effectObject.onEffectGain = function(target, effect)
-    local level = player:getMainJob() == xi.job.BLM and player:getMainLvl() or 25 
-    local power = level * 5 + 25  
+    
+    local power = get:Power() * 4
 
     target:addMod(xi.mod.MATT, power)
     -- Overwrites

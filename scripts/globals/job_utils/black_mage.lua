@@ -43,7 +43,9 @@ xi.job_utils.black_mage.useCascade = function(player, target, ability)
 end
 
 xi.job_utils.black_mage.useElementalSeal = function(player, target, ability)
-    player:addStatusEffect(xi.effect.ELEMENTAL_SEAL, 1, 0, 60)
+    local level = player:getMainJob() == xi.job.BLM and player:getMainLvl() or 25 
+
+    player:addStatusEffect(xi.effect.ELEMENTAL_SEAL, level, 0, 60)
 
     return xi.effect.ELEMENTAL_SEAL
 end

@@ -6,7 +6,7 @@ local effectObject = {}
 
 effectObject.onEffectGain = function(target, effect)
     local jpValue = target:getJobPointLevel(xi.jp.TRICK_ATTACK_EFFECT)
-    local merit = player:getMerit(xi.merit.TRICK_ATTACK_RECAST)
+    local merit = target:getMerit(xi.merit.TRICK_ATTACK_RECAST)
 
     target:addMod(xi.mod.TRICK_ATK_AGI, jpValue + merit)
 end
@@ -16,7 +16,7 @@ end
 
 effectObject.onEffectLose = function(target, effect)
     local jpValue = target:getJobPointLevel(xi.jp.TRICK_ATTACK_EFFECT)
-    local merit = player:getMerit(xi.merit.TRICK_ATTACK_RECAST)
+    local merit = target:getMerit(xi.merit.TRICK_ATTACK_RECAST)
 
     target:delMod(xi.mod.TRICK_ATK_AGI, jpValue + merit)
 end
