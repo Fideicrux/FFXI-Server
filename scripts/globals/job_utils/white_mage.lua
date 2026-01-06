@@ -110,8 +110,7 @@ end
 xi.job_utils.white_mage.useDevotion = function(player, target, ability)
     -- Plus 5 percent mp recovery per extra devotion merit
     local meritPoints = player:getMerit(xi.merit.DEVOTION)
-    local meritBonusPercent = meritPoints * 5
-    local mpPercent = (25 + meritBonusPercent) / 100
+    local mpPercent = (meritPoints) / 100
 
     -- Calculate damage and MP based on MAX HP, not current HP
     local maxHP = player:getMaxHP()
