@@ -6,7 +6,9 @@ local effectObject = {}
 
 effectObject.onEffectGain = function(target, effect)
     local jpValue = target:getJobPointLevel(xi.jp.SNEAK_ATTACK_EFFECT)
-    target:addMod(xi.mod.SNEAK_ATK_DEX, jpValue)
+    local merit = player:getMerit(xi.merit.SNEAK_ATTACK_RECAST)
+
+    target:addMod(xi.mod.SNEAK_ATK_DEX, jpValue + merit)
 end
 
 effectObject.onEffectTick = function(target, effect)
@@ -14,7 +16,8 @@ end
 
 effectObject.onEffectLose = function(target, effect)
     local jpValue = target:getJobPointLevel(xi.jp.SNEAK_ATTACK_EFFECT)
-    target:delMod(xi.mod.SNEAK_ATK_DEX, jpValue)
+    local merit = player:getMerit(xi.merit.SNEAK_ATTACK_RECAST)
+    target:delMod(xi.mod.SNEAK_ATK_DEX, jpValue + merit)
 end
 
 return effectObject

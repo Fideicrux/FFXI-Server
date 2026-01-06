@@ -136,17 +136,21 @@ end
 -----------------------------------
 xi.job_utils.thief.useAccomplice = function(player, target, ability)
     target:transferEnmity(player, 50 + player:getMod(xi.mod.ACC_COLLAB_EFFECT), 20.6)
+    player:addStatusEffect(xi.effect.EVASION_BOOST, 50, 0, 30)
 end
 
 xi.job_utils.thief.useAssassinsCharge = function(player, target, ability)
     local merits = player:getMerit(xi.merit.ASSASSINS_CHARGE)
     local crit   = 0
+    local tatkrate = player:getMod(xi.mod.TRIPLE_ATTACK)
+    local duration = 120 - (merits)
+
 
     if player:getMod(xi.mod.AUGMENTS_ASSASSINS_CHARGE) > 0 then
-        crit = merits / 5
+        crit = merits
     end
 
-    player:addStatusEffect(xi.effect.ASSASSINS_CHARGE, merits - 5, 0, 60, 0, crit)
+    player:addStatusEffect(xi.effect.ASSASSINS_CHARGE, tatkrate, 0, duration, 0, crit)
 
     return xi.effect.ASSASSINS_CHARGE
 end
@@ -154,7 +158,8 @@ end
 xi.job_utils.thief.useBully = function(player, target, ability)
     local jpValue = player:getJobPointLevel(xi.jp.BULLY_EFFECT)
 
-    target:addStatusEffectEx(xi.effect.DOUBT, xi.effect.INTIMIDATE, 15 + jpValue, 0, 30)
+    target:addStatusEffectEx(xi.effect.DOUBT, xi.effect.INTIMIDATE, 25 + jpValue, 0, 30)
+    target:addStatusEffect(xi.effect.CRIT_HIT_EVASION_DOWN, 5, 0, 30)
 
 
     return xi.effect.INTIMIDATE
@@ -162,29 +167,16 @@ end
 
 xi.job_utils.thief.useCollaborator = function(player, target, ability)
     target:transferEnmity(player, 25 + player:getMod(xi.mod.ACC_COLLAB_EFFECT), 20.6)
+    player:addStatusEffect(xi.effect.EVASION_BOOST, 25, 0, 30)
 end
 
 xi.job_utils.thief.useConspirator = function(player, target, ability)
-    local subtleBlow = 0
-    local accuracy   = 0
+    local subtleBlow = 50
+    local attack   = 40
     local scale      = 1
     local mob        = player:getTarget()
 
     if mob then
-        local enmityList = mob:getEnmityList()
-
-        if enmityList and #enmityList > 0 then
-            if #enmityList < 6 then
-                subtleBlow = 20
-                accuracy = 15
-            elseif #enmityList < 18 then
-                subtleBlow = 50
-                accuracy = 25
-            else
-                subtleBlow = 50
-                accuracy = 49
-            end
-        end
 
         -- See if we should apply the effects to the player at the top of the hate list
         if mob:getTarget() == target then
@@ -192,7 +184,7 @@ xi.job_utils.thief.useConspirator = function(player, target, ability)
         end
     end
 
-    target:addStatusEffect(xi.effect.CONSPIRATOR, subtleBlow * scale, 0, 60, 0, accuracy * scale)
+    target:addStatusEffect(xi.effect.CONSPIRATOR, subtleBlow * scale, 0, 60, 0, attack * scale)
 
     return xi.effect.CONSPIRATOR
 end
@@ -255,7 +247,7 @@ xi.job_utils.thief.useFeint = function(player, target, ability)
     local bonus = player:getMod(xi.mod.AUGMENTS_FEINT) * player:getMerit(xi.merit.FEINT) / 25 -- Divide by the merit value (feint is 25) to get the number of merit points
 
     -- Subpower is the proc rate bonus for TH procs
-    player:addStatusEffect(xi.effect.FEINT, 150 + bonus, 0, 60, 0, player:getMerit(xi.merit.FEINT)) -- -150 Evasion base, 0% base TREASURE_HUNTER_PROC, every merit past 1 gives 25%
+    player:addStatusEffect(xi.effect.FEINT, 50 + bonus, 0, 65, 0, player:getMerit(xi.merit.FEINT)) -- -150 Evasion base, 0% base TREASURE_HUNTER_PROC, every merit past 1 gives 25%
 end
 
 xi.job_utils.thief.useFlee = function(player, target, ability)
@@ -337,6 +329,8 @@ xi.job_utils.thief.useMug = function(player, target, ability, action)
     -- TODO: Need to verify if there's a message associated with this
     local jpValue = player:getJobPointLevel(xi.jp.MUG_EFFECT)
 
+    target:addStatusEffect(xi.effect.ACCURACY_DOWN, 15, 0, 30)
+
     if jpValue > 0 and player:getMainJob() == xi.job.THF then
         local hpSteal = ((player:getStat(xi.mod.AGI) + player:getStat(xi.mod.DEX)) * jpValue) * 0.05
         local mobHP = target:getHP()
@@ -349,7 +343,9 @@ xi.job_utils.thief.useMug = function(player, target, ability, action)
         player:addHP(hpSteal)
     end
 
-    local mugChance = 90 + thfLevel - target:getMainLvl()
+    
+
+    local mugChance = 100 + thfLevel - target:getMainLvl()
 
     if
         target:isMob() and
@@ -378,7 +374,7 @@ xi.job_utils.thief.useMug = function(player, target, ability, action)
         else
             gil = gil * (1 + player:getMod(xi.mod.MUG_EFFECT))
 
-            player:addGil(gil)
+            player:addGil(gil * 500)
             target:setMobMod(xi.mobMod.MUG_GIL, target:getMobMod(xi.mobMod.MUG_GIL) - gil)
             ability:setMsg(xi.msg.basic.MUG_SUCCESS)
         end
@@ -408,10 +404,10 @@ xi.job_utils.thief.useSteal = function(player, target, ability, action)
     local thfLevel    = utils.getActiveJobLevel(player, xi.job.THF)
     local stolen      = action:getParam(target:getID())
     local stealMod    = player:getMod(xi.mod.STEAL)
-    local stealChance = 50 + stealMod * 2 + thfLevel - target:getMainLvl()
+    local stealChance = 100 + stealMod * 2 + thfLevel - target:getMainLvl()
 
     if stolen == 0 then
-        stolen = target:getStealItem()
+        stolen = target:getStealItem() 
     end
 
     if target:isMob() and math.random(1, 100) <= stealChance and stolen ~= 0 then
