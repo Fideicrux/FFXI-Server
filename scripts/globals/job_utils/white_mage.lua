@@ -148,7 +148,7 @@ end
 
 xi.job_utils.white_mage.useMartyr = function(player, target, ability)
     -- Plus 5 percent hp recovers per extra martyr merit
-    local meritBonus = player:getMerit(xi.merit.MARTYR) + 50
+    local meritBonus = player:getMerit(xi.merit.MARTYR) 
 
     local hpPercent = (200 + meritBonus) / 100
 
