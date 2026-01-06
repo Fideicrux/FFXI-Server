@@ -40,8 +40,8 @@ xi.combat.damage.consumeManaAddition = function(actor)
         return 0
     end
 
-    local bonusDamage = math.floor(actor:getMP() / 10)
-    actor:setMP(0)
+    local bonusDamage = math.floor(actor:getMP() / 2)
+    actor:delMP(bonusDamage)
     actor:delStatusEffect(xi.effect.CONSUME_MANA)
 
     return bonusDamage
