@@ -64,13 +64,9 @@ xi.job_utils.monk.useChakra = function(player, target, ability)
     player:setHP(player:getHP() + recoveryAmount)
 
     local merits = player:getMerit(xi.merit.INVIGORATE)
-    if merits > 0 then
-        if player:hasStatusEffect(xi.effect.REGEN) then
-            player:delStatusEffect(xi.effect.REGEN)
-        end
-
-        player:addStatusEffect(xi.effect.REGEN, 10, 0, merits, 0, 0, 1)
-    end
+    
+    player:setTP(player:getTP() + merits)
+    
 
     return recoveryAmount
 end
@@ -78,9 +74,6 @@ end
 xi.job_utils.monk.useChiBlast = function(player, target, ability)
     local boost = player:getStatusEffect(xi.effect.BOOST)
     local multiplier = 1.6
-    if boost ~= nil then
-        multiplier = (boost:getPower() / 100) * 4 -- power is the raw % atk boost
-    end
 
     local dmg = math.floor(player:getStat(xi.mod.VIT) * (0.5 + (math.random() / 2))) * multiplier
 
@@ -105,9 +98,10 @@ end
 xi.job_utils.monk.useDodge = function(player, target, ability)
     local jpLevel  = target:getJobPointLevel(xi.jp.DODGE_EFFECT)
     local dodgeMod = target:getMod(xi.mod.DODGE_EFFECT)
+    local merits = player:getMerit(xi.merit.DODGE_RECAST) * -100
     -- Remove conflicting stances
   
-    player:addStatusEffect(xi.effect.DODGE, jpLevel + dodgeMod, 0, 60)
+    player:addStatusEffect(xi.effect.DODGE, jpLevel + dodgeMod, 0, 60, 0, merits)
     
 
     return xi.effect.DODGE
@@ -116,11 +110,12 @@ end
 xi.job_utils.monk.useFocus = function(player, target, ability)
     local jpLevel  = target:getJobPointLevel(xi.jp.FOCUS_EFFECT)
     local focusMod = target:getMod(xi.mod.FOCUS_EFFECT)
+    local merits = player:getMerit(xi.merit.FOCUS_RECAST)
     -- Remove conflicting stances
     player:delStatusEffect(xi.effect.COUNTERSTANCE)
     player:delStatusEffect(xi.effect.FOCUS)
     --Apply stance
-    player:addStatusEffect(xi.effect.FOCUS, jpLevel + focusMod, 0, 7200)
+    player:addStatusEffect(xi.effect.FOCUS, jpLevel + focusMod, 0, 7200, 0, merits)
 
     return xi.effect.FOCUS
 end
@@ -172,7 +167,7 @@ xi.job_utils.monk.useMantra = function(player, target, ability)
     local merits = player:getMerit(xi.merit.MANTRA) -- This is unused below, fix?
     
     target:delStatusEffect(xi.effect.MAX_HP_BOOST) -- TODO: confirm which versions of HP boost mantra can overwrite
-    target:addStatusEffect(xi.effect.MAX_HP_BOOST, 20, 0, 180)
+    target:addStatusEffect(xi.effect.MAX_HP_BOOST, merits, 0, 60)
     
     local restore = math.floor(player:getMaxHP() * 0.2)
     target:addHP(restore)

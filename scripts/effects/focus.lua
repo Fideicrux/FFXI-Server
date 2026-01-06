@@ -15,12 +15,15 @@ effectObject.onEffectGain = function(target, effect)
 
     -- https://www.bg-wiki.com/ffxi/Focus
     effect:addMod(xi.mod.CRITHITRATE, math.floor(monkLevel * 0.2))
+
+    target:addMod(xi.SUBTLE_BLOW_EFFECT, effect:getSubPower())
 end
 
 effectObject.onEffectTick = function(target, effect)
 end
 
 effectObject.onEffectLose = function(target, effect)
+    target:delMod(xi.SUBTLE_BLOW_EFFECT, effect:getSubPower())
 end
 
 return effectObject
