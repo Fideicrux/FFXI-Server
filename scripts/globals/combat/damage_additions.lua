@@ -18,10 +18,10 @@ xi.combat.damage.souleaterAddition = function(actor)
     local souleaterEffect        = actor:getMaxGearMod(xi.mod.SOULEATER_EFFECT) / 100
     local souleaterEffectII      = actor:getMod(xi.mod.SOULEATER_EFFECT_II) / 100
     local stalwartSoulMultiplier = 1 - actor:getMod(xi.mod.STALWART_SOUL) / 100
-    local bonusDamage            = math.floor(actor:getHP() * (0.1 + souleaterEffect + souleaterEffectII))
+    local bonusDamage            = math.floor(actor:getHP() * (0.2 + souleaterEffect + souleaterEffectII))
 
     if bonusDamage > 0 then
-        local selfDamage = bonusDamage * stalwartSoulMultiplier
+        local selfDamage = (bonusDamage * stalwartSoulMultiplier) / 4
 
         selfDamage = utils.handleStoneskin(actor, selfDamage)
 
