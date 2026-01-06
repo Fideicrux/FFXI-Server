@@ -156,6 +156,7 @@ xi.job_utils.thief.useBully = function(player, target, ability)
 
     target:addStatusEffectEx(xi.effect.DOUBT, xi.effect.INTIMIDATE, 15 + jpValue, 0, 30)
 
+
     return xi.effect.INTIMIDATE
 end
 
@@ -254,7 +255,7 @@ xi.job_utils.thief.useFeint = function(player, target, ability)
     local bonus = player:getMod(xi.mod.AUGMENTS_FEINT) * player:getMerit(xi.merit.FEINT) / 25 -- Divide by the merit value (feint is 25) to get the number of merit points
 
     -- Subpower is the proc rate bonus for TH procs
-    player:addStatusEffect(xi.effect.FEINT, 150 + bonus, 0, 60, 0, player:getMerit(xi.merit.FEINT) - 25) -- -150 Evasion base, 0% base TREASURE_HUNTER_PROC, every merit past 1 gives 25%
+    player:addStatusEffect(xi.effect.FEINT, 150 + bonus, 0, 60, 0, player:getMerit(xi.merit.FEINT)) -- -150 Evasion base, 0% base TREASURE_HUNTER_PROC, every merit past 1 gives 25%
 end
 
 xi.job_utils.thief.useFlee = function(player, target, ability)
