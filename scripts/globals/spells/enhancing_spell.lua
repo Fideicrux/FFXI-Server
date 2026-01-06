@@ -298,25 +298,28 @@ end
 -- Enhancing Spell Final Potency function.
 xi.spells.enhancing.calculateEnhancingFinalPower = function(caster, target, spell, basePower, spellGroup, tier, spellEffect)
     local finalPower = basePower
+
     ------------------------------------------------
-    -- STYMIE: Doubles potency of enhancing magic while active
+    -- STYMIE: Custom potency bonuses for enhancing magic
     ------------------------------------------------
     if caster:hasStatusEffect(xi.effect.STYMIE) and basePower > 0 then
-        -- Exclude Protect / Shell
-        local excluded =
-        {
-            [xi.effect.PROTECT] = true,
-            [xi.effect.SHELL]   = true,
-        }
+        local multiplier = 2.0 -- Default: Double potency
 
-        -- Detect Enspells (I & II)
-        local isEnspell =
+        -- Check for Protect and Shell (20% increase)
+        local isProtectShell = (spellEffect == xi.effect.PROTECT or spellEffect == xi.effect.SHELL)
+
+        -- Detect Enspells I & II (50% increase)
+        local isEnspell = 
             (spellEffect >= xi.effect.ENFIRE and spellEffect <= xi.effect.ENWATER) or
             (spellEffect >= xi.effect.ENFIRE_II and spellEffect <= xi.effect.ENWATER_II)
 
-        if not excluded[spellEffect] and not isEnspell then
-            finalPower = finalPower * 2
+        if isProtectShell then
+            multiplier = 1.2
+        elseif isEnspell then
+            multiplier = 1.5
         end
+
+        finalPower = math.floor(finalPower * multiplier)
     end
 
         ------------------------------------------------

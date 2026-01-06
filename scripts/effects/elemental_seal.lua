@@ -6,7 +6,7 @@ local effectObject = {}
 
 effectObject.onEffectGain = function(target, effect)
     
-    local power = get:Power() * 4
+    local power = effect:getPower() * 4
 
     target:addMod(xi.mod.MATT, power)
     -- Overwrites
@@ -19,8 +19,8 @@ effectObject.onEffectTick = function(target, effect)
 end
 
 effectObject.onEffectLose = function(target, effect)
-    local level = player:getMainJob() == xi.job.BLM and player:getMainLvl() or 25 
-    local power = level + 25 
+    local level = target:getMainJob() == xi.job.BLM and target:getMainLvl() or 25 
+    local power = level + 25
 
     target:delMod(xi.mod.MATT, power)
 end
