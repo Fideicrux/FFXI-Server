@@ -405,7 +405,7 @@ xi.job_utils.thief.useSteal = function(player, target, ability, action)
     local stolen      = action:getParam(target:getID())
     local stealMod    = player:getMod(xi.mod.STEAL)
     local stealChance = 100 + stealMod * 2 + thfLevel - target:getMainLvl()
-    local stolenbuff = 0
+    local stolenbuff  = 0
 
     if stolen == 0 then
         stolen = target:getStealItem() 
@@ -435,7 +435,7 @@ xi.job_utils.thief.useSteal = function(player, target, ability, action)
 
                 stolenbuff = player:stealStatusEffect(target)
                 if stolenbuff ~= 0 then
-                    ability:setMsg(xi.msg.basic.STEAL_EFFECT)
+                    ability:setMsg(xi.msg.basic.STEAL_EFFECT, xi.msg.basic.STEAL_SUCCESS)
                     action:setAnimation(target:getID(), 181)
 
                     if stolenbuff == xi.effect.COPY_IMAGE then
@@ -466,7 +466,7 @@ xi.job_utils.thief.useSteal = function(player, target, ability, action)
         end
     end
 
-    return stolen, stolenbuff
+    return stolenbuff, stolen
 end
 
 xi.job_utils.thief.useTrickAttack = function(player, target, ability)
