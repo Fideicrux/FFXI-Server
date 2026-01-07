@@ -253,7 +253,7 @@ xi.job_utils.thief.useFlee = function(player, target, ability)
         player:delStatusEffect(xi.effect.WEIGHT)
     end
 
-    player:addStatusEffect(xi.effect.FLEE, 40, 0, duration)
+    player:addStatusEffect(xi.effect.FLEE, 5000, 0, duration)
 
     return xi.effect.FLEE
 end
