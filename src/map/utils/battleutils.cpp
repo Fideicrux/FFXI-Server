@@ -38,7 +38,6 @@
 
 #include "action/action.h"
 #include "ai/ai_container.h"
-#include "states/magic_state.h"
 #include "ai/controllers/pet_controller.h"
 #include "ai/controllers/player_charm_controller.h"
 #include "ai/states/magic_state.h"
