@@ -32,7 +32,8 @@ enum MAGICFLAGS
 {
     MAGICFLAGS_NONE         = 0,
     MAGICFLAGS_IGNORE_MP    = 1,
-    MAGICFLAGS_IGNORE_TOOLS = 2
+    MAGICFLAGS_IGNORE_TOOLS = 2,
+    MAGICFLAGS_INSTANT_CAST = 4
 };
 
 class CMagicState : public CState

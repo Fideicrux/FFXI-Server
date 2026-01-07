@@ -45,6 +45,8 @@ CMagicState::CMagicState(CBattleEntity* PEntity, uint16 targid, SpellID spellid,
 , m_PSpell(nullptr)
 , m_flags(flags)
 {
+    m_instantCast = (m_flags & MAGICFLAGS_INSTANT_CAST) != 0;
+
     if (auto PMob = dynamic_cast<CMobEntity*>(m_PEntity))
     {
         if (PMob->getMobMod(MOBMOD_NO_SPELL_COST) > 0)
@@ -116,8 +118,9 @@ CMagicState::CMagicState(CBattleEntity* PEntity, uint16 targid, SpellID spellid,
     // TODO: weaponskill lua object
     m_PEntity->PAI->EventHandler.triggerListener("MAGIC_START", m_PEntity, m_PSpell.get(), &action);
 
-    // if spell:setFlag(xi.magic.spellFlag.NO_START_MSG) is called, don't give spell start packet
-    if (GetSpell()->getFlag() & SPELLFLAG_NO_START_MSG)
+    // For instant casts (e.g. Quick Magic or procs), suppress the start message.
+    // Also respect spell:setFlag(xi.magic.spellFlag.NO_START_MSG).
+    if (m_instantCast || (GetSpell()->getFlag() & SPELLFLAG_NO_START_MSG))
     {
         action.ForEachResult([&](action_result_t& result)
                              {

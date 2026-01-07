@@ -66,6 +66,7 @@ public:
     /* Internal Controller functions */
     bool Internal_Engage(uint16 targetid);
     bool Internal_Cast(uint16 targetid, SpellID spellid);
+    bool Internal_CastInstant(uint16 targetid, SpellID spellid, uint8 flags = 0);
     bool Internal_ChangeTarget(uint16 targetid);
     bool Internal_Disengage();
     bool Internal_WeaponSkill(uint16 targid, uint16 wsid);
