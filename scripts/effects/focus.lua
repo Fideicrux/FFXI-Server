@@ -9,7 +9,7 @@ local effectObject = {}
 effectObject.onEffectGain = function(target, effect)
     local bonusPower = effect:getPower()
     local monkLevel =(utils.getActiveJobLevel(target, xi.job.MNK) + 1) * 1.32
-    local merits = target:getMerit(xi.merit.FOCUS_RECAST)
+
 
     -- https://wiki.ffo.jp/html/2841.html
     effect:addMod(xi.mod.ACC, monkLevel + bonusPower)
@@ -17,7 +17,7 @@ effectObject.onEffectGain = function(target, effect)
     -- https://www.bg-wiki.com/ffxi/Focus
     effect:addMod(xi.mod.CRITHITRATE, math.floor(monkLevel * 0.2))
 
-    effect:addMod(xi.mod.SUBTLE_BLOW, merits)
+    effect:addMod(xi.mod.SUBTLE_BLOW, effect:getSubPower())
 end
 
 effectObject.onEffectTick = function(target, effect)
