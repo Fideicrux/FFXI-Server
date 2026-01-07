@@ -435,7 +435,8 @@ xi.job_utils.thief.useSteal = function(player, target, ability, action)
 
                 stolenbuff = player:stealStatusEffect(target)
                 if stolenbuff ~= 0 then
-                    ability:setMsg(xi.msg.basic.STEAL_EFFECT, xi.msg.basic.STEAL_SUCCESS)
+                    ability:setMsg(xi.msg.basic.STEAL_EFFECT)
+                    target:triggerListener('EFFECT_STOLEN', target, player, stolenbuff)
                     action:setAnimation(target:getID(), 181)
 
                     if stolenbuff == xi.effect.COPY_IMAGE then
