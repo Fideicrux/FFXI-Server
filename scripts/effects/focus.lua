@@ -17,7 +17,7 @@ effectObject.onEffectGain = function(target, effect)
     -- https://www.bg-wiki.com/ffxi/Focus
     effect:addMod(xi.mod.CRITHITRATE, math.floor(monkLevel * 0.2))
 
-    effect:addMod(xi.SUBTLE_BLOW, merits)
+    effect:addMod(xi.mod.SUBTLE_BLOW, merits)
 end
 
 effectObject.onEffectTick = function(target, effect)
