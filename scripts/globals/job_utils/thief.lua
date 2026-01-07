@@ -251,14 +251,14 @@ xi.job_utils.thief.useFeint = function(player, target, ability)
 end
 
 xi.job_utils.thief.useFlee = function(player, target, ability)
-    local duration = 30 + player:getMod(xi.mod.FLEE_DURATION)
+    local duration = 60 + player:getMod(xi.mod.FLEE_DURATION)
 
     -- TODO: Flee will not override all types of weight effect. Find out which aren't overriden.
     if player:hasStatusEffect(xi.effect.WEIGHT) then
         player:delStatusEffect(xi.effect.WEIGHT)
     end
 
-    player:addStatusEffect(xi.effect.FLEE, 10000, 0, duration)
+    player:addStatusEffect(xi.effect.FLEE, 12000, 0, duration)
 
     return xi.effect.FLEE
 end
