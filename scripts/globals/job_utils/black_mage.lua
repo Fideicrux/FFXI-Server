@@ -64,7 +64,7 @@ xi.job_utils.black_mage.useManafont = function(player, target, ability)
 end
 
 xi.job_utils.black_mage.useManaWall = function(player, target, ability)
-    player:addStatusEffect(xi.effect.MANA_WALL, 1, 0, 300)
+    player:addStatusEffect(xi.effect.MANA_WALL, 1, 0, 60)
 
     return xi.effect.MANA_WALL
 end
