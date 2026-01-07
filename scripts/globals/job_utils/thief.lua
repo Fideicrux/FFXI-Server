@@ -13,7 +13,8 @@ xi.job_utils.thief = xi.job_utils.thief or {}
 
 local despoilDebuffs =
 {
-    xi.effect.SLOW
+    xi.effect.SLOW,
+    xi.effect.MAGIC_ATK_DOWN
 }
 
 local stealableSPEffects =
