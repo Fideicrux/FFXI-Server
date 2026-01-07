@@ -948,7 +948,8 @@ int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullp
             return mana + addHP(mana - amount);
         }
         else {
-            return addMP(-mana);
+            // Consume only the damage amount from MP (not all MP)
+            return addMP(-amount);
         }
     }
 
