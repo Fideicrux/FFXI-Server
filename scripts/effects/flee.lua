@@ -5,7 +5,7 @@
 local effectObject = {}
 
 effectObject.onEffectGain = function(target, effect)
-    effect:addMod(xi.mod.MOVE_SPEED_FLEE, effect:getPower())
+    effect:addMod(xi.mod.MOVE_SPEED_FLEE, 5000)
 end
 
 effectObject.onEffectTick = function(target, effect)
