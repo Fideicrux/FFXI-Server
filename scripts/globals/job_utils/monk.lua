@@ -123,12 +123,11 @@ end
 xi.job_utils.monk.useFocus = function(player, target, ability)
     local jpLevel  = target:getJobPointLevel(xi.jp.FOCUS_EFFECT)
     local focusMod = target:getMod(xi.mod.FOCUS_EFFECT)
-    local merits = player:getMerit(xi.merit.FOCUS_RECAST)
     -- Remove conflicting stances
     player:delStatusEffect(xi.effect.COUNTERSTANCE)
     player:delStatusEffect(xi.effect.FOCUS)
     --Apply stance
-    player:addStatusEffect(xi.effect.FOCUS, jpLevel + focusMod, 0, 7200, 0, merits)
+    player:addStatusEffect(xi.effect.FOCUS, jpLevel + focusMod, 0, 7200)
 
     return xi.effect.FOCUS
 end
