@@ -1404,7 +1404,8 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_re
                 // Tier II elemental enspells also have a chance to proc an instant, no-MP tier-2 spell on hit
                 if (enspell > ENSPELL_I_DARK && isFirstSwing)
                 {
-                    const int32 procChance = std::clamp(PAttacker->getMod(Mod::ENSPELL_PROC_CHANCE), 0, 100);
+                    const int32 enspellProcChanceMod = static_cast<int32>(PAttacker->getMod(Mod::ENSPELL_PROC_CHANCE));
+                    const int32 procChance           = std::clamp(enspellProcChanceMod, 0, 100);
                     if (procChance > 0 && procChance > xirand::GetRandomNumber(100))
                     {
                         SpellID spellToCast = static_cast<SpellID>(0);
