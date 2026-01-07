@@ -938,6 +938,20 @@ int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullp
         }
     }
 
+    if (m_mjob == JOB_BLM && this->StatusEffectContainer->HasStatusEffect(EFFECT_MANA_WALL)) {
+        // If Manafont is active, they should take half damage (right now it is total damage, could only do damage to mana)
+        amount = this->StatusEffectContainer->HasStatusEffect(EFFECT_MANAFONT) ? amount / 2 : amount;
+        int32 mana = health.mp;
+
+        if (amount >= mana) { // Overflow into HP
+            addMP(-mana); // Could maybe do health.mp = 0 here, but idk
+            return mana + addHP(mana - amount);
+        }
+        else {
+            return addMP(-mana);
+        }
+    }
+
     return addHP(-amount);
 }
 
