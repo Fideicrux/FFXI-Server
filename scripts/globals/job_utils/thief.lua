@@ -411,7 +411,7 @@ xi.job_utils.thief.useSteal = function(player, target, ability, action)
         ability:setMsg(xi.msg.basic.STEAL_SUCCESS) -- Item stolen successfully
         --target:triggerListener('ITEM_STOLEN', target, player, stolen)
         -- Aura Steal does not trigger on successful item steal
-        return stolen
+        --return stolen
     else
         ability:setMsg(xi.msg.basic.STEAL_FAIL) -- Failed to steal
         action:setAnimation(target:getID(), 182)
