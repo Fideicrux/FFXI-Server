@@ -414,7 +414,7 @@ xi.job_utils.thief.useSteal = function(player, target, ability, action)
         player:addItem(stolen)
         target:itemStolen()
         ability:setMsg(xi.msg.basic.STEAL_SUCCESS) -- Item stolen successfully
-        target:triggerListener('ITEM_STOLEN', target, player, stolen)
+        --target:triggerListener('ITEM_STOLEN', target, player, stolen)
         -- Aura Steal does not trigger on successful item steal
         return stolen
     else
@@ -428,7 +428,7 @@ xi.job_utils.thief.useSteal = function(player, target, ability, action)
         local resist = xi.combat.magicHitRate.calculateResistRate(player, target, 0, 0, 0, xi.element.NONE, xi.mod.INT, 0, 0)
         -- local effectStealSuccess = false
         if resist >= 0.25 then
-            local auraStealChance = math.min(player:getMerit(xi.merit.AURA_STEAL), 95)
+            local auraStealChance = math.min(player:getMerit(xi.merit.AURA_STEAL), 100)
             if math.random(1, 100) <= auraStealChance then
                 local targetShadows = target:getMod(xi.mod.UTSUSEMI)
 
