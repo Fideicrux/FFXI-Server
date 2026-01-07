@@ -80,63 +80,63 @@ static const MeritCategoryInfo_t meritCatInfo[] = {
     { 7, 105, 1 },  // MCATEGORY_ATTRIBUTES  catNumber 01
     { 19, 152, 2 }, // MCATEGORY_COMBAT      catNumber 02
     { 14, 112, 4 }, // MCATEGORY_MAGIC       catNumber 03
-    { 5, 10, 5 },   // MCATEGORY_OTHERS      catNumber 04
+    { 5, 25, 5 },   // MCATEGORY_OTHERS      catNumber 04
 
-    { 5, 10, 6 }, // MCATEGORY_WAR_1       catNumber 05
-    { 5, 10, 6 }, // MCATEGORY_MNK_1       catNumber 06
-    { 5, 10, 6 }, // MCATEGORY_WHM_1       catNumber 07
-    { 7, 10, 6 }, // MCATEGORY_BLM_1       catNumber 08
-    { 7, 10, 6 }, // MCATEGORY_RDM_1       catNumber 09
-    { 5, 10, 6 }, // MCATEGORY_THF_1       catNumber 10
-    { 5, 10, 6 }, // MCATEGORY_PLD_1       catNumber 11
-    { 5, 10, 6 }, // MCATEGORY_DRK_1       catNumber 12
-    { 5, 10, 6 }, // MCATEGORY_BST_1       catNumber 13
-    { 5, 10, 6 }, // MCATEGORY_BRD_1       catNumber 14
-    { 5, 10, 6 }, // MCATEGORY_RNG_1       catNumber 15
-    { 5, 10, 6 }, // MCATEGORY_SAM_1       catNumber 16
-    { 7, 10, 6 }, // MCATEGORY_NIN_1       catNumber 17
-    { 5, 10, 6 }, // MCATEGORY_DRG_1       catNumber 18
-    { 5, 10, 6 }, // MCATEGORY_SMN_1       catNumber 19
-    { 5, 10, 6 }, // MCATEGORY_BLU_1       catNumber 20
-    { 5, 10, 6 }, // MCATEGORY_COR_1       catNumber 21
-    { 5, 10, 6 }, // MCATEGORY_PUP_1       catNumber 22
-    { 4, 10, 6 }, // MCATEGORY_DNC_1       catNumber 23
-    { 4, 10, 6 }, // MCATEGORY_SCH_1       catNumber 24
+    { 5, 25, 6 }, // MCATEGORY_WAR_1       catNumber 05
+    { 5, 25, 6 }, // MCATEGORY_MNK_1       catNumber 06
+    { 5, 25, 6 }, // MCATEGORY_WHM_1       catNumber 07
+    { 7, 35, 6 }, // MCATEGORY_BLM_1       catNumber 08
+    { 7, 35, 6 }, // MCATEGORY_RDM_1       catNumber 09
+    { 5, 25, 6 }, // MCATEGORY_THF_1       catNumber 10
+    { 5, 25, 6 }, // MCATEGORY_PLD_1       catNumber 11
+    { 5, 25, 6 }, // MCATEGORY_DRK_1       catNumber 12
+    { 5, 25, 6 }, // MCATEGORY_BST_1       catNumber 13
+    { 5, 25, 6 }, // MCATEGORY_BRD_1       catNumber 14
+    { 5, 25, 6 }, // MCATEGORY_RNG_1       catNumber 15
+    { 5, 25, 6 }, // MCATEGORY_SAM_1       catNumber 16
+    { 7, 35, 6 }, // MCATEGORY_NIN_1       catNumber 17
+    { 5, 25, 6 }, // MCATEGORY_DRG_1       catNumber 18
+    { 5, 25, 6 }, // MCATEGORY_SMN_1       catNumber 19
+    { 5, 25, 6 }, // MCATEGORY_BLU_1       catNumber 20
+    { 5, 25, 6 }, // MCATEGORY_COR_1       catNumber 21
+    { 5, 25, 6 }, // MCATEGORY_PUP_1       catNumber 22
+    { 4, 20, 6 }, // MCATEGORY_DNC_1       catNumber 23
+    { 4, 20, 6 }, // MCATEGORY_SCH_1       catNumber 24
 
-    { 14, 15, 8 }, // MCATEGORY_WS          catNumber 25
+    { 14, 70, 8 }, // MCATEGORY_WS          catNumber 25
 
-    { 5, 10, 6 }, // MCATEGORY_GEO_1       catNumber 26
-    { 5, 10, 6 }, // MCATEGORY_RUN_1       catNumber 27
+    { 5, 25, 6 }, // MCATEGORY_GEO_1       catNumber 26
+    { 5, 25, 6 }, // MCATEGORY_RUN_1       catNumber 27
 
     { 0, 0, 8 }, // MCATEGORY_UNK_0       catNumber 28
     { 0, 0, 8 }, // MCATEGORY_UNK_1       catNumber 29
     { 0, 0, 8 }, // MCATEGORY_UNK_2       catNumber 30
 
-    { 4, 10, 7 },  // MCATEGORY_WAR_2       catNumber 31
-    { 4, 10, 7 },  // MCATEGORY_MNK_2       catNumber 32
-    { 6, 10, 7 },  // MCATEGORY_WHM_2       catNumber 33
-    { 12, 10, 7 }, // MCATEGORY_BLM_2       catNumber 34
-    { 12, 10, 7 }, // MCATEGORY_RDM_2       catNumber 35
-    { 4, 10, 7 },  // MCATEGORY_THF_2       catNumber 36
-    { 4, 10, 7 },  // MCATEGORY_PLD_2       catNumber 37
-    { 4, 10, 7 },  // MCATEGORY_DRK_2       catNumber 38
-    { 4, 10, 7 },  // MCATEGORY_BST_2       catNumber 39
-    { 6, 10, 7 },  // MCATEGORY_BRD_2       catNumber 40
-    { 4, 10, 7 },  // MCATEGORY_RNG_2       catNumber 41
-    { 4, 10, 7 },  // MCATEGORY_SAM_2       catNumber 42
-    { 12, 10, 7 }, // MCATEGORY_NIN_2       catNumber 43
-    { 4, 10, 7 },  // MCATEGORY_DRG_2       catNumber 44
-    { 6, 10, 7 },  // MCATEGORY_SMN_2       catNumber 45
-    { 4, 10, 7 },  // MCATEGORY_BLU_2       catNumber 46
-    { 4, 10, 7 },  // MCATEGORY_COR_2       catNumber 47
-    { 4, 10, 7 },  // MCATEGORY_PUP_2       catNumber 48
-    { 4, 10, 7 },  // MCATEGORY_DNC_2       catNumber 49
-    { 6, 10, 7 },  // MCATEGORY_SHC_2       catNumber 50
+    { 4, 20, 7 },  // MCATEGORY_WAR_2       catNumber 31
+    { 4, 20, 7 },  // MCATEGORY_MNK_2       catNumber 32
+    { 6, 20, 7 },  // MCATEGORY_WHM_2       catNumber 33
+    { 12, 30, 7 }, // MCATEGORY_BLM_2       catNumber 34
+    { 12, 30, 7 }, // MCATEGORY_RDM_2       catNumber 35
+    { 4, 20, 7 },  // MCATEGORY_THF_2       catNumber 36
+    { 4, 20, 7 },  // MCATEGORY_PLD_2       catNumber 37
+    { 4, 20, 7 },  // MCATEGORY_DRK_2       catNumber 38
+    { 4, 20, 7 },  // MCATEGORY_BST_2       catNumber 39
+    { 6, 30, 7 },  // MCATEGORY_BRD_2       catNumber 40
+    { 4, 20, 7 },  // MCATEGORY_RNG_2       catNumber 41
+    { 4, 20, 7 },  // MCATEGORY_SAM_2       catNumber 42
+    { 12, 30, 7 }, // MCATEGORY_NIN_2       catNumber 43
+    { 4, 20, 7 },  // MCATEGORY_DRG_2       catNumber 44
+    { 6, 30, 7 },  // MCATEGORY_SMN_2       catNumber 45
+    { 4, 20, 7 },  // MCATEGORY_BLU_2       catNumber 46
+    { 4, 20, 7 },  // MCATEGORY_COR_2       catNumber 47
+    { 4, 20, 7 },  // MCATEGORY_PUP_2       catNumber 48
+    { 4, 20, 7 },  // MCATEGORY_DNC_2       catNumber 49
+    { 6, 30, 7 },  // MCATEGORY_SHC_2       catNumber 50
 
     { 0, 0, 7 }, // MCATEGORY_UNK_3       catNumber 51
 
-    { 4, 10, 7 }, // MCATEGORY_GEO_2       catNumber 52
-    { 4, 10, 7 }, // MCATEGORY_RUN_2       catNumber 53
+    { 4, 20, 7 }, // MCATEGORY_GEO_2       catNumber 52
+    { 4, 20, 7 }, // MCATEGORY_RUN_2       catNumber 53
 };
 // clang-format on
 
