@@ -13,12 +13,6 @@ xi.job_utils.thief = xi.job_utils.thief or {}
 
 local despoilDebuffs =
 {
-    xi.effect.EVASION_DOWN,
-    xi.effect.DEFENSE_DOWN,
-    xi.effect.ACCURACY_DOWN,
-    xi.effect.ATTACK_DOWN,
-    xi.effect.MAGIC_ATK_DOWN,
-    xi.effect.MAGIC_DEF_DOWN,
     xi.effect.SLOW
 }
 
@@ -192,7 +186,7 @@ end
 xi.job_utils.thief.useDespoil = function(player, target, ability, action)
     local level         = utils.getActiveJobLevel(player, xi.job.THF)
     local despoilMod    = player:getMod(xi.mod.DESPOIL)
-    local despoilChance = 50 + despoilMod * 2 + level - target:getMainLvl() -- Same math as Steal
+    local despoilChance = 100 + despoilMod * 2 + level - target:getMainLvl() -- Same math as Steal
 
     -- TODO: Need to verify if there's a message associated with this
     local jpValue = player:getJobPointLevel(xi.jp.DESPOIL_EFFECT)
