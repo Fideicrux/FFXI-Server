@@ -38,6 +38,7 @@
 
 #include "action/action.h"
 #include "ai/ai_container.h"
+#include "states/magic_state.h"
 #include "ai/controllers/pet_controller.h"
 #include "ai/controllers/player_charm_controller.h"
 #include "ai/states/magic_state.h"
@@ -1398,7 +1399,49 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_re
                     Action->addEffectMessage = MsgBasic::ADD_EFFECT_ADDITIONAL_DAMAGE;
                 }
 
+                // Enspell damage always applies when the additional effect activates
                 PDefender->takeDamage(Action->addEffectParam, PAttacker, ATTACK_TYPE::MAGICAL, GetEnspellDamageType((ENSPELL)enspell));
+
+                // Tier II elemental enspells also have a chance to proc an instant, no-MP tier-2 spell on hit
+                if (enspell > ENSPELL_I_DARK && isFirstSwing)
+                {
+                    const int32 procChance = std::clamp(PAttacker->getMod(Mod::ENSPELL_PROC_CHANCE), 0, 100);
+                    if (procChance > 0 && procChance > xirand::GetRandomNumber(100))
+                    {
+                        SpellID spellToCast = static_cast<SpellID>(0);
+                        uint8   element     = enspell - 8;
+
+                        switch (element)
+                        {
+                            case ELEMENT_FIRE:
+                                spellToCast = SpellID::Fire_II;
+                                break;
+                            case ELEMENT_ICE:
+                                spellToCast = SpellID::Blizzard_II;
+                                break;
+                            case ELEMENT_WIND:
+                                spellToCast = SpellID::Aero_II;
+                                break;
+                            case ELEMENT_EARTH:
+                                spellToCast = SpellID::Stone_II;
+                                break;
+                            case ELEMENT_THUNDER:
+                                spellToCast = SpellID::Thunder_II;
+                                break;
+                            case ELEMENT_WATER:
+                                spellToCast = SpellID::Water_II;
+                                break;
+                            default:
+                                break;
+                        }
+
+                        if (spellToCast != static_cast<SpellID>(0) && PAttacker->PAI)
+                        {
+                            // Use MAGICFLAGS_IGNORE_MP so this proc doesn't consume MP
+                            PAttacker->PAI->Internal_CastInstant(PDefender->targid, spellToCast, MAGICFLAGS_IGNORE_MP);
+                        }
+                    }
+                }
             }
         }
     }
@@ -5832,6 +5875,11 @@ timer::duration CalculateSpellCastTime(CBattleEntity* PEntity, CMagicState* PMag
 {
     CSpell* PSpell = PMagicState->GetSpell();
     if (PSpell == nullptr)
+    {
+        return 0s;
+    }
+
+    if (PMagicState->IsInstantCast())
     {
         return 0s;
     }

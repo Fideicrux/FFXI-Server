@@ -237,6 +237,28 @@ bool CAIContainer::Internal_Cast(uint16 targetid, SpellID spellid)
     return false;
 }
 
+bool CAIContainer::Internal_CastInstant(uint16 targetid, SpellID spellid, uint8 flags)
+{
+    auto* entity = dynamic_cast<CBattleEntity*>(PEntity);
+    if (entity)
+    {
+        if (auto* target = entity->GetEntity(targetid); target && target->PAI->IsUntargetable())
+        {
+            return false;
+        }
+
+        flags |= MAGICFLAGS_INSTANT_CAST;
+
+        if (!ChangeState<CMagicState>(entity, targetid, spellid, flags))
+        {
+            return false;
+        }
+
+        return true;
+    }
+    return false;
+}
+
 bool CAIContainer::Internal_ChangeTarget(uint16 targetid)
 {
     auto* entity = dynamic_cast<CBattleEntity*>(PEntity);

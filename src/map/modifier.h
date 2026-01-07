@@ -1134,6 +1134,9 @@ enum class Mod
     // 570 through 825 used by WS DMG mods these are not spares.
     //
     // SPARE IDs: 1180 and onward
+
+    // Enspells
+    ENSPELL_PROC_CHANCE = 1180, // Chance (percent-like) for Enspell II to proc an instant tier-2 spell on hit
 };
 
 // temporary workaround for using enum class as unordered_map key until compilers support it

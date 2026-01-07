@@ -474,6 +474,7 @@ xi.mod =
     SPIKES                          = 342,
     ENSPELL_DMG                     = 343,
     ENSPELL_CHANCE                  = 856,
+    ENSPELL_PROC_CHANCE             = 1180, -- Chance (percent-like) for Enspell II to proc an instant tier-2 spell on hit
     SPIKES_DMG                      = 344,
     TP_BONUS                        = 345,
     SPIKES_DMG_BONUS                = 1079, -- Increases Blaze/Ice/Shock spikes damage by percentage (e.g. mod value 50 = +50% spikes damage)
