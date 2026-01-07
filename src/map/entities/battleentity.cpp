@@ -948,7 +948,8 @@ int32 CBattleEntity::takeDamage(int32 amount, CBattleEntity* attacker /* = nullp
             return mana + addHP(mana - amount);
         }
         else {
-            return addMP(-mana);
+            // Consume only the damage amount from MP (not all MP)
+            return addMP(-amount);
         }
     }
 
@@ -2957,7 +2958,7 @@ bool CBattleEntity::OnAttack(CAttackState& state, action_t& action)
                 // Apply Feint
                 if (CStatusEffect* PFeintEffect = StatusEffectContainer->GetStatusEffect(EFFECT_FEINT))
                 {
-                    if (PTarget->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_EVASION_DOWN, EFFECT_EVASION_DOWN, PFeintEffect->GetPower(), 0s, 65s)))
+                    if (PTarget->StatusEffectContainer->AddStatusEffect(new CStatusEffect(EFFECT_EVASION_DOWN, EFFECT_EVASION_DOWN, PFeintEffect->GetPower(), 0s, 30s)))
                     {
                         auto PEffect = PTarget->StatusEffectContainer->GetStatusEffect(EFFECT_EVASION_DOWN);
 
