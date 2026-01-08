@@ -65,6 +65,7 @@
 #include "navmesh.h"
 #include "notoriety_container.h"
 #include "packets/pet_sync.h"
+#include "packets/s2c/0x028_battle2.h"
 #include "packets/s2c/0x029_battle_message.h"
 #include "packets/s2c/0x058_assist.h"
 #include "packets/s2c/0x05b_wpos.h"
@@ -96,6 +97,70 @@ std::unordered_map<uint32, CPetSkill*>        g_PPetSkillList;    // List of pet
 
 std::array<std::list<CWeaponSkill*>, MAX_SKILLTYPE> g_PWeaponSkillsList;
 std::unordered_map<uint16, std::vector<uint16>>     g_PMobSkillLists; // List of mob skills defined from mob_skill_lists.sql
+
+namespace
+{
+    void CastSpellInstantNoState(CBattleEntity* caster, CBattleEntity* target, SpellID spellId)
+    {
+        if (!caster || !target)
+        {
+            return;
+        }
+
+        if (target->PAI && target->PAI->IsUntargetable())
+        {
+            return;
+        }
+
+        auto* spellTemplate = spell::GetSpell(spellId);
+        if (!spellTemplate)
+        {
+            return;
+        }
+
+        auto spellInstance = spellTemplate->clone();
+        spellInstance->setTotalTargets(1);
+        spellInstance->setPrimaryTargetID(target->id);
+
+        // Resolve immediately without entering CMagicState.
+        // This prevents the proc from blocking auto-attacks / job abilities.
+        const int32 damage = luautils::OnSpellCast(caster, target, spellInstance.get());
+
+        action_t action{
+            .actorId    = caster->id,
+            .actiontype = ActionCategory::MagicFinish,
+            .actionid   = static_cast<uint32>(spellId),
+            .recast     = 0s,
+            .spellgroup = spellInstance->getSpellGroup(),
+            .targets    = {
+                {
+                       .actorId = target->id,
+                       .results = {
+                        {
+                               .resolution = ActionResolution::Hit,
+                               .animation  = spellInstance->getAnimationID(),
+                               .param      = damage,
+                               .messageID  = spellInstance->getMessage(),
+                               .modifier   = spellInstance->getModifier(),
+                        },
+                    },
+                },
+            },
+        };
+
+        // Handle EFFECT_NONE - spell failed to apply
+        action.ForEachResult([&](action_result_t& result)
+                             {
+                                 if (result.param == EFFECT_NONE)
+                                 {
+                                     result.resolution = ActionResolution::Miss;
+                                     result.param      = 0;
+                                 }
+                             });
+
+        caster->loc.zone->PushPacket(caster, CHAR_INRANGE_SELF, std::make_unique<GP_SERV_COMMAND_BATTLE2>(action));
+    }
+} // namespace
 
 namespace battleutils
 {
@@ -579,25 +644,25 @@ int32 CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender,
     }
     else if (Tier == 3) // enlight or endark
     {
-        damage = PAttacker->getMod(Mod::ENSPELL_DMG);
+        damage = PAttacker->getMod(Mod::ENSPELL_DMG) + bonus; // Added + bonus to this line
 
-        if (damage > 1)
-        {
-            PAttacker->delModifier(Mod::ENSPELL_DMG, 1);
-        }
-        else
-        {
-            if (element == ELEMENT_DARK)
-            {
-                PAttacker->StatusEffectContainer->DelStatusEffect(EFFECT_ENDARK);
-            }
-            else
-            {
-                PAttacker->StatusEffectContainer->DelStatusEffect(EFFECT_ENLIGHT);
-            }
-        }
+        // if (damage > 1)
+        // {
+        //     PAttacker->delModifier(Mod::ENSPELL_DMG, 1);
+        // }
+        // else
+        // {
+        //     if (element == ELEMENT_DARK)
+        //     {
+        //         PAttacker->StatusEffectContainer->DelStatusEffect(EFFECT_ENDARK);
+        //     }
+        //     else
+        //     {
+        //         PAttacker->StatusEffectContainer->DelStatusEffect(EFFECT_ENLIGHT);
+        //     }
+        // }
 
-        damage += bonus;
+        // damage += bonus;
     }
     else if (Tier == 4) // Rune Enhancement
     {
@@ -1435,10 +1500,11 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_re
                                 break;
                         }
 
-                        if (spellToCast != static_cast<SpellID>(0) && PAttacker->PAI)
+                        if (spellToCast != static_cast<SpellID>(0))
                         {
-                            // Use MAGICFLAGS_IGNORE_MP so this proc doesn't consume MP
-                            PAttacker->PAI->Internal_CastInstant(PDefender->targid, spellToCast, MAGICFLAGS_IGNORE_MP);
+                            // Resolve instantly without entering CMagicState.
+                            // Internal_CastInstant still uses CMagicState which can briefly block actions.
+                            CastSpellInstantNoState(PAttacker, PDefender, spellToCast);
                         }
                     }
                 }
