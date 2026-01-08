@@ -6,7 +6,7 @@ local effectObject = {}
 
 effectObject.onEffectGain = function(target, effect)
     local enmityBonus = 100
-    local merits      = target:getMerit(xi.merit.SENTINEL_RECAST) * -100
+    local merits = target:getMerit(xi.merit.SENTINEL_RECAST) * -100
 
     if target:getMainJob() ~= xi.job.PLD then
         enmityBonus = 50
@@ -25,7 +25,7 @@ end
 
 effectObject.onEffectLose = function(target, effect)
     local enmityBonus = 100
-    local merits      = player:getMerit(xi.merit.SENTINEL_RECAST) * -100
+    local merits = target:getMerit(xi.merit.SENTINEL_RECAST) * -100
 
     if target:getMainJob() ~= xi.job.PLD then
         enmityBonus = 50
