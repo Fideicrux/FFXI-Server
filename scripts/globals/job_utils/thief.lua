@@ -402,7 +402,8 @@ end
 
 xi.job_utils.thief.useSteal = function(player, target, ability, action)
     local thfLevel    = utils.getActiveJobLevel(player, xi.job.THF)
-    local stolen      = action:getParam(target:getID())
+    local targetID    = target:getID()
+    local stolen      = action:getParam(targetID)
     local stealMod    = player:getMod(xi.mod.STEAL)
     local stealChance = 100 + stealMod * 2 + thfLevel - target:getMainLvl()
     local stolenbuff  = 0
@@ -415,15 +416,11 @@ xi.job_utils.thief.useSteal = function(player, target, ability, action)
     if target:isMob() and math.random(1, 100) <= stealChance and stolen ~= 0 then
         player:addItem(stolen)
         target:itemStolen()
-        ability:setMsg(xi.msg.basic.STEAL_SUCCESS) -- Item stolen successfully
         target:triggerListener('ITEM_STOLEN', target, player, stolen)
         stoleItem = true
-    else
-        ability:setMsg(xi.msg.basic.STEAL_FAIL) -- Failed to steal
-        action:setAnimation(target:getID(), 182)
     end
 
-    -- Attempt Aura Steal after item steal
+    -- Attempt Aura Steal
     if player:hasTrait(xi.trait.AURA_STEAL) then
         local resist = xi.combat.magicHitRate.calculateResistRate(player, target, 0, 0, 0, xi.element.NONE, xi.mod.INT, 0, 0)
         -- local effectStealSuccess = false
@@ -434,13 +431,6 @@ xi.job_utils.thief.useSteal = function(player, target, ability, action)
 
                 stolenbuff = player:stealStatusEffect(target)
                 if stolenbuff ~= 0 then
-                    -- Emit Aura Steal as an "additional effect" message.
-                    -- This avoids needing a second target entry (duplicate target IDs are typically rejected).
-                    local targetID = target:getID()
-                    action:additionalEffect(targetID, xi.subEffect.STATUS_DRAIN)
-                    action:addEffectMessage(targetID, xi.msg.basic.STEAL_EFFECT)
-                    action:addEffectParam(targetID, stolenbuff)
-
                     if stolenbuff == xi.effect.COPY_IMAGE then
                         if targetShadows > 0 then
                             player:setMod(xi.mod.UTSUSEMI, targetShadows)
@@ -469,12 +459,42 @@ xi.job_utils.thief.useSteal = function(player, target, ability, action)
         end
     end
 
-    -- Ability message param is driven by the return value.
-    -- Return the stolen item when item-steal succeeds; otherwise return 0 (fail message needs no param).
-    if stoleItem then
+    -- Messaging rules:
+    -- - If both item + aura succeed, print both.
+    -- - If only one succeeds, print that one.
+    -- - If neither succeeds, print steal failed.
+    if stoleItem and stolenbuff ~= 0 then
+        ability:setMsg(xi.msg.basic.STEAL_SUCCESS)
+
+        -- Many clients/log configs don't display "additional effect" lines for job abilities.
+        -- Inject a second action packet for Aura Steal so both results are always shown.
+        player:injectActionPacket(
+            targetID,
+            xi.action.category.JOBABILITY_FINISH,
+            181,
+            xi.action.info.NONE,
+            xi.action.resolution.HIT,
+            xi.msg.basic.STEAL_EFFECT,
+            ability:getID(),
+            stolenbuff
+        )
+
         return stolen
     end
 
+    if stoleItem then
+        ability:setMsg(xi.msg.basic.STEAL_SUCCESS)
+        return stolen
+    end
+
+    if stolenbuff ~= 0 then
+        ability:setMsg(xi.msg.basic.STEAL_EFFECT)
+        action:setAnimation(targetID, 181)
+        return stolenbuff
+    end
+
+    ability:setMsg(xi.msg.basic.STEAL_FAIL)
+    action:setAnimation(targetID, 182)
     return 0
 end
 
