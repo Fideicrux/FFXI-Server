@@ -59,7 +59,7 @@ end
 -- Ability Use Functions
 -----------------------------------
 xi.job_utils.paladin.useChivalry = function(player, target, ability)
-    local merits = player:getMerit(xi.merit.CHIVALRY) - 5
+    local merits = player:getMerit(xi.merit.CHIVALRY)
     local tp     = target:getTP()
     local base   = 0.05 + (player:getMod(xi.mod.ENHANCES_CHIVALRY) / 100)
     -- MP gained = (TP * 0.05) + (0.0015 * TP * MND) * Merits
@@ -71,7 +71,7 @@ xi.job_utils.paladin.useChivalry = function(player, target, ability)
 end
 
 xi.job_utils.paladin.useCover = function(player, target, ability)
-    local baseDuration = 15
+    local baseDuration = 30
     local bonusTime    = utils.clamp(math.floor((player:getStat(xi.mod.VIT) + player:getStat(xi.mod.MND) - target:getStat(xi.mod.VIT) * 2) / 4), 0, 15)
     local jpValue      = player:getJobPointLevel(xi.jp.COVER_DURATION)
     local duration     = baseDuration + bonusTime + player:getMerit(xi.merit.COVER_EFFECT_LENGTH) + player:getMod(xi.mod.COVER_DURATION) + jpValue
@@ -83,7 +83,7 @@ end
 
 xi.job_utils.paladin.useDivineEmblem = function(player, target, ability)
     -- Divine Magic bonus damage handled in globals/magic.lua
-    local power = 50 + player:getMod(xi.mod.ENHANCES_DIVINE_EMBLEM) -- 50% increase to enmity
+    local power = 100 + player:getMod(xi.mod.ENHANCES_DIVINE_EMBLEM) -- 50% increase to enmity
 
     player:addStatusEffect(xi.effect.DIVINE_EMBLEM, power, 0, 60)
 
@@ -91,7 +91,7 @@ xi.job_utils.paladin.useDivineEmblem = function(player, target, ability)
 end
 
 xi.job_utils.paladin.useFealty = function(player, target, ability)
-    local merits    = player:getMerit(xi.merit.FEALTY) - 5
+    local merits    = player:getMerit(xi.merit.FEALTY)
     local enhFealty = (player:getMerit(xi.merit.FEALTY) / 5) * player:getMod(xi.mod.ENHANCES_FEALTY)
     local duration  = 60 + merits + enhFealty
 
@@ -106,11 +106,12 @@ xi.job_utils.paladin.useHolyCircle = function(player, target, ability)
     -- https://www.bg-wiki.com/ffxi/Holy_Circle
     -- Main (PLD) job gives a unique 15% damage bonus against undead, 15% damage resistance from undead, and likely +15% Undead Killer.
     -- When subbed, gives 5% of these bonuses.
-    local duration = 180 + player:getMod(xi.mod.HOLY_CIRCLE_DURATION)
-    local power    = 15
+    local duration = 7200 + player:getMod(xi.mod.HOLY_CIRCLE_DURATION)
+    local merits   = player:getMerit(xi.merit.HOLY_CIRCLE_RECAST)
+    local power    = 20 + merits
 
     if player:getMainJob() ~= xi.job.PLD then
-        power = 5
+        power = 10
     end
 
     power = power + player:getMod(xi.mod.HOLY_CIRCLE_POTENCY)
@@ -124,19 +125,24 @@ xi.job_utils.paladin.useIntervene = function(player, target, ability)
     -- TODO: Retail testing to determine damage
     local shieldSize = player:getShieldSize()
     local jpValue    = 1 + (player:getJobPointLevel(xi.jp.INTERVENE_EFFECT) / 100)
-    local damage     = math.floor(player:getMainLvl() * 3.36)
+    local skill      = player:getSkillLevel(xi.skill.SHIELD) 
+    local damage     = math.floor(player:getMainLvl() * 4) + skill
 
     if shieldSize == 2 then
-        damage = 13 + damage
+        damage = 25 + damage
     elseif shieldSize == 3 then
-        damage = 40 + damage
+        damage = 50 + damage
     elseif shieldSize == 4 then
-        damage = 67 + damage
+        damage = 75 + damage
+    elseif shieldSize == 5 then
+        damage = 200 + damage
+    elseif shieldSize == 6 then
+        damage = 100 + damage
     end
 
     damage = damage * jpValue
 
-    target:addStatusEffect(xi.effect.INTERVENE, 1, 0, 30)
+    target:addStatusEffect(xi.effect.INTERVENE, 1, 0, 60)
 
     return damage
 end
@@ -148,7 +154,7 @@ xi.job_utils.paladin.useInvincible = function(player, target, ability)
 end
 
 xi.job_utils.paladin.useMajesty = function(player, target, ability)
-    player:addStatusEffect(xi.effect.MAJESTY, 25, 0, 180)
+    player:addStatusEffect(xi.effect.MAJESTY, 25, 0, 7200)
 
     return xi.effect.MAJESTY
 end
@@ -163,9 +169,10 @@ xi.job_utils.paladin.usePalisade = function(player, target, ability)
 end
 
 xi.job_utils.paladin.useRampart = function(player, target, ability)
-    local duration = 30 + player:getMod(xi.mod.RAMPART_DURATION)
+    local duration = 60 + player:getMod(xi.mod.RAMPART_DURATION)
+    local merits   = player:getMerit(xi.merit.RAMPART_RECAST)
 
-    target:addStatusEffect(xi.effect.RAMPART, 2500, 0, duration)
+    target:addStatusEffect(xi.effect.RAMPART, 2500 + merits, 0, duration)
 
     return xi.effect.RAMPART
 end
@@ -173,20 +180,22 @@ end
 xi.job_utils.paladin.useSentinel = function(player, target, ability)
     -- Whether feet have to be equipped before using ability, or if they can be swapped in
     -- is disputed.  Source used: http://wiki.bluegartr.com/bg/Sentinel
-    local power       = (90 + player:getMod(xi.mod.SENTINEL_EFFECT)) * 100
+    local power       = (50 + player:getMod(xi.mod.SENTINEL_EFFECT)) * 100
     local guardian    = player:getMerit(xi.merit.GUARDIAN)
     local enhGuardian = player:getMod(xi.mod.ENHANCES_GUARDIAN) * (guardian / 19)
     local jpValue     = player:getJobPointLevel(xi.jp.SENTINEL_EFFECT)
-    local duration    = 30 + enhGuardian
+    local duration    = 60 + enhGuardian
+    
+
 
     -- Sent as positive power because UINTs, man.
-    player:addStatusEffect(xi.effect.SENTINEL, power, 3, duration, 0, guardian + jpValue)
+    player:addStatusEffect(xi.effect.SENTINEL, power, 0, duration, 0, guardian + jpValue)
 
     return xi.effect.SENTINEL
 end
 
 xi.job_utils.paladin.useSepulcher = function(player, target, ability)
-    local power    = 20
+    local power    = 50
     local jpValue  = player:getJobPointLevel(xi.jp.SEPULCHER_DURATION)
     local duration = 180 + jpValue
 
@@ -196,21 +205,24 @@ end
 xi.job_utils.paladin.useShieldBash = function(player, target, ability)
     local shieldSize = player:getShieldSize()
     local jpValue    = player:getJobPointLevel(xi.jp.SHIELD_BASH_EFFECT)
-    local damage     = math.floor(player:getMainLvl() * 0.273)
-    local chance     = 90
+    local merits     = player:getMerit(xi.merit.SHIELD_BASH_RECAST)
+    local damage     = math.floor(player:getMainLvl() * 2) + merits
+    local chance     = 200
 
     if shieldSize == 2 then
-        damage = 13 + damage
+        damage = 25 + damage
     elseif shieldSize == 3 then
-        damage = 40 + damage
+        damage = 50 + damage
     elseif shieldSize == 4 then
-        damage = 67 + damage
+        damage = 75 + damage
+    elseif shieldSize == 6 then
+        damage = 100 + damage
     end
 
     -- Main job factors
     if player:getMainJob() ~= xi.job.PLD then
-        damage = math.floor(damage / 2.5)
-        chance = 60
+        damage = math.floor(damage / 1.5)
+        chance = 100
     else
         damage = math.floor(damage)
     end

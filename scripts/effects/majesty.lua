@@ -8,7 +8,7 @@ effectObject.onEffectGain = function(target, effect)
     local strength = effect:getPower()
 
     target:addMod(xi.mod.CURE_POTENCY_II, strength)
-    target:addMod(xi.mod.WHITE_MAGIC_RECAST, -strength)
+    target:addMod(xi.mod.WHITE_MAGIC_RECAST, -(strength + 35))
 end
 
 effectObject.onEffectTick = function(target, effect)
