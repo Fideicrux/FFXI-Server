@@ -644,25 +644,25 @@ int32 CalculateEnspellDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender,
     }
     else if (Tier == 3) // enlight or endark
     {
-        damage = PAttacker->getMod(Mod::ENSPELL_DMG);
+        damage = PAttacker->getMod(Mod::ENSPELL_DMG) + bonus; // Added + bonus to this line
 
-        if (damage > 1)
-        {
-            PAttacker->delModifier(Mod::ENSPELL_DMG, 1);
-        }
-        else
-        {
-            if (element == ELEMENT_DARK)
-            {
-                PAttacker->StatusEffectContainer->DelStatusEffect(EFFECT_ENDARK);
-            }
-            else
-            {
-                PAttacker->StatusEffectContainer->DelStatusEffect(EFFECT_ENLIGHT);
-            }
-        }
+        // if (damage > 1)
+        // {
+        //     PAttacker->delModifier(Mod::ENSPELL_DMG, 1);
+        // }
+        // else
+        // {
+        //     if (element == ELEMENT_DARK)
+        //     {
+        //         PAttacker->StatusEffectContainer->DelStatusEffect(EFFECT_ENDARK);
+        //     }
+        //     else
+        //     {
+        //         PAttacker->StatusEffectContainer->DelStatusEffect(EFFECT_ENLIGHT);
+        //     }
+        // }
 
-        damage += bonus;
+        // damage += bonus;
     }
     else if (Tier == 4) // Rune Enhancement
     {
