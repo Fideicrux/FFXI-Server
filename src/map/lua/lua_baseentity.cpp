@@ -10929,10 +10929,6 @@ uint32 CLuaBaseEntity::canLearnSpell(uint16 spellID)
     {
         Message = 96;
     }
-    else if (!spell::CanUseSpell(PChar, static_cast<SpellID>(spellID)))
-    {
-        Message = 95;
-    }
 
     return Message;
 }
