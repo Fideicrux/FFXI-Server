@@ -154,7 +154,7 @@ xi.job_utils.paladin.useIntervene = function(player, target, ability)
 end
 
 xi.job_utils.paladin.useInvincible = function(player, target, ability)
-    player:addStatusEffect(xi.effect.INVINCIBLE, 1, 0, 30)
+    player:addStatusEffect(xi.effect.INVINCIBLE, 1, 0, 60)
 
     return xi.effect.INVINCIBLE
 end
@@ -169,13 +169,13 @@ xi.job_utils.paladin.usePalisade = function(player, target, ability)
     local jpValue = player:getJobPointLevel(xi.jp.PALISADE_EFFECT)
     local power   = 30 + jpValue
 
-    player:addStatusEffect(xi.effect.PALISADE, power, 0, 60)
+    player:addStatusEffect(xi.effect.PALISADE, power, 0, 45)
 
     return xi.effect.PALISADE
 end
 
 xi.job_utils.paladin.useRampart = function(player, target, ability)
-    local duration = 60 + player:getMod(xi.mod.RAMPART_DURATION)
+    local duration = 45 + player:getMod(xi.mod.RAMPART_DURATION)
     local merits   = player:getMerit(xi.merit.RAMPART_RECAST)
 
     target:addStatusEffect(xi.effect.RAMPART, 2500 + merits, 0, duration)
@@ -190,7 +190,7 @@ xi.job_utils.paladin.useSentinel = function(player, target, ability)
     local guardian    = player:getMerit(xi.merit.GUARDIAN)
     local enhGuardian = player:getMod(xi.mod.ENHANCES_GUARDIAN) * (guardian / 19)
     local jpValue     = player:getJobPointLevel(xi.jp.SENTINEL_EFFECT)
-    local duration    = 60 + enhGuardian
+    local duration    = 45 + enhGuardian
     
 
 
