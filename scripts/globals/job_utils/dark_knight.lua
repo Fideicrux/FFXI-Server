@@ -51,8 +51,9 @@ xi.job_utils.dark_knight.useArcaneCircle = function(player, target, ability)
     -- Job Points bonus will need to be handled in the Bonus vs Ecosystem handling system
     -- https://www.bg-wiki.com/ffxi/Job_Points#Dark_Knight
     -- Arcane Circle Effect: Reduces the amount of damage taken from arcana while under the effects of Arcane Circle.
-    local duration = 180 + player:getMod(xi.mod.ARCANE_CIRCLE_DURATION)
-    local power    = 15
+    local duration = 7200 + player:getMod(xi.mod.ARCANE_CIRCLE_DURATION)
+    local merits   = player:getMerit(xi.merit.ARCANE_CIRCLE_RECAST)
+    local power    = 15 + merits
 
     if player:getMainJob() ~= xi.job.DRK then
         power = 5
@@ -71,15 +72,15 @@ xi.job_utils.dark_knight.useArcaneCircle = function(player, target, ability)
 end
 
 xi.job_utils.dark_knight.useArcaneCrest = function(player, target, ability)
-    local power    = 20
-    local duration = 180 + player:getJobPointLevel(xi.jp.ARCANE_CREST_DURATION)
+    local power    = 50
+    local duration = 130 + player:getJobPointLevel(xi.jp.ARCANE_CREST_DURATION)
 
     target:addStatusEffect(xi.effect.ARCANE_CREST, power, 0, duration)
 end
 
 xi.job_utils.dark_knight.useBloodWeapon = function(player, target, ability)
     local power    = 1
-    local duration = 30 + player:getMod(xi.mod.ENHANCES_BLOOD_WEAPON)
+    local duration = 60 + player:getMod(xi.mod.ENHANCES_BLOOD_WEAPON)
 
     target:addStatusEffect(xi.effect.BLOOD_WEAPON, power, 0, duration)
 
@@ -95,17 +96,18 @@ end
 xi.job_utils.dark_knight.useDarkSeal = function(player, target, ability)
     -- Power: Each merit level after the first reduces Dark Magic casting time by -10% (total of -40% bonus).
     -- Sub Power: Enhances Dark Seal effect by increasing duration of Dark Magic by 10% per merit level (total of 50% bonus).
-    local power    = player:getMerit(xi.merit.DARK_SEAL) - 10
+    local power    = player:getMerit(xi.merit.DARK_SEAL) 
     local subPower = player:getMerit(xi.merit.DARK_SEAL) * player:getMod(xi.mod.ENHANCES_DARK_SEAL) / 10
 
     player:addStatusEffect(xi.effect.DARK_SEAL, power, 0, 60, 0, subPower)
+    player:addStatusEffect(xi.effect.NETHER_VOID, 100, 0, 60)
 
     return xi.effect.DARK_SEAL
 end
 
 xi.job_utils.dark_knight.useDiabolicEye = function(player, target, ability)
-    local power    = 15 + player:getMerit(xi.merit.DIABOLIC_EYE) * 5
-    local duration = 180 + player:getMerit(xi.merit.DIABOLIC_EYE) * player:getMod(xi.mod.ENHANCES_DIABOLIC_EYE)
+    local power    = player:getMerit(xi.merit.DIABOLIC_EYE)
+    local duration = 7200 + player:getMerit(xi.merit.DIABOLIC_EYE) * player:getMod(xi.mod.ENHANCES_DIABOLIC_EYE)
 
     player:addStatusEffect(xi.effect.DIABOLIC_EYE, power, 0, duration)
 
@@ -113,22 +115,30 @@ xi.job_utils.dark_knight.useDiabolicEye = function(player, target, ability)
 end
 
 xi.job_utils.dark_knight.useLastResort = function(player, target, ability)
-    player:addStatusEffect(xi.effect.LAST_RESORT, 0, 0, 180)
+    player:addStatusEffect(xi.effect.LAST_RESORT, 0, 0, 7200)
 
     return xi.effect.LAST_RESORT
 end
 
 xi.job_utils.dark_knight.useNetherVoid = function(player, target, ability)
-    local power    = 50 + player:getMod(xi.mod.ENHANCES_NETHER_VOID) + 2 * player:getJobPointLevel(xi.jp.NETHER_VOID_EFFECT)
-    local duration = 60
+    local power    = player:getHP() / 4
+    local random   = 1 + math.random(5, 15) / 100
+    local damage   = (power * 2) * random
 
-    player:addStatusEffect(xi.effect.NETHER_VOID, power, 0, duration)
+    player:setMP(player:getMP() + power)
 
-    return xi.effect.NETHER_VOID
+    damage = utils.handleStoneskin(target, damage)
+
+    target:takeDamage(damage, player, xi.attackType.PHYSICAL, xi.damageType.DARK)
+    ability:setMsg(xi.msg.basic.JA_DAMAGE)
+
+    return damage
+
 end
 
+
 xi.job_utils.dark_knight.useScarletDelirium = function(player, target, ability)
-    local duration = 90 + player:getJobPointLevel(xi.jp.SCARLET_DELIRIUM_DURATION)
+    local duration = 60 + player:getJobPointLevel(xi.jp.SCARLET_DELIRIUM_DURATION)
 
     player:addStatusEffect(xi.effect.SCARLET_DELIRIUM, 0, 0, duration)
 
@@ -136,7 +146,7 @@ xi.job_utils.dark_knight.useScarletDelirium = function(player, target, ability)
 end
 
 xi.job_utils.dark_knight.useSoulEnslavement = function(player, target, ability)
-    player:addStatusEffect(xi.effect.SOUL_ENSLAVEMENT, 0, 0, 30)
+    player:addStatusEffect(xi.effect.SOUL_ENSLAVEMENT, 0, 0, 60)
 
     return xi.effect.SOUL_ENSLAVEMENT
 end
@@ -152,16 +162,17 @@ end
 
 xi.job_utils.dark_knight.useWeaponBash = function(player, target, ability)
     -- Applying Weapon Bash stun. Rate is said to be near 100%, so let's say 99%.
-    if math.random(1, 100) <= 99 then
-        target:addStatusEffect(xi.effect.STUN, 1, 0, 6)
-    end
+
+    target:addStatusEffect(xi.effect.STUN, 1, 0, 6)
+
 
     -- Weapon Bash deals damage dependant of Dark Knight level
     local darkKnightLvl = utils.getActiveJobLevel(player, xi.job.DRK)
 
     -- Calculating and applying Weapon Bash damage
     local jpValue = target:getJobPointLevel(xi.jp.WEAPON_BASH_EFFECT)
-    local damage  = math.floor((darkKnightLvl + 11) / 4 + player:getMod(xi.mod.WEAPON_BASH) + jpValue * 10)
+    local merits  = player:getMerit(xi.merit.WEAPON_BASH_EFFECT)
+    local damage  = math.floor((darkKnightLvl + 25) * 4 + player:getMod(xi.mod.WEAPON_BASH) + merits + jpValue * 10)
 
     target:takeDamage(damage, player, xi.attackType.PHYSICAL, xi.damageType.BLUNT)
     target:updateEnmityFromDamage(player, damage)

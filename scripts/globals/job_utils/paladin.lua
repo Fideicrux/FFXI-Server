@@ -197,7 +197,7 @@ end
 xi.job_utils.paladin.useSepulcher = function(player, target, ability)
     local power    = 50
     local jpValue  = player:getJobPointLevel(xi.jp.SEPULCHER_DURATION)
-    local duration = 180 + jpValue
+    local duration = 130 + jpValue
 
     target:addStatusEffect(xi.effect.SEPULCHER, power, 0, duration)
 end

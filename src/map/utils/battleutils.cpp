@@ -4454,11 +4454,11 @@ uint16 doSoulEaterEffect(CCharEntity* m_PChar, uint32 damage)
         float souleaterBonus    = m_PChar->getMaxGearMod(Mod::SOULEATER_EFFECT) * 0.01;
         float souleaterBonusII  = m_PChar->getMod(Mod::SOULEATER_EFFECT_II) * 0.01;
         float stalwartSoulBonus = 1 - static_cast<float>(m_PChar->getMod(Mod::STALWART_SOUL)) / 100;
-        float bonusDamage       = m_PChar->health.hp * (0.1f + souleaterBonus + souleaterBonusII);
+        float bonusDamage       = m_PChar->health.hp * (0.2f + souleaterBonus + souleaterBonusII);
 
         if (bonusDamage >= 1)
         {
-            m_PChar->addHP(-HandleStoneskin(m_PChar, (int32)(bonusDamage * stalwartSoulBonus)));
+            m_PChar->addHP(-HandleStoneskin(m_PChar, (int32)(bonusDamage / 4 * stalwartSoulBonus)));
 
             if (m_PChar->GetMJob() == JOB_DRK)
             {
@@ -4478,8 +4478,8 @@ uint16 doConsumeManaEffect(CCharEntity* m_PChar)
     auto bonusDmg = 0;
     if (m_PChar->StatusEffectContainer->HasStatusEffect(EFFECT_CONSUME_MANA))
     {
-        bonusDmg += (uint32)(floor(m_PChar->health.mp / 10));
-        m_PChar->health.mp = 0;
+        bonusDmg += (uint32)(floor(m_PChar->health.mp / 2));
+        m_PChar->health.mp = health.mp - bonusDmg;
         m_PChar->StatusEffectContainer->DelStatusEffect(EFFECT_CONSUME_MANA);
     }
     return bonusDmg;
@@ -5253,7 +5253,7 @@ void HandleScarletDelirium(CBattleEntity* PDefender, int32 damage)
     {
         // Damage to Max HP Ratio
         float  hppRatio = std::clamp<float>(static_cast<float>(damage) / static_cast<float>(PDefender->GetMaxHP()) / 2.0f, 0.0f, 0.5f);
-        uint16 power    = std::floor(hppRatio * 1000);
+        uint16 power    = std::floor(0.5 * 1000);
         uint16 jpValue  = effectScarDel->GetSubPower();
         auto   duration = 90s + std::chrono::seconds(jpValue);
 

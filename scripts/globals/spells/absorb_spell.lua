@@ -74,11 +74,11 @@ end
 local absorbPointsData =
 {
     -- [spell ID] = { parameter, { skill <= 300 }, { skill > 300 }, divisor, increase max HP? }
-    [xi.magic.spell.DRAIN    ] = { xi.mod.HP, {   1,  20 }, { 0.625, 132.5 }, 0.50, false },
-    [xi.magic.spell.DRAIN_II ] = { xi.mod.HP, {   1, 165 }, {     1,   165 }, 0.66, true  },
+    [xi.magic.spell.DRAIN    ] = { xi.mod.HP, {   1,  100 }, { 1.5, 100 }, 0.80, false },
+    [xi.magic.spell.DRAIN_II ] = { xi.mod.HP, {   2, 600 }, {     2.5,   600 }, 0.85, true  },
     [xi.magic.spell.DRAIN_III] = { xi.mod.HP, {   1, 255 }, {   1.5,   105 }, 0.75, true  },
-    [xi.magic.spell.ASPIR    ] = { xi.mod.MP, { 0.3,  20 }, {   0.4,     0 }, 0.50, false },
-    [xi.magic.spell.ASPIR_II ] = { xi.mod.MP, { 0.5,  30 }, {   0.6,     0 }, 0.50, false },
+    [xi.magic.spell.ASPIR    ] = { xi.mod.MP, { 0.6,  40 }, {   0.8,     40 }, 0.80, false },
+    [xi.magic.spell.ASPIR_II ] = { xi.mod.MP, { 1,  60 }, {   1.2,     60 }, 0.85, false },
     [xi.magic.spell.ASPIR_III] = { xi.mod.MP, { 0.7,  40 }, {   0.8,     0 }, 0.50, false },
 }
 
