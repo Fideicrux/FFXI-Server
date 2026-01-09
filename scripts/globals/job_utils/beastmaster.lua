@@ -269,7 +269,7 @@ xi.job_utils.beastmaster.onUseAbilityReward = function(player, target, ability)
     switch(rangeObj):caseof
     {
         [xi.item.PET_FOOD_ALPHA_BISCUIT] = function() -- pet food alpha biscuit
-            minimumHealing = 50
+            minimumHealing = 100
             regenAmount    = 1
             totalHealing   = math.floor(minimumHealing + 2 * (playerMnd - 10))
         end,
