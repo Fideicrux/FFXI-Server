@@ -142,6 +142,12 @@ xi.job_utils.paladin.useIntervene = function(player, target, ability)
 
     damage = damage * jpValue
 
+    -- Debug: show computed raw damage to the player (and thus their client chat)
+    local dbgMsg = string.format("Intervene raw damage: %d (shieldSize=%d, skill=%d, jp=%.2f)", damage, shieldSize, skill, jpValue)
+    if player and player.printToPlayer then
+        player:printToPlayer(dbgMsg, xi.msg.channel.SYSTEM_1, "")
+    end
+
     target:addStatusEffect(xi.effect.INTERVENE, 1, 0, 60)
 
     return damage
