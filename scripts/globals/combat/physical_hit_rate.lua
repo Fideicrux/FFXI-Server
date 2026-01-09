@@ -50,15 +50,15 @@ end
 ---@return number
 xi.combat.physicalHitRate.getPhysicalHitRateCap = function(attacker, slot)
     if attacker:isPet() then
-        return 0.99
+        return 1
     elseif attacker:isPC() then
         if attacker:isUsingH2H() then -- Kicks aren't explicitly listed as 99%, TODO: needs verification
-            return 0.99
+            return 1
         elseif attacker:isWeaponTwoHanded() or slot >= xi.attackAnimation.LEFT_ATTACK then -- 1h offhand, ranged
-            return 0.95
+            return 1
         end
 
-        return 0.99 -- 1h mainhand
+        return 1 -- 1h mainhand
     end
 
     return 0.95 -- mobs, charmed pets. -- Do trusts have a 99% or 95% acc cap?
@@ -147,7 +147,7 @@ local function accuracyAndEvasionToHitRate(attacker, target, acc, eva)
 
         -- Accuracy Penalty, only applies to PCs -- TODO: does this apply to player pets?
         elseif attacker:isPC() and attacker:getMainLvl() < target:getMainLvl() then
-            acc = acc - dlvl * 4
+            acc = acc
         end
     end
 
