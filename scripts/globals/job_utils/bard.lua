@@ -24,7 +24,7 @@ end
 -- Ability Use Functions
 -----------------------------------
 xi.job_utils.bard.useSoulVoice = function(player, target, ability)
-    player:addStatusEffect(xi.effect.SOUL_VOICE, 1, 0, 180)
+    player:addStatusEffect(xi.effect.SOUL_VOICE, 1, 0, 60)
 
     return xi.effect.SOUL_VOICE
 end
@@ -36,13 +36,13 @@ xi.job_utils.bard.usePianissimo = function(player, target, ability)
 end
 
 xi.job_utils.bard.useNightingale = function(player, target, ability)
-    player:addStatusEffect(xi.effect.NIGHTINGALE, 0, 0, 60)
+    player:addStatusEffect(xi.effect.NIGHTINGALE, 0, 0, 7200)
 
     return xi.effect.NIGHTINGALE
 end
 
 xi.job_utils.bard.useTroubadour = function(player, target, ability)
-    player:addStatusEffect(xi.effect.TROUBADOUR, 0, 0, 60)
+    player:addStatusEffect(xi.effect.TROUBADOUR, 0, 0, 7200)
 
     return xi.effect.TROUBADOUR
 end
@@ -55,13 +55,13 @@ xi.job_utils.bard.useTenuto = function(player, target, ability)
 end
 
 xi.job_utils.bard.useMarcato = function(player, target, ability)
-    player:addStatusEffect(xi.effect.MARCATO, 50, 0, 60)
+    player:addStatusEffect(xi.effect.MARCATO, 0, 0, 60)
 
     return xi.effect.MARCATO
 end
 
 xi.job_utils.bard.useClarionCall = function(player, target, ability)
-    player:addStatusEffect(xi.effect.CLARION_CALL, 10, 0, 180)
+    player:addStatusEffect(xi.effect.CLARION_CALL, 10, 0, 60)
 
     return xi.effect.CLARION_CALL
 end
