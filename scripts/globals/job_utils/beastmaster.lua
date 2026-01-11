@@ -269,49 +269,49 @@ xi.job_utils.beastmaster.onUseAbilityReward = function(player, target, ability)
     switch(rangeObj):caseof
     {
         [xi.item.PET_FOOD_ALPHA_BISCUIT] = function() -- pet food alpha biscuit
-            minimumHealing = 100
+            minimumHealing = 100 
             regenAmount    = 1
             totalHealing   = math.floor(minimumHealing + 2 * (playerMnd - 10))
         end,
 
         [xi.item.PET_FOOD_BETA_BISCUIT] = function() -- pet food beta biscuit
-            minimumHealing = 180
+            minimumHealing = 200 
             regenAmount    = 3
             totalHealing   = math.floor(minimumHealing + 1 * (playerMnd - 33))
         end,
 
         [xi.item.PET_FOOD_GAMMA_BISCUIT] = function() -- pet food gamma biscuit
-            minimumHealing = 300
+            minimumHealing = 300 
             regenAmount    = 5
             totalHealing   = math.floor(minimumHealing + 1 * (playerMnd - 35)) -- TO BE VERIFIED.
         end,
 
         [xi.item.PET_FOOD_DELTA_BISCUIT] = function() -- pet food delta biscuit
-            minimumHealing = 530
+            minimumHealing = 500
             regenAmount    = 8
             totalHealing   = math.floor(minimumHealing + 2 * (playerMnd - 40)) -- TO BE VERIFIED.
         end,
 
         [xi.item.PET_FOOD_EPSILON_BISCUIT] = function() -- pet food epsilon biscuit
-            minimumHealing = 750
+            minimumHealing = 750 
             regenAmount    = 11
             totalHealing   = math.floor(minimumHealing + 2 * (playerMnd - 45))
         end,
 
         [xi.item.PET_FOOD_ZETA_BISCUIT] = function() -- pet food zeta biscuit
-            minimumHealing = 900
+            minimumHealing = 1000 
             regenAmount    = 14
             totalHealing   = math.floor(minimumHealing + 3 * (playerMnd - 45))
         end,
 
         [xi.item.PET_FOOD_ETA_BISCUIT] = function() -- pet food eta biscuit
-            minimumHealing = 1200
+            minimumHealing = 1200 
             regenAmount    = 17
             totalHealing   = math.floor(minimumHealing + 4 * (playerMnd - 50))
         end,
 
         [xi.item.PET_FOOD_THETA_BISCUIT] = function() -- pet food theta biscuit
-            minimumHealing = 1600
+            minimumHealing = 1600 
             regenAmount    = 20
             totalHealing   = math.floor(minimumHealing + 4 * (playerMnd - 55))
         end,
@@ -374,7 +374,13 @@ xi.job_utils.beastmaster.onUseAbilityReward = function(player, target, ability)
     pet:wakeUp()
 
     -- Apply regen xi.effect.
+    local phaste = pet:getMod(xi.mod.HASTE_ABILITY)
+    local cbmerits = player:getMerit(xi.merit.CALL_BEAST_RECAST)
+    if phaste >= merits then
+        pet:delMod(xi.mod.HASTE_ABILITY, cbmerits)
+    end
 
+    pet:addMod(xi.mod.HASTE_ABILITY, cbmerits)
     pet:delStatusEffect(xi.effect.REGEN)
     pet:addStatusEffect(xi.effect.REGEN, regenAmount, 3, regenTime) -- 3 = tick, each 3 seconds.
     player:removeAmmo(1)
@@ -528,8 +534,8 @@ xi.job_utils.beastmaster.onUseAbilityKillerInstinct = function(player, target, a
     -- Notes: Pet ecosystem is assigned to the subPower, then mapped to the correct killer mod in the effect script.
     local pet          = player:getPet()
     local petEcosystem = pet:getEcosystem()
-    local power        = 10
-    local duration     = 180 + (player:getMerit(xi.merit.KILLER_INSTINCT) - 10)
+    local power        = 10 + (player:getMerit(xi.merit.KILLER_INSTINCT))
+    local duration     = 7200 
     -- TODO: Is there gear/mods that enhance power/duration?
 
     target:addStatusEffect(xi.effect.KILLER_INSTINCT, power, 0, duration, 0, petEcosystem)
@@ -670,7 +676,7 @@ xi.job_utils.beastmaster.onUseAbilitySpur = function(player)
     local subpower = player:getJobPointLevel(xi.jp.SPUR_EFFECT) * 3 -- bonus attack
     local pet = player:getPet()
     if pet then
-        pet:addStatusEffect(xi.effect.SPUR, power, 0, 90, 0, subpower)
+        pet:addStatusEffect(xi.effect.SPUR, power, 0, 7200, 0, subpower)
     end
 end
 
@@ -691,7 +697,7 @@ xi.job_utils.beastmaster.onUseAbilityRunWild = function(player, target, ability,
         pet:addMod(xi.mod.REGEN, 0.01 * pet:getMaxHP())
 
         -- After 5 minutes, the pet just despawns
-        pet:setJugRemainingTime(300)
+        pet:setJugRemainingTime(180)
     end
 
     -- seems to display nothing in console, but this it the msg id from capture

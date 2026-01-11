@@ -147,8 +147,8 @@ xi.pet.applyFamiliarBuffs = function(owner, pet)
         pet:isCharmed()
     then
         -- extends duration by 25m-30m
-        local minSeconds = 25 * 60
-        local maxSeconds = 30 * 60
+        local minSeconds = 55 * 60
+        local maxSeconds = 60 * 60
         local bonusSeconds = familiarBonus * 60
         pet:extendCharm(minSeconds + bonusSeconds, maxSeconds + bonusSeconds)
     end
