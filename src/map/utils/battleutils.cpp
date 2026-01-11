@@ -4505,7 +4505,7 @@ uint16 doConsumeManaEffect(CCharEntity* m_PChar)
     if (m_PChar->StatusEffectContainer->HasStatusEffect(EFFECT_CONSUME_MANA))
     {
         bonusDmg += (uint32)(floor(m_PChar->health.mp / 2));
-        m_PChar->health.mp = health.mp;
+        m_PChar->health.mp = health.mp / 2;
         m_PChar->StatusEffectContainer->DelStatusEffect(EFFECT_CONSUME_MANA);
     }
     return bonusDmg;
