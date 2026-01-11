@@ -21,7 +21,7 @@ xi.combat.damage.scarletDeliriumMultiplier = function(actor)
         return 1
     end
 
-    local scarletDeliriumMultiplier = 1 + actor:getStatusEffect(xi.effect.SCARLET_DELIRIUM_1):getPower() / 1000
+    local scarletDeliriumMultiplier = 1.5
 
     return scarletDeliriumMultiplier
 end
