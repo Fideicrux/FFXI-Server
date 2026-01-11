@@ -597,11 +597,11 @@ xi.job_utils.beastmaster.getCharmChance = function(charmer, target, includeMods)
     -- and varies for different target levels
     if charmerJobLevel < targetLevel then
         if targetLevel >= 71 then
-            charmChance = charmChance - 10 * (targetLevel - charmerJobLevel)
+            charmChance = charmChance - 4 * (targetLevel - charmerJobLevel)
         elseif targetLevel >= 51 then
-            charmChance = charmChance - 5 * (targetLevel - charmerJobLevel)
+            charmChance = charmChance - 2 * (targetLevel - charmerJobLevel)
         else
-            charmChance = charmChance - 3 * (targetLevel - charmerJobLevel)
+            charmChance = charmChance - 1 * (targetLevel - charmerJobLevel)
         end
     end
 
