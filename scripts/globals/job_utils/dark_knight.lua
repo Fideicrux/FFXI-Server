@@ -106,8 +106,8 @@ xi.job_utils.dark_knight.useDarkSeal = function(player, target, ability)
 end
 
 xi.job_utils.dark_knight.useDiabolicEye = function(player, target, ability)
-    local power    = player:getMerit(xi.merit.DIABOLIC_EYE)
-    local duration = 7200 + player:getMerit(xi.merit.DIABOLIC_EYE) * player:getMod(xi.mod.ENHANCES_DIABOLIC_EYE)
+    local power    = player:getMerit(xi.merit.DIABOLIC_EYE) * player:getMod(xi.mod.ENHANCES_DIABOLIC_EYE)
+    local duration = 7200
 
     player:addStatusEffect(xi.effect.DIABOLIC_EYE, power, 0, duration)
 
