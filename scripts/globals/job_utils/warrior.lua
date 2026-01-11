@@ -120,7 +120,7 @@ xi.job_utils.warrior.useMightyStrikes = function(player, target, ability)
 end
 
 xi.job_utils.warrior.useRestraint = function(player, target, ability)
-    player:addStatusEffect(xi.effect.RESTRAINT, 0, 0, 180)
+    player:addStatusEffect(xi.effect.RESTRAINT, 0, 0, 60)
 
     return xi.effect.RESTRAINT
 end
