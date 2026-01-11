@@ -22,7 +22,7 @@ effectObject.onEffectGain = function(target, effect)
     target:delStatusEffectSilent(xi.effect.ENDARK)
 
     effect:addMod(xi.mod.ENSPELL, 22)
-    effect:addMod(xi.mod.ENSPELL_DMG, 0)
+    effect:addMod(xi.mod.ENSPELL_DMG, 1)
 end
 
 effectObject.onEffectTick = function(target, effect)
