@@ -117,11 +117,11 @@ xi.job_utils.dark_knight.useLastResort = function(player, target, ability)
 end
 
 xi.job_utils.dark_knight.useNetherVoid = function(player, target, ability)
-    local power    = player:getHP() / 4
+    local power    = player:getHP() / 8
     local random   = 1 + math.random(5, 15) / 100
-    local damage   = (power) * random
+    local damage   = (power * 2) * random
 
-    player:setMP(player:getMP() + power)
+    player:setMP(player:getMP() + power * 2)
     player:setHP(player:getHP() - power)
 
     damage = utils.handleStoneskin(target, damage)
