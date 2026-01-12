@@ -5,8 +5,8 @@
 local effectObject = {}
 
 effectObject.onEffectGain = function(target, effect)
-    local power    = player:getMerit(xi.merit.DARK_SEAL) 
-    local subPower = player:getMerit(xi.merit.DARK_SEAL) * player:getMod(xi.mod.ENHANCES_DARK_SEAL) / 10
+    local power    = target:getMerit(xi.merit.DARK_SEAL) 
+    local subPower = target:getMerit(xi.merit.DARK_SEAL) * player:getMod(xi.mod.ENHANCES_DARK_SEAL) / 10
 
     target:delStatusEffectSilent(xi.effect.DIVINE_EMBLEM)
     target:delStatusEffectSilent(xi.effect.DIVINE_SEAL)
