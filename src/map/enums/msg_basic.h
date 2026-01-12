@@ -104,6 +104,7 @@ enum class MsgBasic : uint16_t
     ADD_EFFECT_HP_DRAINED          = 161, // Additional effect: <amount> HP drained from <target>.
     ADD_EFFECT_MP_DRAINED          = 162, // Additional effect: <amount> MP drained from <target>.
     ADD_EFFECT_DAMAGE              = 163, // Additional effect: <amount> points of damage.
+    ADD_EFFECT_TP_DRAINED          = 165, // Additional effect: <amount> TP drained from <target>.
     CHECK_DEFAULT                  = 174, // Even defense / even evasion. Does not print.
     USES_SKILL_TAKES_DAMAGE        = 185, // <user> uses <skill>. <target> takes <amount> points of damage.
     USES_SKILL_GAINS_EFFECT        = 186, // <user> uses <skill>. <target> gains the effect of <status>.

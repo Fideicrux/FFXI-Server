@@ -1383,10 +1383,7 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_re
         else if (enspell == ENSPELL_SOUL_ENSLAVEMENT) 
         {
             Action->additionalEffect = ActionProcAddEffect::TPDrain;
-
-            // TODO: Add TP_DRAINED to the MsgBasic enum class
-            // Action->addEffectMessage = MsgBasic::ADD_EFFECT_TP_DRAINED;
-            Action->addEffectMessage = MsgBasic::ADD_EFFECT_MP_DRAINED; // Replace if msgbasic is updated
+            Action->addEffectMessage = MsgBasic::ADD_EFFECT_TP_DRAINED;
 
             int32 absorbed = Action->param;
             if (PAttacker->objtype == TYPE_PC) 
