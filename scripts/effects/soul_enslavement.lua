@@ -29,6 +29,12 @@ effectObject.onEffectTick = function(target, effect)
 end
 
 effectObject.onEffectLose = function(target, effect)
+    local effect = xi.effect.ENDARK
+    local magicskill = target:getSkillLevel(xi.skill.DARK_MAGIC)
+    local potency = (magicskill / 8) + 12.5
+
+    target:addStatusEffect(effect, potency, 0, 7200)
+
 end
 
 return effectObject
