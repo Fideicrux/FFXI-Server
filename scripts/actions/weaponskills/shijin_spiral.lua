@@ -23,8 +23,8 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
         params.multiHitfTP = true -- http://wiki.ffo.jp/html/25607.html
-        params.ftpMod      = { 2.5, 2.5, 2.5 }
-        params.dex_wsc     = 0.85 + player:getMerit(xi.merit.SHIJIN_SPIRAL) * 0.03
+        params.ftpMod      = { 1.8, 1.8, 1.8 }
+        params.dex_wsc     = 0.85 + player:getMerit(xi.merit.SHIJIN_SPIRAL) * 0.03   params.str_wsc = 0.15
     end
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
