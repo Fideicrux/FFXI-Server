@@ -4505,7 +4505,7 @@ uint16 doConsumeManaEffect(CCharEntity* m_PChar)
     if (m_PChar->StatusEffectContainer->HasStatusEffect(EFFECT_CONSUME_MANA))
     {
         bonusDmg += (uint32)(floor(m_PChar->health.mp / 2));
-        m_PChar->health.mp = health.mp / 2;
+        m_PChar->health.mp = m_PChar->health.mp / 2;
         m_PChar->StatusEffectContainer->DelStatusEffect(EFFECT_CONSUME_MANA);
     }
     return bonusDmg;
@@ -5278,10 +5278,9 @@ void HandleScarletDelirium(CBattleEntity* PDefender, int32 damage)
     if (effectScarDel && effectScarDel->GetPower() == 0)
     {
         // Damage to Max HP Ratio
-        float  hppRatio = std::clamp<float>(static_cast<float>(damage) / static_cast<float>(PDefender->GetMaxHP()) / 2.0f, 0.0f, 0.5f);
-        uint16 power    = std::floor(0.5 * 1000);
+        uint16 power    = 500;
         uint16 jpValue  = effectScarDel->GetSubPower();
-        auto   duration = 90s + std::chrono::seconds(jpValue);
+        auto   duration = 360s + std::chrono::seconds(jpValue);
 
         // Convert status effect from "Absorb damage" mode to "Provide damage bonus" mode
         PDefender->StatusEffectContainer->DelStatusEffectSilent(EFFECT_SCARLET_DELIRIUM);
