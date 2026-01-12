@@ -119,7 +119,7 @@ end
 xi.job_utils.dark_knight.useNetherVoid = function(player, target, ability)
     local power    = player:getHP() / 4
     local random   = 1 + math.random(5, 15) / 100
-    local damage   = (power * 2) * random
+    local damage   = (power) * random
 
     player:setMP(player:getMP() + power)
     player:setHP(player:getHP() - power)
