@@ -141,7 +141,7 @@ end
 xi.job_utils.dark_knight.useScarletDelirium = function(player, target, ability)
     local duration = 60 + player:getJobPointLevel(xi.jp.SCARLET_DELIRIUM_DURATION)
 
-    player:addStatusEffect(xi.effect.SCARLET_DELIRIUM, 0, 0, duration)
+    player:addStatusEffect(xi.effect.SCARLET_DELIRIUM_1, 0, 0, duration)
 
     return xi.effect.SCARLET_DELIRIUM
 end
