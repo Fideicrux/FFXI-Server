@@ -592,16 +592,16 @@ xi.job_utils.beastmaster.getCharmChance = function(charmer, target, includeMods)
     local charmerJobLevel = charmer:getJobLevel(xi.job.BST)
     local targetLevel     = target:getMainLvl()
     local charmres        = target:getMod(xi.mod.CHARMRES)
-    local charmChance     = 50 - charmres
+    local charmChance     = 100 - charmres
     -- dLvl only applies when player lvl < mob lvl
     -- and varies for different target levels
     if charmerJobLevel < targetLevel then
         if targetLevel >= 71 then
-            charmChance = charmChance - 10 * (targetLevel - charmerJobLevel)
+            charmChance = charmChance - 4 * (targetLevel - charmerJobLevel)
         elseif targetLevel >= 51 then
-            charmChance = charmChance - 5 * (targetLevel - charmerJobLevel)
+            charmChance = charmChance - 2 * (targetLevel - charmerJobLevel)
         else
-            charmChance = charmChance - 3 * (targetLevel - charmerJobLevel)
+            charmChance = charmChance - 1 * (targetLevel - charmerJobLevel)
         end
     end
 
