@@ -96,10 +96,6 @@ end
 xi.job_utils.dark_knight.useDarkSeal = function(player, target, ability)
     -- Power: Each merit level after the first reduces Dark Magic casting time by -10% (total of -40% bonus).
     -- Sub Power: Enhances Dark Seal effect by increasing duration of Dark Magic by 10% per merit level (total of 50% bonus).
-    local power    = player:getMerit(xi.merit.DARK_SEAL) 
-    local subPower = player:getMerit(xi.merit.DARK_SEAL) * player:getMod(xi.mod.ENHANCES_DARK_SEAL) / 10
-
-    player:addStatusEffect(xi.effect.DARK_SEAL, power, 0, 60, 0, subPower)
     player:addStatusEffect(xi.effect.NETHER_VOID, 100, 0, 60)
 
     return xi.effect.DARK_SEAL
