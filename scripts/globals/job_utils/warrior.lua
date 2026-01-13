@@ -14,7 +14,7 @@ xi.job_utils.warrior.checkBrazenRush = function(player, target, ability)
 end
 
 xi.job_utils.warrior.checkMightyStrikes = function(player, target, ability)
-    ability:setRecast(math.max(0, ability:getRecast() - player:getMod(xi.mod.ONE_HOUR_RECAST) * 60))
+    ability:setRecast(360)
     return 0, 0
 end
 
