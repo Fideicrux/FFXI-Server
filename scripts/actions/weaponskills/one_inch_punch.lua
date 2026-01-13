@@ -20,7 +20,7 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     params.ftpMod = { 3.5, 3.5, 3.5 }
     params.vit_wsc = 0.4
     -- Defense ignored is 0%, 30%, 50% as per http://www.bg-wiki.com/bg/One_Inch_Punch
-    params.ignoredDefense = { 0.2, 0.4, 0.6 }
+    params.ignoredDefense = { 0.2, 0.35, 0.55 }
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
         params.multiHitfTP = true -- http://wiki.ffo.jp/html/2418.html
