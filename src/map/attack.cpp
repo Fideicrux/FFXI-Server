@@ -621,12 +621,6 @@ void CAttack::ProcessDamage()
         m_isTA = true;
     }
 
-    // Consume mana
-    if (m_attacker->objtype == TYPE_PC)
-    {
-        m_bonusBasePhysicalDamage += battleutils::doConsumeManaEffect((CCharEntity*)m_attacker);
-    }
-
     SLOTTYPE slot = (SLOTTYPE)GetWeaponSlot();
     if (m_attackRound->IsH2H())
     {
