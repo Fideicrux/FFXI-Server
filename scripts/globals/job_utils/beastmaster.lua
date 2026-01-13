@@ -374,13 +374,11 @@ xi.job_utils.beastmaster.onUseAbilityReward = function(player, target, ability)
     pet:wakeUp()
 
     -- Apply regen xi.effect.
-    local phaste = pet:getMod(xi.mod.HASTE_ABILITY)
     local cbmerits = player:getMerit(xi.merit.CALL_BEAST_RECAST)
-    if phaste >= merits then
-        pet:delMod(xi.mod.HASTE_ABILITY, cbmerits)
-    end
 
-    pet:addMod(xi.mod.HASTE_ABILITY, cbmerits)
+    pet:delStatusEffect(xi.effect.STONESKIN)
+    pet:addStatusEffect(xi.effect.STONESKIN, cbmerits, 0, 60)
+    
     pet:delStatusEffect(xi.effect.REGEN)
     pet:addStatusEffect(xi.effect.REGEN, regenAmount, 3, regenTime) -- 3 = tick, each 3 seconds.
     player:removeAmmo(1)
