@@ -143,10 +143,7 @@ local function getBaseMPCost(player, ability)
     end
 
     -- https://www.bg-wiki.com/ffxi/Apogee
-    -- Apogee, 1.5x MP cost, don't delete effect here because we need to reset BP: Ward/Rage timer upon use
-    if player:hasStatusEffect(xi.effect.APOGEE) then
-        baseMPCost = baseMPCost * 1.5
-    end
+    -- Apogee, 1.5x MP cost, don't delete effect here because we need to reset BP: Ward/Rage timer upon us
 
     return baseMPCost
 end

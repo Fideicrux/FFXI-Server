@@ -36,7 +36,7 @@ abilityObject.onUseAbility = function(player, target, ability)
 
     -- Calculate potency.
     local power = utils.clamp(player:getSkillLevel(xi.skill.SUMMONING_MAGIC), 0, 700)                      -- Skill
-    power       = math.floor(power * 1.05 + player:getMod(xi.mod.ENHANCES_ELEMENTAL_SIPHON) - 55)          -- Gear
+    power       = math.floor(power * 1 + player:getMod(xi.mod.ENHANCES_ELEMENTAL_SIPHON))          -- Gear
     power       = math.floor(power * xi.spells.damage.calculateDayAndWeather(player, spiritElement, true)) -- Day and Weather bonuses (Forced)
     power       = math.floor(power + player:getJobPointLevel(xi.jp.ELEMENTAL_SIPHON_EFFECT) * 3)           -- Job Points
 
