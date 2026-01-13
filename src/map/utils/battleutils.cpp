@@ -4639,15 +4639,15 @@ uint8 getBarrageShotCount(CCharEntity* PChar)
     {
         shotCount += 3;
     }
-    else if (lvl < 75)
+    else if (lvl < 65)
     {
         shotCount += 4;
     }
-    else if (lvl < 90)
+    else if (lvl < 70)
     {
         shotCount += 5;
     }
-    else if (lvl < 99)
+    else if (lvl < 75)
     {
         shotCount += 6;
     }

@@ -131,14 +131,14 @@ xi.job_utils.ranger.useEagleEyeShot = function(player, target, ability, action)
 
     -- TP params.
     local tp          = 1000 -- to ensure ftp multiplier is applied
-    params.ftpMod     = { 5.0, 5.0, 5.0 }
+    params.ftpMod     = { 9.0, 9.0, 9.0 }
     params.critVaries = { 0.0, 0.0, 0.0 }
 
     -- Stat params.
-    params.str_wsc = 0
+    params.str_wsc = 1
     params.dex_wsc = 0
     params.vit_wsc = 0
-    params.agi_wsc = 0
+    params.agi_wsc = 1
     params.int_wsc = 0
     params.mnd_wsc = 0
     params.chr_wsc = 0
@@ -169,7 +169,7 @@ end
 
 xi.job_utils.ranger.useSharpshot = function(player, target, ability, action)
     local power = 40 + player:getMod(xi.mod.SHARPSHOT)
-    player:addStatusEffect(xi.effect.SHARPSHOT, power, 0, 60)
+    player:addStatusEffect(xi.effect.SHARPSHOT, power, 0, 7200)
 
     return xi.effect.SHARPSHOT
 end
@@ -190,7 +190,7 @@ xi.job_utils.ranger.useScavenge = function(player, target, ability, action)
 
     else
         local bonuses        = (player:getMod(xi.mod.SCAVENGE_EFFECT) + player:getMerit(xi.merit.SCAVENGE_EFFECT)) / 100
-        local arrowsToReturn = math.floor(math.floor(player:getLocalVar('ArrowsUsed') % 10000) * (player:getMainLvl() / 200 + bonuses))
+        local arrowsToReturn = math.floor(math.floor(player:getLocalVar('ArrowsUsed') % 10000) * (1 + bonuses))
         local playerID       = target:getID()
 
         if arrowsToReturn == 0 then
@@ -266,7 +266,11 @@ xi.job_utils.ranger.useFlashyShot = function(player, target, ability, action)
 end
 
 xi.job_utils.ranger.useStealthShot = function(player, target, ability, action)
-    return 0, 0 -- Not implemented yet
+    local power    = 25 + player:getMerit(xi.merit.FLASHY_SHOT)
+    local subpower = 25 + player:getMerit(xi.merit.STEALTH_SHOT)
+    player:addStatusEffect(xi.effect.STEALTH_SHOT, power, 0, 60, 0, subpower)
+
+    return xi.effect.STEALTH_SHOT
 end
 
 xi.job_utils.ranger.useDoubleShot = function(player, target, ability, action)
@@ -320,7 +324,7 @@ xi.job_utils.ranger.useBountyShot = function(player, target, ability, action)
         -- This also assumes proc rate bonus works on Bounty Shot, but without mountains of data I wouldn't be able to tell.
         -- JP wiki implies these rates and functionality is the same as THF, but there's no data.
         -- BG wiki claims proc rates are similar to SA + TA procs, which seems likely given the 1 min timer on bounty shot.
-        local procRate      = 0.10 / math.pow(2, treausureHunterLevelDiff)
+        local procRate      = 0.5
         local procRateBonus = 1.0 + (target:getMod(xi.mod.TREASURE_HUNTER_PROC) + player:getMod(xi.mod.TREASURE_HUNTER_PROC)) / 100
 
         if math.random() < procRate * procRateBonus then
