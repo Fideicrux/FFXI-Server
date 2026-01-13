@@ -266,8 +266,8 @@ xi.job_utils.ranger.useFlashyShot = function(player, target, ability, action)
 end
 
 xi.job_utils.ranger.useStealthShot = function(player, target, ability, action)
-    local power    = 25 + player:getMerit(xi.merit.FLASHY_SHOT)
-    local subpower = 25 + player:getMerit(xi.merit.STEALTH_SHOT)
+    local power    = 25 + player:getMerit(xi.merit.FLASHY_SHOT) * 5
+    local subpower = 25 + player:getMerit(xi.merit.STEALTH_SHOT) * 5
     player:addStatusEffect(xi.effect.STEALTH_SHOT, power, 0, 60, 0, subpower)
 
     return xi.effect.STEALTH_SHOT
