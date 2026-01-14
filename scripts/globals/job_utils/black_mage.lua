@@ -31,7 +31,7 @@ xi.job_utils.black_mage.useCascade = function(player, target, ability)
     end
 
     -- Calculate 20% of current TP
-    local magicDamageBonus = math.floor(tp * 0.10)
+    local magicDamageBonus = math.floor(tp * 0.05)
 
     -- Consume all TP
     player:setTP(0)
@@ -43,13 +43,15 @@ xi.job_utils.black_mage.useCascade = function(player, target, ability)
 end
 
 xi.job_utils.black_mage.useElementalSeal = function(player, target, ability)
-    local level = player:getMainJob() == xi.job.BLM and player:getMainLvl() + 25
+    local level = player:getMainJob() == xi.job.BLM and player:getMainLvl() + -25
 
     if player:getMainJob() ~= xi.job.BLM then
-        level = player:getSubJob() == xi.job.BLM and player:getSubLvl() + 13
+        level = player:getSubJob() == xi.job.BLM and player:getSubLvl() + -12
     end
 
-    player:addStatusEffect(xi.effect.ELEMENTAL_SEAL, level, 0, 60)
+    local power = utils.clamp(level, 0, 50)
+
+    player:addStatusEffect(xi.effect.ELEMENTAL_SEAL, power, 0, 60)
 
     return xi.effect.ELEMENTAL_SEAL
 end
