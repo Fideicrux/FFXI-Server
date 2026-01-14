@@ -473,12 +473,12 @@ auto calcSynthResult(CCharEntity* PChar) -> uint8
     int16 synthDifficulty = 0; // Recipe difficulty, based on current skill ID being checked from player and recipe.
     uint8 currentHQTier   = 0; // Recipe current available HQ tier, based on current skill ID being checked.
     float chanceHQ        = 0;
-    uint8 maxChanceHQ     = 50;
+    uint8 maxChanceHQ     = 100;
     uint8 randomRoll      = 0; // 1 to 100.
 
     if (PChar->CraftContainer->getCraftType() == CRAFT_DESYNTHESIS)
     {
-        maxChanceHQ = 80;
+        maxChanceHQ = 100;
     }
 
     //------------------------------
@@ -495,7 +495,7 @@ auto calcSynthResult(CCharEntity* PChar) -> uint8
         }
 
         // Skill is involved.
-        successRate     = 95;                                 // Assume sucess rate is maxed.
+        successRate     = 100;                                 // Assume sucess rate is maxed.
         randomRoll      = 1 + xirand::GetRandomNumber(100);   // Random call must be called for each involved skill. 1 to 100 both included.
         currentHQTier   = 0;                                  // This is reset at the start of every loop. "finalHQTier" is not.
         synthDifficulty = getSynthDifficulty(PChar, skillID); // Get synth difficulty for current skill.
@@ -533,7 +533,7 @@ auto calcSynthResult(CCharEntity* PChar) -> uint8
         {
             canHQ           = false; // Player skill level is lower than recipe skill level. Cannot HQ.
             synthDifficulty = std::clamp<int16>(synthDifficulty, 1, 9);
-            successRate     = successRate - synthDifficulty * 10;
+            successRate     = successRate - synthDifficulty * 4;
         }
 
         if (PChar->CraftContainer->getCraftType() == CRAFT_DESYNTHESIS) // If it's a desynth, halve base success rate.
@@ -563,7 +563,7 @@ auto calcSynthResult(CCharEntity* PChar) -> uint8
         // http://www.ffxiah.com/item/5781/kitron-macaron
         if (successRate > 99)
         {
-            successRate = 99;
+            successRate = 100;
         }
 
         if (randomRoll > successRate) // Synthesis broke. This is not a mistake, the break check HAS to be done per craft skill involved.
