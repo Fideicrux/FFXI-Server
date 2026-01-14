@@ -119,7 +119,6 @@ xi.combat.ranged.shouldUseAmmo = function(attacker)
         local recycleChance = attacker:getMod(xi.mod.RECYCLE) + attacker:getMerit(xi.merit.RECYCLE) + attacker:getJobPointLevel(xi.jp.AMMO_CONSUMPTION)
 
         if attacker:hasStatusEffect(xi.effect.UNLIMITED_SHOT) then
-            attacker:delStatusEffect(xi.effect.UNLIMITED_SHOT) -- TODO: allegedly Unlimited Shot doesn't remove itself unless you hit
             recycleChance = 100
         end
 
