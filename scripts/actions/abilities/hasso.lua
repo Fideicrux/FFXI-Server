@@ -31,7 +31,7 @@ abilityObject.onUseAbility = function(player, target, ability)
     if strboost > 0 then
         target:delStatusEffect(xi.effect.HASSO)
         target:delStatusEffect(xi.effect.SEIGAN)
-        target:addStatusEffect(xi.effect.HASSO, strboost, 0, 300, 0, accboost)
+        target:addStatusEffect(xi.effect.HASSO, strboost, 0, 7200, 0, accboost)
     end
 end
 
