@@ -220,7 +220,7 @@ local pTable =
     [xi.magic.spell.BANISHGA_II   ] = { xi.mod.MND,     0,    270,     1,    270,   133,     0},
     [xi.magic.spell.BANISHGA_III  ] = { xi.mod.MND,     0,    720,   1.5,    720,   450,     0}, -- Enemy only. Stats unknown.
     [xi.magic.spell.BANISHGA_IV   ] = { xi.mod.MND,     0,    900,   1.5,    900,   600,     0}, -- Enemy only. Stats unknown.
-    [xi.magic.spell.HOLY          ] = { xi.mod.MND,     0,    125,     1,    250,   150,     0},
+    [xi.magic.spell.HOLY          ] = { xi.mod.MND,     0,    125,     1,    250,   50,     0},
     [xi.magic.spell.HOLY_II       ] = { xi.mod.MND,     0,    375,     2,    500,   300,     0},
 
 -- Dark spells.
@@ -452,6 +452,12 @@ xi.spells.damage.calculateBaseDamage = function(caster, target, spellId, spellGr
         statDiffBonus   = math.floor(statDiffBonus)
 
         spellDamage = math.floor(baseSpellDamage * (baseSpellDamageBonus + statDiffBonus))
+    end
+
+    -- Custom server tuning: allow Holy / Holy II damage scaling for player casts.
+    if caster:isPC() and (spellId == xi.magic.spell.HOLY or spellId == xi.magic.spell.HOLY_II) then
+        local holyMult = 3.5
+        spellDamage = math.floor(spellDamage * holyMult)
     end
 
     return utils.clamp(spellDamage, 0, 99999)
