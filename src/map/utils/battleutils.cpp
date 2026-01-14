@@ -4557,8 +4557,7 @@ int32 getOverWhelmDamageBonus(CBattleEntity* PAttacker, CBattleEntity* PDefender
     if (auto PChar = dynamic_cast<CCharEntity*>(PAttacker)) // Some mobskills use TakeWeaponskillDamage function, which calls upon this one.
     {
         // must be in front of mob
-        if (infront(PChar->loc.p, PDefender->loc.p, 64))
-        {
+        
             uint8 meritCount = PChar->PMeritPoints->GetMeritValue(MERIT_OVERWHELM, PChar);
             float tmpDamage  = static_cast<float>(damage);
 
@@ -4574,16 +4573,16 @@ int32 getOverWhelmDamageBonus(CBattleEntity* PAttacker, CBattleEntity* PDefender
                     tmpDamage += tmpDamage * 0.15f;
                     break;
                 case 4:
-                    tmpDamage += tmpDamage * 0.17f;
+                    tmpDamage += tmpDamage * 0.20f;
                     break;
                 case 5:
-                    tmpDamage += tmpDamage * 0.19f;
+                    tmpDamage += tmpDamage * 0.25f;
                     break;
                 default:
                     break;
             }
             damage = static_cast<int32>(floor(tmpDamage));
-        }
+        
     }
     return damage;
 }
