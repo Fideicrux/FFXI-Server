@@ -501,22 +501,22 @@ auto calcSynthResult(CCharEntity* PChar) -> uint8
         synthDifficulty = getSynthDifficulty(PChar, skillID); // Get synth difficulty for current skill.
 
         // Skill is at or over synth recipe level.
-        if (synthDifficulty <= 0)
+        if (synthDifficulty <= 10)
         {
             // Check what the current HQ tier is.
-            if (synthDifficulty >= -10) // 0-10 levels over recipe.
+            if (synthDifficulty >= 0) // 0-10 levels under recipe.
             {
                 currentHQTier = 1;
             }
-            else if (synthDifficulty >= -30) // 11-30 levels over recipe.
+            else if (synthDifficulty >= -10) // 0-10 levels over recipe.
             {
                 currentHQTier = 2;
             }
-            else if (synthDifficulty >= -50) // 31-50 levels over recipe.
+            else if (synthDifficulty >= -20) // 10-20 levels over recipe.
             {
                 currentHQTier = 3;
             }
-            else // 51 or more levels over recipe.
+            else // 21 or more levels over recipe.
             {
                 currentHQTier = 4;
             }
@@ -584,17 +584,17 @@ auto calcSynthResult(CCharEntity* PChar) -> uint8
     {
         switch (finalHQTier)
         {
-            case 4: // 1 in 2
+            case 4: // 1 in 1 (Guarantee Max HQ value.)
+                chanceHQ = 100.0f;
+                break;
+            case 3: // 1 in 1
+                chanceHQ = 100.0f;
+                break;
+            case 2: // 1 in 2
                 chanceHQ = 50.0f;
                 break;
-            case 3: // 1 in 4
+            case 1: // 1 in 4
                 chanceHQ = 25.0f;
-                break;
-            case 2: // 1 in 16
-                chanceHQ = 6.25f;
-                break;
-            case 1: // 1 in 64
-                chanceHQ = 1.5625f;
                 break;
             default: // No chance
                 chanceHQ = 0.0f;
@@ -617,19 +617,22 @@ auto calcSynthResult(CCharEntity* PChar) -> uint8
             chanceHQ = maxChanceHQ;
         }
 
+
         randomRoll = 1 + xirand::GetRandomNumber(100);
+
+        
 
         if (randomRoll <= chanceHQ) // We HQ. Proceed to selct HQ Tier
         {
             synthResult = SYNTHESIS_HQ;
             randomRoll  = 1 + xirand::GetRandomNumber(100);
 
-            if (randomRoll <= 25) // 25% Chance after HQ to upgrade to HQ2
+            if (randomRoll <= 50) or finalHQTier = 4 // 50% Chance after HQ to upgrade to HQ2
             {
                 synthResult = SYNTHESIS_HQ2;
                 randomRoll  = 1 + xirand::GetRandomNumber(100);
 
-                if (randomRoll <= 25) // 25% Chance after HQ2 to upgrade to HQ3
+                if (randomRoll <= 50) // 50% Chance after HQ2 to upgrade to HQ3
                 {
                     synthResult = SYNTHESIS_HQ3;
                 }
