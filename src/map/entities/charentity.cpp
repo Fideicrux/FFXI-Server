@@ -2036,10 +2036,7 @@ void CCharEntity::OnRangedAttack(CRangeState& state, action_t& action)
             // Never consume ammo with Unlimited Shot active
             recycleChance = 100;
             // Only remove unlimited shot on hit
-            if (hitOccured)
-            {
-                StatusEffectContainer->DelStatusEffect(EFFECT_UNLIMITED_SHOT);
-            }
+            
         }
 
         if (PAmmo != nullptr && xirand::GetRandomNumber(100) > recycleChance)
