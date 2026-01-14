@@ -106,7 +106,7 @@ xi.job_utils.paladin.useHolyCircle = function(player, target, ability)
     -- https://www.bg-wiki.com/ffxi/Holy_Circle
     -- Main (PLD) job gives a unique 15% damage bonus against undead, 15% damage resistance from undead, and likely +15% Undead Killer.
     -- When subbed, gives 5% of these bonuses.
-    local duration = 7200 + player:getMod(xi.mod.HOLY_CIRCLE_DURATION)
+    local duration = 600 + player:getMod(xi.mod.HOLY_CIRCLE_DURATION)
     local merits   = player:getMerit(xi.merit.HOLY_CIRCLE_RECAST)
     local power    = 20 + merits
 

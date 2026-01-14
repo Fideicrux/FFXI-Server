@@ -20,7 +20,7 @@ abilityObject.onUseAbility = function(player, target, ability)
     if target:isWeaponTwoHanded() then
         target:delStatusEffect(xi.effect.HASSO)
         target:delStatusEffect(xi.effect.SEIGAN)
-        target:addStatusEffect(xi.effect.SEIGAN, 0, 0, 300)
+        target:addStatusEffect(xi.effect.SEIGAN, 0, 0, 7200)
     end
 end
 

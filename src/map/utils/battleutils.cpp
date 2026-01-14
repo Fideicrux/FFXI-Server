@@ -2665,10 +2665,7 @@ int32 TakeWeaponskillDamage(CBattleEntity* PAttacker, CBattleEntity* PDefender, 
     PAttacker->addTP(std::max((PAttacker->getMod(Mod::SAVETP)), standbyTp));
 
     // Remove Hagakure Effect if present
-    if (PAttacker->StatusEffectContainer->HasStatusEffect(EFFECT_HAGAKURE))
-    {
-        PAttacker->StatusEffectContainer->DelStatusEffect(EFFECT_HAGAKURE);
-    }
+
 
     return damage;
 }

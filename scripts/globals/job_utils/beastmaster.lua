@@ -533,7 +533,7 @@ xi.job_utils.beastmaster.onUseAbilityKillerInstinct = function(player, target, a
     local pet          = player:getPet()
     local petEcosystem = pet:getEcosystem()
     local power        = 10 + (player:getMerit(xi.merit.KILLER_INSTINCT))
-    local duration     = 7200 
+    local duration     = 600
     -- TODO: Is there gear/mods that enhance power/duration?
 
     target:addStatusEffect(xi.effect.KILLER_INSTINCT, power, 0, duration, 0, petEcosystem)
