@@ -404,6 +404,86 @@ CAbility* GetAbility(uint16 AbilityID)
  *                                                                       *
  ************************************************************************/
 
+CAbility* GetTwoHourAbility(JOBTYPE JobID)
+{
+    if (JobID >= JOB_WAR || JobID <= MAX_JOBTYPE)
+    {
+        switch (JobID)
+        {
+            case JOB_WAR:
+                return GetAbility(ABILITY_MIGHTY_STRIKES);
+                break;
+            case JOB_MNK:
+                return GetAbility(ABILITY_HUNDRED_FISTS);
+                break;
+            case JOB_WHM:
+                return GetAbility(ABILITY_BENEDICTION);
+                break;
+            case JOB_BLM:
+                return GetAbility(ABILITY_MANAFONT);
+                break;
+            case JOB_RDM:
+                return GetAbility(ABILITY_CHAINSPELL);
+                break;
+            case JOB_THF:
+                return GetAbility(ABILITY_PERFECT_DODGE);
+                break;
+            case JOB_PLD:
+                return GetAbility(ABILITY_INVINCIBLE);
+                break;
+            case JOB_DRK:
+                return GetAbility(ABILITY_BLOOD_WEAPON);
+                break;
+            case JOB_BST:
+                return GetAbility(ABILITY_FAMILIAR);
+                break;
+            case JOB_BRD:
+                return GetAbility(ABILITY_SOUL_VOICE);
+                break;
+            case JOB_RNG:
+                return GetAbility(ABILITY_EAGLE_EYE_SHOT);
+                break;
+            case JOB_SAM:
+                return GetAbility(ABILITY_MEIKYO_SHISUI);
+                break;
+            case JOB_NIN:
+                return GetAbility(ABILITY_MIJIN_GAKURE);
+                break;
+            case JOB_DRG:
+                return GetAbility(ABILITY_SPIRIT_SURGE);
+                break;
+            case JOB_SMN:
+                return GetAbility(ABILITY_ASTRAL_FLOW);
+                break;
+            case JOB_BLU:
+                return GetAbility(ABILITY_AZURE_LORE);
+                break;
+            case JOB_COR:
+                return GetAbility(ABILITY_WILD_CARD);
+                break;
+            case JOB_PUP:
+                return GetAbility(ABILITY_OVERDRIVE);
+                break;
+            case JOB_DNC:
+                return GetAbility(ABILITY_TRANCE);
+                break;
+            case JOB_SCH:
+                return GetAbility(ABILITY_TABULA_RASA);
+                break;
+            case JOB_GEO:
+                return GetAbility(ABILITY_BOLSTER);
+                break;
+            case JOB_RUN:
+                return GetAbility(ABILITY_ELEMENTAL_SFORZO);
+                break;
+            default:
+                break;
+        }
+    }
+
+    ShowWarning("Attempt to get two hour ability with invalid JOBTYPE %d.", JobID);
+    return nullptr;
+}
 
 bool CanLearnAbility(CBattleEntity* PUser, uint16 AbilityID)
 {
