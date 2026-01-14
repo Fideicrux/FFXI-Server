@@ -9,6 +9,7 @@ effectObject.onEffectGain = function(target, effect)
 
     target:addMod(xi.mod.CURE_POTENCY_II, strength)
     target:addMod(xi.mod.WHITE_MAGIC_RECAST, -(strength * 2))
+    target:addMod(xi.mod.WHITE_MAGIC_CAST, -(strength * 2))
 end
 
 effectObject.onEffectTick = function(target, effect)
