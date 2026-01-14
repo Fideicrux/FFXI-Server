@@ -79,6 +79,7 @@ xi.petId =
     SLIPPERY_SILAS        = 67,
     TURBID_TOLOI          = 68,
     SWEET_CAROLINE        = 77,
+    SCISSORLEG_XERIN      = 78,
 
     --  Dragoon
     WYVERN                = 48,

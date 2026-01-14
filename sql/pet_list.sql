@@ -110,3 +110,5 @@ INSERT INTO `pet_list` VALUES (72,'StormwakerFrame',5127,1,99,0,0,3);
 INSERT INTO `pet_list` VALUES (75,'Luopan',6040,1,99,0,0,0);
 INSERT INTO `pet_list` VALUES (76,'Siren',7047,1,99,0,0,2);
 INSERT INTO `pet_list` VALUES (77,'SweetCaroline',7500,99,119,7200,0,3);
+INSERT INTO `pet_list` VALUES (78,'ScissorlegXerin',7501,75,90,7200,0,2);
+

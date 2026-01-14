@@ -1543,7 +1543,7 @@ INSERT INTO `item_weapon` VALUES (17905,'wormy_broth',0,67,0,0,0,0,1,2253,6958,0
 INSERT INTO `item_weapon` VALUES (17906,'auroral_broth',0,68,0,0,0,0,1,2249,7215,0);
 INSERT INTO `item_weapon` VALUES (17907,'swirling_broth',0,0,0,0,0,0,1,2247,304,0);
 INSERT INTO `item_weapon` VALUES (17908,'shimmering_broth',0,0,0,0,0,0,1,2246,2097,0);
-INSERT INTO `item_weapon` VALUES (17909,'spicy_broth',0,0,0,0,0,0,1,2245,7474,0);
+INSERT INTO `item_weapon` VALUES (17909,'spicy_broth',0,78,0,0,0,0,1,2245,7474,0);
 INSERT INTO `item_weapon` VALUES (17910,'trans._broth',0,0,0,0,0,0,1,2248,2099,0);
 INSERT INTO `item_weapon` VALUES (17911,'salubrious_broth',0,0,0,0,0,0,1,2242,7732,0);
 INSERT INTO `item_weapon` VALUES (17912,'fizzy_broth',0,0,0,0,0,0,1,2243,7989,0);
