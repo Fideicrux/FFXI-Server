@@ -68,8 +68,15 @@ GP_SERV_COMMAND_ABIL_RECAST::GP_SERV_COMMAND_ABIL_RECAST(CCharEntity* PChar)
         }
         else // 2hr edge case // TODO: retail uses Calc2 on 2hr for some reason...
         {
-            packet.Timers[0].Timer   = recastSeconds;
+            // Some clients treat Timers[0] specially (retail-like behavior), while others
+            // only parse the timer list starting at index 1.
+            // Populate both to ensure the recast is reflected in the menu.
+            packet.Timers[0].Timer   = static_cast<uint16_t>(recastSeconds);
             packet.Timers[0].TimerId = 0;
+
+            packet.Timers[count].Timer   = static_cast<uint16_t>(recastSeconds);
+            packet.Timers[count].TimerId = 0;
+            count++;
         }
 
         // Retail currently only allows 31 distinct recasts to be sent in the packet
