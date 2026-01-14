@@ -7395,7 +7395,7 @@ INSERT INTO `mob_pools` VALUES (7297,'Pet_Atomos','Pet_Atomos',32,0x00001D000000
 
 -- Jug pet pools (skipped to allow keeping them sequential)
 INSERT INTO `mob_pools` VALUES (7500,'Pet_Sweet_Caroline','Pet_Sweet_Caroline',178,0x00008E0B00000000000000000000000000000000,2,2,1,480,100,0,0,0,0,8,0,32,605,129,0,0,0,0,0,766,178,0,12);
-INSERT INTO `mob_pools` VALUES (7501,'Pet_Scissorleg_Xerin','Pet_Scissorleg_Xerin',339,0x0000F10900000000000000000000000000000000,1,1,7,240,100,0,0,0,0,8,0,0,0,131,0,0,0,0,0,757,339,0,8);
+INSERT INTO `mob_pools` VALUES (7501,'Pet_Scissorleg_Xerin','Pet_Scissorleg_Xerin',339,0x0000F10900000000000000000000000000000000,1,1,7,240,100,0,0,0,0,8,0,0,0,131,0,0,0,0,0,757,339,1,8);
 
 -- ------------------------------------------------------------
 -- Start of Ambuscade section
