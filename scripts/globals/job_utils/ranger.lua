@@ -350,7 +350,7 @@ xi.job_utils.ranger.useBountyShot = function(player, target, ability, action)
 end
 
 xi.job_utils.ranger.useDecoyShot = function(player, target, ability, action)
-    target:addStatusEffect(xi.effect.DECOY_SHOT, 11, 1, 30)
+    target:addStatusEffect(xi.effect.DECOY_SHOT, 11, 1, 7200)
 
     return xi.effect.DECOY_SHOT
 end
