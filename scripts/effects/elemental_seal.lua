@@ -6,7 +6,7 @@ local effectObject = {}
 
 effectObject.onEffectGain = function(target, effect)
     
-    local power = effect:getPower() * 4
+    local power = effect:getPower()
 
     effect:addMod(xi.mod.MATT, power)
     -- Overwrites
