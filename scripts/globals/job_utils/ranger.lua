@@ -131,7 +131,7 @@ xi.job_utils.ranger.useEagleEyeShot = function(player, target, ability, action)
 
     -- TP params.
     local tp          = 1000 -- to ensure ftp multiplier is applied
-    params.ftpMod     = { 9.0, 9.0, 9.0 }
+    params.ftpMod     = { 5.0, 5.0, 5.0 }
     params.critVaries = { 0.0, 0.0, 0.0 }
 
     -- Stat params.
