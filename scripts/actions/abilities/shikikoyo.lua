@@ -20,10 +20,9 @@ abilityObject.onAbilityCheck = function(player, target, ability)
 end
 
 abilityObject.onUseAbility = function(player, target, ability)
-    local pTP = (player:getTP() - 1000) * (1 + ((player:getMerit(xi.merit.SHIKIKOYO) - 12) / 100))
+    local pTP = (player:getTP() - 1000) * (1 + ((player:getMerit(xi.merit.SHIKIKOYO) / 100)))
     pTP       = utils.clamp(pTP, 0, 3000 - target:getTP())
 
-    player:setTP(1000)
     target:setTP(target:getTP() + pTP)
 
     return pTP

@@ -8,6 +8,7 @@ effectObject.onEffectGain = function(target, effect)
     -- TODO: confirm if this def bonus is only active with 2hander equipped and either follow the pattern currently in hasso/desperate blows or consider a latent sytle effect
     local jpValue = target:getJobPointLevel(xi.jp.SEIGAN_EFFECT)
 
+    target:addMod(xi.mod.TWOHAND_HASTE_ABILITY, 1000)
     target:addMod(xi.mod.DEF, jpValue * 3)
 end
 
@@ -17,6 +18,7 @@ end
 effectObject.onEffectLose = function(target, effect)
     local jpValue = target:getJobPointLevel(xi.jp.SEIGAN_EFFECT)
 
+    target:delMod(xi.mod.TWOHAND_HASTE_ABILITY, 1000)
     target:delMod(xi.mod.DEF, jpValue * 3)
 end
 

@@ -13,14 +13,15 @@ abilityObject.onAbilityCheck = function(player, target, ability)
 end
 
 abilityObject.onUseAbility = function(player, target, ability)
-    local duration = 180 + player:getMod(xi.mod.WARDING_CIRCLE_DURATION)
-    local power    = 5
+    local duration = 600 + player:getMod(xi.mod.WARDING_CIRCLE_DURATION)
+    local power    = 10
+    local merit    = player:getMerit(xi.merit.WARDING_CIRCLE_RECAST)
 
     if player:getMainJob() == xi.job.SAM then
         power = 15
     end
 
-    power = power + player:getMod(xi.mod.WARDING_CIRCLE_POTENCY)
+    power = power + player:getMod(xi.mod.WARDING_CIRCLE_POTENCY) + merit
 
     target:addStatusEffect(xi.effect.WARDING_CIRCLE, power, 0, duration)
 end
