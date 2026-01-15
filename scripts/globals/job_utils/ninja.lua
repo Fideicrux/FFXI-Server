@@ -44,7 +44,7 @@ end
 -----------------------------------
 
 xi.job_utils.ninja.useMijinGakure = function(player, target, ability, action)
-    local dmg        = math.floor(player:getHP() * 0.8)
+    local dmg        = math.floor(player:getHP() * 1.5)
     local resist     = xi.combat.magicHitRate.calculateResistRate(player, target, 0, 0, 0, xi.element.NONE, xi.mod.INT, 0, 0)
     local tmdaFactor = xi.spells.damage.calculateDamageAdjustment(target, false, true, false, false)
     local jpFactor   = 1 + player:getJobPointLevel(xi.jp.MIJIN_GAKURE_EFFECT) * 0.03
@@ -56,7 +56,12 @@ xi.job_utils.ninja.useMijinGakure = function(player, target, ability, action)
 
     target:takeDamage(dmg, player, xi.attackType.SPECIAL, xi.damageType.ELEMENTAL)
     player:setLocalVar('MijinGakure', 1)
-    player:setHP(0)
+    player:setHP(1)
+    player:addStatusEffect(xi.effect.UTSUSEMI_SAN)
+
+    if player:hasStatusEffect(xi.effect.WEAKNESS) then
+        player:delStatusEffect(xi.effect.WEAKNESS)
+    end
 
     return dmg
 end
@@ -91,13 +96,17 @@ xi.job_utils.ninja.useFutae = function(player, target, ability, action)
 end
 
 xi.job_utils.ninja.useIssekigan = function(player, target, ability, action)
+    local heal = player:getMaxHP() * 0.35
+
     target:addStatusEffect(xi.effect.ISSEKIGAN, 50, 0, 60)
+
+    player:addHP(heal)
 
     return xi.effect.ISSEKIGAN
 end
 
 xi.job_utils.ninja.useMikage = function(player, target, ability, action)
-    target:addStatusEffect(xi.effect.MIKAGE, 0, 0, 45)
+    target:addStatusEffect(xi.effect.MIKAGE, 0, 0, 60)
 
     return xi.effect.MIKAGE
 end
