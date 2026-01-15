@@ -57,7 +57,7 @@ xi.job_utils.ninja.useMijinGakure = function(player, target, ability, action)
     target:takeDamage(dmg, player, xi.attackType.SPECIAL, xi.damageType.ELEMENTAL)
     player:setLocalVar('MijinGakure', 1)
     player:setHP(1)
-    player:addStatusEffect(xi.effect.UTSUSEMI_SAN)
+    player:addStatusEffect(xi.effect.UTSUSEMI_SAN, 6, 0, 360)
 
     if player:hasStatusEffect(xi.effect.WEAKNESS) then
         player:delStatusEffect(xi.effect.WEAKNESS)
