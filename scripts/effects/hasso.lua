@@ -9,7 +9,7 @@ local effectObject = {}
 effectObject.onEffectGain = function(target, effect)
     effect:addMod(xi.mod.TWOHAND_STR, effect:getPower())
     effect:addMod(xi.mod.TWOHAND_HASTE_ABILITY, 1000)
-    effect:addMod(xi.mod.TWOHAND_ACC, effect:getSubJob())
+    effect:addMod(xi.mod.TWOHAND_ACC, effect:getSubPower())
 end
 
 effectObject.onEffectTick = function(target, effect)
