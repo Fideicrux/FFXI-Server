@@ -64,7 +64,7 @@ end
 xi.job_utils.ninja.useYonin = function(player, target, ability, action)
     target:delStatusEffect(xi.effect.INNIN)
     target:delStatusEffect(xi.effect.YONIN)
-    target:addStatusEffect(xi.effect.YONIN, 30, 15, 300, 0, 0)
+    target:addStatusEffect(xi.effect.YONIN, 50, 0, 7200, 0, 0)
 
     return xi.effect.YONIN
 end
@@ -72,14 +72,14 @@ end
 xi.job_utils.ninja.useInnin = function(player, target, ability, action)
     target:delStatusEffect(xi.effect.INNIN)
     target:delStatusEffect(xi.effect.YONIN)
-    target:addStatusEffect(xi.effect.INNIN, 30, 15, 300, 0, 20)
+    target:addStatusEffect(xi.effect.INNIN, 50, 0, 7200, 0, 20)
 
     return xi.effect.INNIN
 end
 
 xi.job_utils.ninja.useSange = function(player, target, ability, action)
-    local potency = player:getMerit(xi.merit.SANGE)-1
-    player:addStatusEffect(xi.effect.SANGE, potency * 25, 0, 60)
+    local potency = player:getMerit(xi.merit.SANGE)
+    player:addStatusEffect(xi.effect.SANGE, potency * 40, 0, 60)
 
     return xi.effect.SANGE
 end
