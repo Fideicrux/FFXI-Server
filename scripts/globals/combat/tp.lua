@@ -41,27 +41,27 @@ xi.combat.tp.getModifiedDelayAndCanZanshin = function(actor, delay)
     local canZanshin    = false
 
     -- DW/H2H delay is halved for the purposes of a single hit's TP return when applicable, see https://www.bg-wiki.com/ffxi/Tactical_Points
-    if actor:isDualWielding() then -- NOTE: this 'isDualWielding' may trip on non-PCs even if they are 'using h2h'. If this is rectified in core in the future this should fall through correctly.
-        modifiedDelay = (delay * (100 - actor:getMod(xi.mod.DUAL_WIELD)) / 100) / 2
-    elseif actor:isUsingH2H() then
-        if actor:getObjType() == xi.objType.PC then            -- handle h2h with > 1 swing only on PC
-            if
-                actor:getEquippedItem(xi.slot.SUB) ~= nil or   -- equipped shield = one swing
-                actor:getSkillRank(xi.skill.HAND_TO_HAND) == 0 -- zero h2h rank skill = one swing
-            then
-                modifiedDelay = math.max((delay - actor:getMod(xi.mod.MARTIAL_ARTS)), 96) -- min delay of 96 total, https://www.bg-wiki.com/ffxi/Attack_Speed
-                canZanshin    = true -- Zanshin can proc on an 'unarmed' swing               -- https://www.bg-wiki.com/ffxi/Zanshin
-            else
-                modifiedDelay = math.max((delay - actor:getMod(xi.mod.MARTIAL_ARTS)) / 2, 48) -- min delay of 96 total so 96/2 per fist, https://www.bg-wiki.com/ffxi/Attack_Speed
-            end
-        else
-            -- TODO: handle the corner case where a PC-like entity is using h2h but is only hitting with one 'fist'. Perhaps they have a shield with no main weapon.
-            -- elseif actor:getAutoAttackHits() > 1
-            modifiedDelay = math.max((delay - actor:getMod(xi.mod.MARTIAL_ARTS)) / 2, 48)
-        end
-    else -- single melee swing, either 1H or 2H
-        canZanshin = true -- https://www.bg-wiki.com/ffxi/Zanshin
-    end
+    -- if actor:isDualWielding() then -- NOTE: this 'isDualWielding' may trip on non-PCs even if they are 'using h2h'. If this is rectified in core in the future this should fall through correctly.
+    --     modifiedDelay = (delay * (100 - actor:getMod(xi.mod.DUAL_WIELD)) / 100) / 2
+    -- elseif actor:isUsingH2H() then
+    --     if actor:getObjType() == xi.objType.PC then            -- handle h2h with > 1 swing only on PC
+    --         if
+    --             actor:getEquippedItem(xi.slot.SUB) ~= nil or   -- equipped shield = one swing
+    --             actor:getSkillRank(xi.skill.HAND_TO_HAND) == 0 -- zero h2h rank skill = one swing
+    --         then
+    --             modifiedDelay = math.max((delay - actor:getMod(xi.mod.MARTIAL_ARTS)), 96) -- min delay of 96 total, https://www.bg-wiki.com/ffxi/Attack_Speed
+    --             canZanshin    = true -- Zanshin can proc on an 'unarmed' swing               -- https://www.bg-wiki.com/ffxi/Zanshin
+    --         else
+    --             modifiedDelay = math.max((delay - actor:getMod(xi.mod.MARTIAL_ARTS)) / 2, 48) -- min delay of 96 total so 96/2 per fist, https://www.bg-wiki.com/ffxi/Attack_Speed
+    --         end
+    --     else
+    --         -- TODO: handle the corner case where a PC-like entity is using h2h but is only hitting with one 'fist'. Perhaps they have a shield with no main weapon.
+    --         -- elseif actor:getAutoAttackHits() > 1
+    --         modifiedDelay = math.max((delay - actor:getMod(xi.mod.MARTIAL_ARTS)) / 2, 48)
+    --     end
+    -- else -- single melee swing, either 1H or 2H
+    canZanshin = true -- https://www.bg-wiki.com/ffxi/Zanshin
+    --end
 
     modifiedDelay = modifiedDelay * math.max((100 + actor:getMod(xi.mod.DELAYP)) / 100, 0.85) -- minimum cap of -15% https://www.bg-wiki.com/ffxi/Attack_Speed. Undocumented if 15% + Claymore Grip goes above 15%.
 
