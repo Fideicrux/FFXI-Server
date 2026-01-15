@@ -627,12 +627,14 @@ auto calcSynthResult(CCharEntity* PChar) -> uint8
             synthResult = SYNTHESIS_HQ;
             randomRoll  = 1 + xirand::GetRandomNumber(100);
 
-            if (randomRoll <= 50) or finalHQTier = 4 // 50% Chance after HQ to upgrade to HQ2
+            // 50% chance to upgrade to HQ2, but only if HQ2 is allowed by finalHQTier
+            if (randomRoll <= 50 && finalHQTier >= 2) // 50% Chance after HQ to upgrade to HQ2
             {
                 synthResult = SYNTHESIS_HQ2;
                 randomRoll  = 1 + xirand::GetRandomNumber(100);
 
-                if (randomRoll <= 50) // 50% Chance after HQ2 to upgrade to HQ3
+                // 50% chance to upgrade to HQ3, but only if HQ3 is allowed by finalHQTier
+                if (randomRoll <= 50 && finalHQTier >= 3) // 50% Chance after HQ2 to upgrade to HQ3
                 {
                     synthResult = SYNTHESIS_HQ3;
                 }
