@@ -91,7 +91,7 @@ xi.job_utils.ninja.useFutae = function(player, target, ability, action)
 end
 
 xi.job_utils.ninja.useIssekigan = function(player, target, ability, action)
-    target:addStatusEffect(xi.effect.ISSEKIGAN, 25, 0, 60)
+    target:addStatusEffect(xi.effect.ISSEKIGAN, 50, 0, 60)
 
     return xi.effect.ISSEKIGAN
 end
