@@ -176,7 +176,7 @@ xi.job_utils.dragoon.abilityCheckAngon = function(player, target, ability)
     if id == xi.item.ANGON then
         return 0, 0
     else
-        return xi.msg.basic.CANNOT_PERFORM, 0
+        return 0, 0
     end
 end
 
@@ -195,7 +195,7 @@ xi.job_utils.dragoon.useSpiritSurge = function(player, target, ability)
     wyvern:delTP(petTP)
 
     -- Spirit Surge increases dragoon's Strength
-    local strBoost = 1 + math.floor(wyvern:getMainLvl() / 5)
+    local strBoost = 1 + math.floor(wyvern:getMainLvl() / 3)
 
     target:despawnPet()
 
@@ -213,15 +213,16 @@ xi.job_utils.dragoon.useCallWyvern = function(player, target, ability)
 end
 
 xi.job_utils.dragoon.useAncientCircle = function(player, target, ability)
-    local duration = 180 + player:getMod(xi.mod.ANCIENT_CIRCLE_DURATION)
+    local duration = 600 + player:getMod(xi.mod.ANCIENT_CIRCLE_DURATION)
     local jpValue  = player:getJobPointLevel(xi.jp.ANCIENT_CIRCLE_EFFECT)
-    local power    = 5
+    local power    = 10
 
     if player:getMainJob() == xi.job.DRG then
         power = 15 + jpValue
     end
 
     power = power + player:getMod(xi.mod.ANCIENT_CIRCLE_POTENCY)
+    power = power + player:getMerit(xi.merit.ANCIENT_CIRCLE_RECAST)
 
     target:addStatusEffect(xi.effect.ANCIENT_CIRCLE, power, 0, duration)
 
@@ -323,7 +324,9 @@ xi.job_utils.dragoon.useSpiritLink = function(player, target, ability, action)
     local playerHP    = player:getHP()
     local petTP       = wyvern:getTP()
     local regenAmount = player:getMainLvl() / 3 -- level/3 tic regen
+    local tpAmount    = player:getMerit(xi.merit.SPIRIT_LINK_RECAST)
 
+    player:addTP(tpAmount)
     checkForRemovableEffectsOnSpiritLink(player, wyvern)
 
     -- Empathy copying
@@ -434,6 +437,10 @@ xi.job_utils.dragoon.useHighJump = function(player, target, ability, action)
 end
 
 xi.job_utils.dragoon.useSuperJump = function(player, target, ability)
+    local heal = (player:getMerit(xi.merit.SUPER_JUMP_RECAST) / 100) * player:getMaxHP()
+    
+    player:addHP(heal)
+
     -- http://wiki.ffo.jp/html/3367.html
     for _, mob in pairs(player:getNotorietyList()) do
         -- TODO: testing shows max range on this is >50' but stops somewhere above this. Need exact number.
@@ -452,6 +459,7 @@ xi.job_utils.dragoon.useSuperJump = function(player, target, ability)
 
     -- If the Dragoon's wyvern is out, alive, and engaged, tell it to use Super Climb
     local wyvern = getWyvern(player)
+
     if
         wyvern ~= nil and
         wyvern:getHP() > 0 and
@@ -495,28 +503,29 @@ end
 
 -- https://www.bg-wiki.com/ffxi/Angon
 xi.job_utils.dragoon.useAngon = function(player, target, ability)
-    local duration   = 15 + player:getMerit(xi.merit.ANGON) -- This will return 30 sec at one investment because merit power is 15.
+    local duration   = 120 + player:getMerit(xi.merit.ANGON) -- This will return 30 sec at one investment because merit power is 15.
 
     if not target:addStatusEffect(xi.effect.DEFENSE_DOWN, 20, 0, duration) then
         ability:setMsg(xi.msg.basic.MAGIC_NO_EFFECT)
     end
 
     target:updateClaim(player)
-    player:removeAmmo(1)
 
     return xi.effect.DEFENSE_DOWN
 end
 
 xi.job_utils.dragoon.useDeepBreathing = function(player, target, ability)
     local wyvern = getWyvern(player)
+    local merits = player:getMerit(xi.merit.DEEP_BREATHING) * 100
 
     if wyvern then
-        wyvern:addStatusEffect(xi.effect.MAGIC_ATK_BOOST, 0, 0, 180) -- Message when effect is lost is 'Magic Attack boost wears off.'
+        wyvern:addTP(merits)
+        wyvern:addStatusEffect(xi.effect.MAGIC_ATK_BOOST, 0, 0, 60) -- Message when effect is lost is 'Magic Attack boost wears off.'
     end
 end
 
 xi.job_utils.dragoon.useSpiritBond = function(player, target, ability)
-    player:addStatusEffect(xi.effect.SPIRIT_BOND, 0, 0, 180)
+    player:addStatusEffect(xi.effect.SPIRIT_BOND, 0, 0, 7200)
 
     return xi.effect.SPIRIT_BOND
 end
@@ -561,7 +570,7 @@ xi.job_utils.dragoon.useSoulJump = function(player, target, ability, action)
 end
 
 xi.job_utils.dragoon.useDragonBreaker = function(player, target, ability)
-    target:addStatusEffect(xi.effect.DRAGON_BREAKER, 20, 0, 180)
+    target:addStatusEffect(xi.effect.DRAGON_BREAKER, 50, 0, 210)
 end
 
 xi.job_utils.dragoon.useFlyHigh = function(player, target, ability)
@@ -572,7 +581,7 @@ xi.job_utils.dragoon.useFlyHigh = function(player, target, ability)
     target:resetRecast(xi.recast.ABILITY, 166) -- Spirit Jump
     target:resetRecast(xi.recast.ABILITY, 167) -- Soul Jump
 
-    player:addStatusEffect(xi.effect.FLY_HIGH, 0, 0, 30)
+    player:addStatusEffect(xi.effect.FLY_HIGH, 0, 0, 60)
 
     return xi.effect.FLY_HIGH
 end
@@ -582,7 +591,7 @@ xi.job_utils.dragoon.useSteadyWing = function(player, target, ability, action)
 
     -- https://www.bg-wiki.com/ffxi/Steady_Wing
     if wyvern then
-        local power = wyvern:getMaxHP() * 0.3 + wyvern:getMaxHP() - wyvern:getHP()
+        local power = wyvern:getMaxHP() * 0.5 + wyvern:getMaxHP() - wyvern:getHP()
 
         if wyvern:addStatusEffect(xi.effect.STONESKIN, power, 0, 300) then
             local effect = wyvern:getStatusEffect(xi.effect.STONESKIN)
@@ -614,14 +623,13 @@ xi.job_utils.dragoon.useHealingBreath = function(wyvern, target, skill, action)
     local deepMult            = 0
 
     if wyvern:hasStatusEffect(xi.effect.MAGIC_ATK_BOOST) then
-        deepMult = 37.5 + (12.5 * deepBreathingMerits)
+        deepMult = 50 + (10 * deepBreathingMerits)
 
         -- add in augment power, +5 per merit level (including first)
         if master:getMod(xi.mod.ENHANCE_DEEP_BREATHING) > 0 then
             deepMult = deepMult + deepBreathingMerits * 5
         end
 
-        wyvern:delStatusEffect(xi.effect.MAGIC_ATK_BOOST)
     end
 
     local jobPointBonus       = master:getJobPointLevel(xi.jp.WYVERN_BREATH_EFFECT) * 10
@@ -661,14 +669,13 @@ xi.job_utils.dragoon.useDamageBreath = function(wyvern, target, skill, action, d
     local deepBreathingMultiplier = 0
 
     if wyvern:hasStatusEffect(xi.effect.MAGIC_ATK_BOOST) then
-        deepBreathingMultiplier = 0.75 + (0.25 * deepBreathingMerits)
+        deepBreathingMultiplier = 1 + (0.20 * deepBreathingMerits)
 
         -- add in augment power, +0.1 per merit level (including first)
         if master:getMod(xi.mod.ENHANCE_DEEP_BREATHING) > 0 then
             deepBreathingMultiplier = deepBreathingMultiplier + deepBreathingMerits * 0.1
         end
 
-        wyvern:delStatusEffect(xi.effect.MAGIC_ATK_BOOST)
     end
 
     local jobPointBonus       = master:getJobPointLevel(xi.jp.WYVERN_BREATH_EFFECT) * 10
