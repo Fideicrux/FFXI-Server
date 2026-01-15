@@ -516,7 +516,7 @@ end
 
 xi.job_utils.dragoon.useDeepBreathing = function(player, target, ability)
     local wyvern = getWyvern(player)
-    local merits = player:getMerit(xi.merit.DEEP_BREATHING) * 100
+    local merits = player:getMerit(xi.merit.DEEP_BREATHING) * 200
 
     if wyvern then
         wyvern:addTP(merits)
