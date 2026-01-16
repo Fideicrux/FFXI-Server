@@ -155,9 +155,9 @@ local function getMPCost(baseMPCost, player, petskill)
     if petskill:getAddType() ~= xi.addType.ADDTYPE_ASTRAL_FLOW then
         local bloodBoonRate = player:getMod(xi.mod.BLOOD_BOON)
         -- assuming it works like Conserve MP... https://www.bg-wiki.com/ffxi/Conserve_MP
-        if math.random(1, 100) <= bloodBoonRate then
-            mpCost = mpCost * math.random(8, 15) / 16
-        end
+
+        mpCost = mpCost * ((100 - bloodBoonRate) / 100)
+        
     end
 
     return mpCost
