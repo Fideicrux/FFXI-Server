@@ -449,10 +449,9 @@ void CMagicState::SpendCost()
         // conserve mp
         int16 rate = m_PEntity->getMod(Mod::CONSERVE_MP);
 
-        if (xirand::GetRandomNumber(100) < rate)
-        {
-            cost = (int16)(cost * (xirand::GetRandomNumber(8.0f, 16.0f) / 16.0f));
-        }
+       
+        cost = (int16)(cost * (rate/100));
+        
 
         m_PEntity->addMP(-cost);
     }
