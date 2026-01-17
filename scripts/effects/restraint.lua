@@ -1,35 +1,25 @@
 -----------------------------------
 -- xi.effect.RESTRAINT
--- Minimal, flat WS damage bonus
+-- Stack controlled by C++
 -----------------------------------
 
 ---@type TEffect
 local effectObject = {}
 
------------------------------------
--- On Gain
------------------------------------
 effectObject.onEffectGain = function(target, effect)
-    -- Power unused; force to 0 for clarity
     effect:setPower(0)
-
-    -- Apply flat 30% WS first-hit damage
-    target:addMod(xi.mod.ALL_WSDMG_FIRST_HIT, 30)
+    effect:setSubPower(0) -- fractional remainder bank (C++ uses this)
 end
 
------------------------------------
--- On Tick
------------------------------------
 effectObject.onEffectTick = function(target, effect)
-    -- Intentionally empty
 end
 
------------------------------------
--- On Lose
------------------------------------
 effectObject.onEffectLose = function(target, effect)
-    -- Remove flat 30% WS first-hit damage
-    target:delMod(xi.mod.ALL_WSDMG_FIRST_HIT, 30)
+    -- Safety cleanup: remove whatever C++ stacked
+    local p = effect:getPower()
+    if p and p > 0 then
+        target:delMod(xi.mod.ALL_WSDMG_FIRST_HIT, p)
+    end
 end
 
 return effectObject

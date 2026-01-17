@@ -301,9 +301,6 @@ xi.spells.enhancing.calculateEnhancingFinalPower = function(caster, target, spel
     ------------------------------------------------
     -- STYMIE: Custom potency bonuses for enhancing magic
     ------------------------------------------------
-    ------------------------------------------------
-    -- STYMIE: Custom potency bonuses for enhancing magic
-    ------------------------------------------------
     if caster:hasStatusEffect(xi.effect.STYMIE) and basePower > 0 then
         -- Define multipliers for affected stymie Multipliers
         local stymieMultipliers = {

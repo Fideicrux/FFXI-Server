@@ -763,9 +763,6 @@ void CAttack::ProcessDamage()
     }
     m_isBlocked = attackutils::IsBlocked(m_attacker, m_victim);
 
-    // Apply Restraint Weaponskill Damage Modifier
-    // Effect power tracks the total bonus
-    // Effect sub power tracks remainder left over from whole percentage flooring
     if (m_isFirstSwing && m_attacker->StatusEffectContainer->HasStatusEffect(EFFECT_RESTRAINT))
     {
         CStatusEffect* effect = m_attacker->StatusEffectContainer->GetStatusEffect(EFFECT_RESTRAINT);
@@ -776,37 +773,83 @@ void CAttack::ProcessDamage()
             return;
         }
 
-        if (effect->GetPower() < 30)
+        // -------------------------
+        // CAP: base 50, investment can push higher
+        // -------------------------
+        uint16 jpLevel  = 0; 
+
+        if (m_attacker->objtype == TYPE_PC)
         {
-            uint8 jpBonus = 0;
+            auto* PChar = static_cast<CCharEntity*>(m_attacker);
+            jpLevel = PChar->PJobPoints->GetJobPointValue(JP_RESTRAINT_EFFECT);
 
-            if (m_attacker->objtype == TYPE_PC)
-            {
-                jpBonus = static_cast<CCharEntity*>(m_attacker)->PJobPoints->GetJobPointValue(JP_RESTRAINT_EFFECT) * 2;
-            }
-
-            // Convert weapon delay and divide
-            // Pull remainder of previous hit's value from Effect sub Power
-            float boostPerRound = ((m_attacker->GetWeaponDelay(false) / 1000.0f) * 60.0f) / 385.0f;
-            float remainder     = effect->GetSubPower() / 100.0f;
-
-            // Calculate bonuses from Enhances Restraint, Job Point upgrades, and remainder from previous hit
-            boostPerRound = (boostPerRound * (1 + m_attacker->getMod(Mod::ENHANCES_RESTRAINT) / 100.0f) * (1 + jpBonus / 100.0f)) + remainder;
-
-            // Calculate new remainder and multiply by 100 so significant digits aren't lost
-            // Floor Boost per Round
-            remainder     = (1 - (std::ceil(boostPerRound) - boostPerRound)) * 100;
-            boostPerRound = std::floor(boostPerRound);
-
-            // Cap total power to +30% WSD
-            if (effect->GetPower() + boostPerRound > 30)
-            {
-                boostPerRound = 30 - effect->GetPower();
-            }
-
-            effect->SetPower(effect->GetPower() + boostPerRound);
-            effect->SetSubPower(remainder);
-            m_attacker->addModifier(Mod::ALL_WSDMG_FIRST_HIT, boostPerRound);
         }
+
+        // Tune these however you like:
+        constexpr uint16 BASE_CAP            = 50;
+        constexpr uint16 CAP_PER_JP_LEVEL    = 2;  // +1 cap per JP level
+        constexpr uint16 HARD_CAP            = 60; // optional safety hard cap
+
+        uint16 dynamicCap = BASE_CAP + (jpLevel * CAP_PER_JP_LEVEL);
+        if (dynamicCap > HARD_CAP)
+        {
+            dynamicCap = HARD_CAP;
+        }
+
+        if (effect->GetPower() >= dynamicCap)
+        {
+            return; 
+        }
+
+        // -------------------------
+        // Build rate: improved tempo
+        // -------------------------
+        uint8 jpBonusPct = 0;
+        if (m_attacker->objtype == TYPE_PC)
+        {
+            // keep your existing JP speed bonus behavior:
+            jpBonusPct = static_cast<CCharEntity*>(m_attacker)->PJobPoints->GetJobPointValue(JP_RESTRAINT_EFFECT) * 2;
+        }
+
+        constexpr float TEMPO_FACTOR = 2.6f; // "improved tempo"
+
+        float boostPerRound = ((m_attacker->GetWeaponDelay(false) / 1000.0f) * 60.0f) / 385.0f;
+        boostPerRound *= TEMPO_FACTOR;
+
+        float remainder = effect->GetSubPower() / 100.0f;
+
+        boostPerRound = (boostPerRound
+            * (1 + m_attacker->getMod(Mod::ENHANCES_RESTRAINT) / 100.0f)
+            * (1 + jpBonusPct / 100.0f))
+            + remainder;
+
+        // Split integer gain + fractional carry
+        float floored   = std::floor(boostPerRound);
+        float fraction  = boostPerRound - floored;
+
+        remainder       = fraction * 100.0f;
+        boostPerRound   = floored;
+
+        // If we didn't earn a whole point, just bank remainder
+        if (boostPerRound < 1.0f)
+        {
+            effect->SetSubPower(static_cast<uint16>(remainder));
+            return;
+        }
+
+        // Clamp to dynamic cap
+        uint16 current = effect->GetPower();
+        uint16 room    = dynamicCap - current;
+
+        uint16 add = static_cast<uint16>(boostPerRound);
+        if (add > room)
+        {
+            add = room;
+        }
+
+        effect->SetPower(current + add);
+        effect->SetSubPower(static_cast<uint16>(remainder));
+        m_attacker->addModifier(Mod::ALL_WSDMG_FIRST_HIT, add);
     }
+
 }
