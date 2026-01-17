@@ -151,14 +151,14 @@ xi.combat.magicAoE.calculateTypeAndRadius = function(caster, spell)
         return { xi.magic.aoe.RADIAL, 10 }
     end
 
-    -- Convergence forces BLU offensive magic spells to be single target
-    if
-        caster:hasStatusEffect(xi.effect.CONVERGENCE) and
-        spellGroup == xi.magic.spellGroup.BLUE and
-        spell:getElement() ~= xi.element.NONE
-    then
-        return { xi.magic.aoe.NONE, 0 }
-    end
+    -- Convergence forces BLU offensive magic spells to be single target --delete after testing
+    -- if
+    --     caster:hasStatusEffect(xi.effect.CONVERGENCE) and
+    --     spellGroup == xi.magic.spellGroup.BLUE and
+    --     spell:getElement() ~= xi.element.NONE
+    -- then
+    --     return { xi.magic.aoe.NONE, 0 }
+    -- end
 
     -- Certain equipment convert Utsusemi spells to 10y AoE
     if

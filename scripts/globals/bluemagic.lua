@@ -178,6 +178,11 @@ xi.spells.blue.usePhysicalSpell = function(caster, target, spell, params)
     -- Multiplier, bonus WSC
     local multiplier = params.multiplier or 1
     local bonusWSC   = 0
+    local tp         = 0
+
+    if caster:getStatusEffect(xi.effect.EFFLUX) then
+        tp           = 1000
+    end
 
     -- BLU AF3 bonus (triples the base WSC when it procs)
     if  math.random(1, 100) <= caster:getMod(xi.mod.AUGMENT_BLU_MAGIC) then
@@ -186,7 +191,7 @@ xi.spells.blue.usePhysicalSpell = function(caster, target, spell, params)
 
     -- Chain Affinity -- TODO: add 'Damage/Accuracy/Critical Hit Chance varies with TP'
     if caster:getStatusEffect(xi.effect.CHAIN_AFFINITY) then
-        local tp   = caster:getTP() + caster:getMerit(xi.merit.ENCHAINMENT) -- Total TP available
+        tp   = tp + caster:getTP() + caster:getMerit(xi.merit.ENCHAINMENT) -- Total TP available
         tp         = utils.clamp(tp, 0, 3000)
         multiplier = calculatefTP(tp, params.multiplier, params.tp150, params.tp300)
         bonusWSC   = bonusWSC + 1 -- Chain Affinity doubles base WSC
@@ -297,6 +302,11 @@ xi.spells.blue.usePhysicalSpell = function(caster, target, spell, params)
 
     finaldmg = math.floor(finaldmg * xi.spells.damage.calculateDamageAdjustment(target, true, false, false, false))
 
+    if caster:getStatusEffect(xi.effect.EFFLUX) then
+        finaldmg = finaldmg * 1.5
+        caster:delStatusEffect(xi.effect.EFFLUX)
+    end
+
     if finaldmg <= 0 then
         spell:setMsg(xi.msg.basic.MAGIC_NO_EFFECT)
     end
@@ -374,6 +384,11 @@ xi.spells.blue.useMagicalSpell = function(caster, target, spell, params)
         end
 
         caster:delStatusEffectSilent(xi.effect.BURST_AFFINITY)
+    end
+    
+    if caster:hasStatusEffect(xi.effect.CONVERGENCE) then
+        local damBonus = caster:getMerit(xi.merit.CONVERGENCE) / 100
+        finalDamage    = finalDamage * (1.25 + damBonus)
     end
 
     finalDamage = math.floor(finalDamage * xi.spells.damage.calculateEbullienceMultiplier(caster, spellGroup))
@@ -622,7 +637,7 @@ xi.spells.blue.calculateDurationWithDiffusion = function(caster, duration)
         local merits = caster:getMerit(xi.merit.DIFFUSION)
 
         if merits > 0 then -- each merit after the first increases duration by 5%
-            duration = duration + (merits - 5) * duration / 100
+            duration = duration + (merits) * duration / 100
         end
 
         caster:delStatusEffect(xi.effect.DIFFUSION)
