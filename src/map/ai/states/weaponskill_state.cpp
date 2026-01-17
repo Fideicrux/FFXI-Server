@@ -139,10 +139,36 @@ bool CWeaponSkillState::Update(timer::time_point tick)
             // Reset Restraint bonus and trackers on weaponskill use
             if (m_PEntity->StatusEffectContainer->HasStatusEffect(EFFECT_RESTRAINT))
             {
-                uint16 WSBonus = m_PEntity->StatusEffectContainer->GetStatusEffect(EFFECT_RESTRAINT)->GetPower();
-                m_PEntity->StatusEffectContainer->GetStatusEffect(EFFECT_RESTRAINT)->SetPower(0);
-                m_PEntity->StatusEffectContainer->GetStatusEffect(EFFECT_RESTRAINT)->SetSubPower(0);
-                m_PEntity->delModifier(Mod::ALL_WSDMG_FIRST_HIT, WSBonus);
+                CStatusEffect* restraint = m_PEntity->StatusEffectContainer->GetStatusEffect(EFFECT_RESTRAINT);
+                if (restraint)
+                {
+                    uint16 wsBonus = restraint->GetPower();
+
+                    // Remove current accumulated bonus
+                    if (wsBonus > 0)
+                    {
+                        m_PEntity->delModifier(Mod::ALL_WSDMG_FIRST_HIT, wsBonus);
+                    }
+
+                    // --- HEAD START (tunable) ---
+                    constexpr uint16 HEAD_START = 10; // e.g. keep 10% after WS
+
+                    // If you have a dynamic cap (50 + JP/Merit), clamp head start to it
+                    uint16 cap = 50; // replace with your dynamic cap function if you have it
+                    uint16 seed = std::min<uint16>(HEAD_START, cap);
+
+                    if (seed > 0)
+                    {
+                        restraint->SetPower(seed);
+                        restraint->SetSubPower(0);
+                        m_PEntity->addModifier(Mod::ALL_WSDMG_FIRST_HIT, seed);
+                    }
+                    else
+                    {
+                        restraint->SetPower(0);
+                        restraint->SetSubPower(0);
+                    }
+                }
             }
 
             if (action.actiontype == ActionCategory::SkillFinish) // category changes upon being out of range. This does not count for RoE and delay is not increased beyond the normal delay.
