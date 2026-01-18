@@ -110,7 +110,7 @@ void CWeaponSkillState::SpendCost()
         }
     }
 
-    if m_PEntity->getMod(Mod::CONSERVE_TP) > 0
+    if (m_PEntity->getMod(Mod::CONSERVE_TP) > 0)
     {
         m_PEntity->addTP(std::floor(m_PEntity->health.tp * (m_PEntity->getMod(Mod::CONSERVE_TP) / 100)));
     }
