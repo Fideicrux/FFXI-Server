@@ -11,29 +11,29 @@ abilityObject.onAbilityCheck = function(player, target, ability)
 end
 
 abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
-    -- Based on similar Lv65 BPs (Chaotic Strike, Predator Claws)
-    -- Hits: 3
-    -- M: ~9-10
-    -- Sub: ~2
-    local numhits = 3
-    local accmod = 1
-    local dmgmod = 9
-    local dmgmodsubsequent = 2
-
     xi.job_utils.summoner.onUseBloodPact(target, petskill, summoner, action)
 
-    local damage = xi.summon.avatarPhysicalMove(pet, target, petskill, numhits, accmod, dmgmod, dmgmodsubsequent, xi.mobskills.physicalTpBonus.DMG_VARIES, 1.0, 1.5, 2.0)
+    local numhits = 4
+    local accmod = 1.0 -- Merit BPs usually have decent accuracy
     
-    -- Titan moves in this repo seem to use SLASHING damage type (Rock Throw, Megalith Throw, Mountain Buster)
-    local totaldamage = xi.summon.avatarFinalAdjustments(damage.dmg, pet, petskill, target, xi.attackType.PHYSICAL, xi.damageType.SLASHING, numhits)
+    local dmgmod = 1.5           -- First hit
+    local dmgmodsubsequent = 1.3 -- Remaining 3 hits
+
+    local tpBonus1000 = 1.0
+    local tpBonus2000 = 1.5
+    local tpBonus3000 = 2.0 -- Big jump at 3k TP is standard for Merit BPs
+
+    local damage = xi.summon.avatarPhysicalMove(pet, target, petskill, numhits, accmod, dmgmod, dmgmodsubsequent, xi.mobskills.physicalTpBonus.DMG_VARIES, tpBonus1000, tpBonus2000, tpBonus3000)
+    
+    local totaldamage = xi.summon.avatarFinalAdjustments(damage.dmg, pet, petskill, target, xi.attackType.PHYSICAL, xi.damageType.BLUNT, numhits)
 
     if totaldamage > 0 then
-        -- Apply Slow only on successful hit.
-        xi.mobskills.mobPhysicalStatusEffectMove(pet, target, petskill, xi.effect.SLOW, 3000, 0, 180)
+        xi.mobskills.mobPhysicalStatusEffectMove(pet, target, petskill, xi.effect.SLOW, 25, 0, 180)
     end
 
-    target:takeDamage(totaldamage, pet, xi.attackType.PHYSICAL, xi.damageType.SLASHING)
+    target:takeDamage(totaldamage, pet, xi.attackType.PHYSICAL, xi.damageType.BLUNT)
     target:updateEnmityFromDamage(pet, totaldamage)
+    
     return totaldamage
 end
 
