@@ -13,50 +13,58 @@ abilityObject.onAbilityCheck = function(player, target, ability)
 end
 
 abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
-    -- Base duration 60s, scales with summoning skill over 300
-    local bonusTime = utils.clamp(summoner:getSkillLevel(xi.skill.SUMMONING_MAGIC) - 300, 0, 200)
-    local duration  = 60 + bonusTime
-
     xi.job_utils.summoner.onUseBloodPact(target, petskill, summoner, action)
 
-    local moonCycle = getVanadielMoonCycle()
+    -- 1. Duration Calculation
+    -- Base 60s. Adds 1s per skill over 300 (Max +200s). Total Max: 260s.
+    local skill = summoner:getSkillLevel(xi.skill.SUMMONING_MAGIC)
+    local bonusTime = math.min(math.max(skill - 300, 0), 200)
+    local duration = 60 + bonusTime
 
-    -- Mapping moon cycle to effect and power (%)
-    -- Data based on user provided notes (Endrain: 1st Q to Lesser Waning G, Enaspir: 3rd Q to New Moon side)
-    local moonData =
-    {
-        [xi.moonCycle.NEW_MOON]                = { effect = xi.effect.ENASPIR, power = 5  },
-        [xi.moonCycle.LESSER_WAXING_CRESCENT]  = { effect = xi.effect.ENASPIR, power = 4  },
-        [xi.moonCycle.GREATER_WAXING_CRESCENT] = { effect = xi.effect.ENASPIR, power = 2  },
-        [xi.moonCycle.FIRST_QUARTER]           = { effect = xi.effect.ENDRAIN, power = 5  },
-        [xi.moonCycle.LESSER_WAXING_GIBBOUS]   = { effect = xi.effect.ENDRAIN, power = 8  },
-        [xi.moonCycle.GREATER_WAXING_GIBBOUS]  = { effect = xi.effect.ENDRAIN, power = 12 },
-        [xi.moonCycle.FULL_MOON]               = { effect = xi.effect.ENDRAIN, power = 15 },
-        [xi.moonCycle.GREATER_WANING_GIBBOUS]  = { effect = xi.effect.ENDRAIN, power = 12 },
-        [xi.moonCycle.LESSER_WANING_GIBBOUS]   = { effect = xi.effect.ENDRAIN, power = 8  },
-        [xi.moonCycle.THIRD_QUARTER]           = { effect = xi.effect.ENASPIR, power = 1  },
-        [xi.moonCycle.GREATER_WANING_CRESCENT] = { effect = xi.effect.ENASPIR, power = 2  },
-        [xi.moonCycle.LESSER_WANING_CRESCENT]  = { effect = xi.effect.ENASPIR, power = 4  },
+    -- 2. Moon Phase Logic
+    -- Use existing Lua helper which returns the moon cycle index (0..11)
+    -- Enaspir: New Moon side (Phases 9, 10, 11, 0, 1, 2)
+    -- Endrain: Full Moon side (Phases 3, 4, 5, 6, 7, 8)
+
+    local moonPhase = getVanadielMoonCycle()
+    local typeEffect = xi.effect.ENASPIR
+    local power = 1
+
+    -- Configuration Table [Phase ID] = { Effect, Power }
+    local moonData = {
+        [0]  = { eff = xi.effect.ENASPIR, val = 5 },  -- New Moon
+        [1]  = { eff = xi.effect.ENASPIR, val = 4 },  -- Waxing Crescent 1
+        [2]  = { eff = xi.effect.ENASPIR, val = 2 },  -- Waxing Crescent 2
+        [3]  = { eff = xi.effect.ENDRAIN, val = 5 },  -- First Quarter
+        [4]  = { eff = xi.effect.ENDRAIN, val = 8 },  -- Waxing Gibbous 1
+        [5]  = { eff = xi.effect.ENDRAIN, val = 12 }, -- Waxing Gibbous 2
+        [6]  = { eff = xi.effect.ENDRAIN, val = 15 }, -- Full Moon
+        [7]  = { eff = xi.effect.ENDRAIN, val = 12 }, -- Waning Gibbous 1
+        [8]  = { eff = xi.effect.ENDRAIN, val = 8 },  -- Waning Gibbous 2
+        [9]  = { eff = xi.effect.ENASPIR, val = 1 },  -- Third Quarter
+        [10] = { eff = xi.effect.ENASPIR, val = 2 },  -- Waning Crescent 1
+        [11] = { eff = xi.effect.ENASPIR, val = 4 },  -- Waning Crescent 2
     }
 
-    local data       = moonData[moonCycle]
-    local typeEffect = data.effect
-    local power      = data.power
+    local data = moonData[moonPhase]
+    if data then
+        typeEffect = data.eff
+        power = data.val
+    end
 
-    -- Remove existing effect if any to prevent conflict
+    -- 3. Apply Effect
+    -- Remove conflicting effects first
     target:delStatusEffect(xi.effect.ENDRAIN)
     target:delStatusEffect(xi.effect.ENASPIR)
 
     if target:addStatusEffect(typeEffect, power, 0, duration) then
         if target:getID() == action:getPrimaryTargetID() then
-            petskill:setMsg(xi.msg.basic.SKILL_GAIN_EFFECT_2)
-        else
             petskill:setMsg(xi.msg.basic.JA_GAIN_EFFECT)
+        else
+            petskill:setMsg(xi.msg.basic.JA_RECEIVES_EFFECT)
         end
     else
-        if target:getID() == action:getPrimaryTargetID() then
-            petskill:setMsg(xi.msg.basic.JA_NO_EFFECT_2)
-        end
+        petskill:setMsg(xi.msg.basic.JA_NO_EFFECT_2)
     end
 
     return 0
