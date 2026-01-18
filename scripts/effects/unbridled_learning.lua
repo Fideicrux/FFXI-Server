@@ -6,7 +6,7 @@ local effectObject = {}
 
 effectObject.onEffectGain = function(target, effect)
     effect:addMod(xi.mod.ATTP, 25)
-    effect:addMod(xi.mod.MATTP, 25)
+    effect:addMod(xi.mod.MATT, 50)
 end
 
 effectObject.onEffectTick = function(target, effect)
