@@ -10,6 +10,8 @@ abilityObject.onAbilityCheck = function(player, target, ability)
 end
 
 abilityObject.onPetAbility = function(target, pet, skill, summoner, action)
+    xi.job_utils.summoner.onUseBloodPact(target, skill, summoner, action)
+
     local returnParam = 0
 
     local power = summoner:getMP() / utils.clamp(summoner:getMaxMP(), 1, 9999)
