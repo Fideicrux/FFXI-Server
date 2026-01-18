@@ -119,7 +119,7 @@ xi.pet.spawnPet = function(caster, petID, state, target)
             local pet = caster:getPet()
             if pet then
                 pet:timer(5000, function()
-                    pet:usePetAbility(xi.jobAbility.ZANTETSUKEN, target)
+                    pet:usePetAbility(xi.jobAbility.ZANTETSUKEN, caster:getTarget())
                 end)
             end
         end
