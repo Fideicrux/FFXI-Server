@@ -37,7 +37,7 @@ local column =
 local pTable =
 {
 -- Single target black magic spells:
---                                       1          2     3     4      5      6    7    8    9     10    11    12    13
+--  .7 to IV's and .6 to Ancient                                     1          2     3     4      5      6    7    8    9     10    11    12    13
 -- Structure:             [spellId] = {  Stat used, mAcc, vNPC, mNPC,  vPC,   I,   M0,  M50, M100, M200, M300, M400, M500 },
     [xi.magic.spell.AERO              ] = { xi.mod.INT,  0,  25,  1,  53,  46,  1.6,  1,  0,  0,  0,  0,  0 },
     [xi.magic.spell.AERO_II           ] = { xi.mod.INT,  10,  113,  1,  186,  176,  2.6,  1.8,  1,  0,  0,  0,  0 },
@@ -74,11 +74,11 @@ local pTable =
     [xi.magic.spell.THUNDER           ] = { xi.mod.INT,  0,  60,  1,  113,  103,  1,  1,  0,  0,  0,  0,  0 },
     [xi.magic.spell.THUNDER_II        ] = { xi.mod.INT,  10,  178,  1,  266,  279,  2,  1.5,  1,  0,  0,  0,  0 },
     [xi.magic.spell.THUNDER_III       ] = { xi.mod.INT,  20,  345,  1.5,  465,  506,  2.5,  2.5,  1.75,  1,  0,  0,  0 },
-    [xi.magic.spell.THUNDER_IV        ] = { xi.mod.INT,  20,  541,  2,  798,  832,  3.6,  3.5,  2.75,  1.95,  1,  0,  0 },
+    [xi.magic.spell.THUNDER_IV        ] = { xi.mod.INT,  20,  541,  2,  560,  832,  3.6,  3.5,  2.75,  1.95,  1,  0,  0 },
     [xi.magic.spell.THUNDER_V         ] = { xi.mod.INT,  25,  874,  2.3,  1197,  931,  4,  3.74,  3.75,  2.95,  1.95,  1,  0 }, -- I value Unknown. Guesstimate used.
     [xi.magic.spell.THUNDER_VI        ] = { xi.mod.INT,  0,  1250,  2.5,  1662,  997,  4.5,  5.5,  4.5,  3.5,  2.75,  1.95,  1 }, -- I value Unknown. Guesstimate used.
-    [xi.magic.spell.BURST             ] = { xi.mod.INT,  0,  552,  2,  1400,  837,  2,  2,  2,  2,  2,  2,  2 },
-    [xi.magic.spell.BURST_II          ] = { xi.mod.INT,  10,  710,  2,  1600,  1037,  2,  2,  2,  2,  2,  2,  2 },
+    [xi.magic.spell.BURST             ] = { xi.mod.INT,  0,  552,  2,  840,  837,  2,  2,  2,  2,  2,  2,  2 },
+    [xi.magic.spell.BURST_II          ] = { xi.mod.INT,  10,  710,  2,  960,  1037,  2,  2,  2,  2,  2,  2,  2 },
     [xi.magic.spell.WATER             ] = { xi.mod.INT,  0,  16,  1,  33,  33,  1.8,  1,  0,  0,  0,  0,  0 },
     [xi.magic.spell.WATER_II          ] = { xi.mod.INT,  10,  95,  1,  159,  150,  2.8,  1.9,  1,  0,  0,  0,  0 },
     [xi.magic.spell.WATER_III         ] = { xi.mod.INT,  20,  236,  1.5,  305,  352,  3.7,  2.9,  1.95,  1,  0,  0,  0 },
