@@ -116,11 +116,14 @@ xi.pet.spawnPet = function(caster, petID, state, target)
                 end)
             end
         elseif petID == xi.petId.ODIN then
-            local target = caster:getTarget()
-            local pet    = caster:getPet()
-            if pet then
-                pet:timer(5000, function()
-                    pet:usePetAbility(xi.jobAbility.ZANTETSUKEN, target)
+            local pet = caster:getPet()
+            if not pet then return end
+            local target = caster:getTarget() or pet:getTarget()
+            if target then
+                pet:timer(5000, function(p)
+                    if p and target and not target:isDead() then 
+                        p:usePetAbility(xi.jobAbility.ZANTETSUKEN, target)
+                    end
                 end)
             end
         end

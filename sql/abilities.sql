@@ -518,6 +518,7 @@ INSERT INTO `abilities` VALUES (664,'ruinous_omen',15,1,4,60,173,0,0,94,2000,0,6
 INSERT INTO `abilities` VALUES (665,'night_terror',15,35,4,60,173,0,0,94,2000,0,6,5.0,0,0,1,60,0,0,NULL);
 INSERT INTO `abilities` VALUES (666,'pavor_nocturnus',15,40,4,60,174,0,0,94,2000,0,6,12.0,0,0,1,60,0,0,NULL);
 INSERT INTO `abilities` VALUES (667,'blindside',15,40,4,60,173,0,0,94,2000,0,6,10.0,0,0,1,60,0,0,NULL);
+INSERT INTO `abilities` VALUES (670,'zantetsuken',15,30,4,0,300,0,0,151,2000,0,6,10.0,1,10,0,0,0,2,NULL);
 INSERT INTO `abilities` VALUES (671,'perfect_defense',15,30,1,0,300,0,0,152,2000,0,6,0.0,0,10,0,0,0,2,NULL);
 INSERT INTO `abilities` VALUES (672,'foot_kick',9,10,257,1,102,0,0,0,2000,0,6,3.0,0,0,1,60,0,0,NULL);
 INSERT INTO `abilities` VALUES (673,'dust_cloud',9,10,257,1,102,0,0,0,2000,0,6,3.0,0,10,1,60,0,0,NULL);
