@@ -1343,9 +1343,55 @@ void HandleEnspell(CBattleEntity* PAttacker, CBattleEntity* PDefender, action_re
         }
     }
 
-    if ((PAttacker->getMod(Mod::ENSPELL) > 0 && // Enspell overwrites weapon effects
-         (PAttacker->getMod(Mod::ENSPELL_CHANCE) == 0 || PAttacker->getMod(Mod::ENSPELL_CHANCE) > xirand::GetRandomNumber(100))) ||
-        PAttacker->StatusEffectContainer->GetActiveRuneCount() > 0) // Rune Enhancement means we deal enspell damage
+    auto* endrainEffect = PAttacker->StatusEffectContainer->GetStatusEffect(EFFECT_ENDRAIN);
+    auto* enaspirEffect = PAttacker->StatusEffectContainer->GetStatusEffect(EFFECT_ENASPIR);
+
+    if (endrainEffect || enaspirEffect)
+    {
+        int32 baseDamage = Action->param;
+        int32 power      = endrainEffect ? endrainEffect->GetPower() : enaspirEffect->GetPower();
+
+        if (baseDamage > 0 && power > 0)
+        {
+            int32 extraDamage = (baseDamage * power) / 100;
+
+            if (extraDamage > 0)
+            {
+                PDefender->takeDamage(extraDamage, PAttacker, ATTACK_TYPE::MAGICAL, DAMAGE_TYPE::DARK);
+
+                if (endrainEffect)
+                {
+                    Action->additionalEffect = ActionProcAddEffect::HPDrain;
+                    Action->addEffectMessage = MsgBasic::ADD_EFFECT_HP_DRAINED;
+                    Action->addEffectParam   = extraDamage;
+
+                    PAttacker->addHP(extraDamage);
+
+                    if (PChar != nullptr)
+                    {
+                        PChar->updatemask |= UPDATE_HP;
+                    }
+                }
+                else if (PDefender->GetMaxMP() > 0)
+                {
+                    Action->additionalEffect = ActionProcAddEffect::MPDrain;
+                    Action->addEffectMessage = MsgBasic::ADD_EFFECT_MP_DRAINED;
+
+                    int32 mpDrained = PDefender->addMP(-extraDamage);
+                    PAttacker->addMP(mpDrained);
+                    Action->addEffectParam = mpDrained;
+
+                    if (PChar != nullptr)
+                    {
+                        PChar->updatemask |= UPDATE_HP;
+                    }
+                }
+            }
+        }
+    }
+    else if ((PAttacker->getMod(Mod::ENSPELL) > 0 && // Enspell overwrites weapon effects
+              (PAttacker->getMod(Mod::ENSPELL_CHANCE) == 0 || PAttacker->getMod(Mod::ENSPELL_CHANCE) > xirand::GetRandomNumber(100))) ||
+             PAttacker->StatusEffectContainer->GetActiveRuneCount() > 0) // Rune Enhancement means we deal enspell damage
     {
         static ActionProcAddEffect enspell_subeffects[8] = {
             ActionProcAddEffect::FireDamage,

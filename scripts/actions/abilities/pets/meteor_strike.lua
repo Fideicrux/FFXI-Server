@@ -12,6 +12,8 @@ abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
     xi.job_utils.summoner.onUseBloodPact(target, petskill, summoner, action)
 
     local tp = pet:getTP()
+    local intBonus = summoner:getMainLvl() * 15
+    local intDiff = (intBonus) - target:getStat(xi.mod.INT)
 
     -- Merit TP bonus.
     local merits = 0
@@ -23,7 +25,7 @@ abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
     tp = utils.clamp(tp + merits - 400, 0, 3000)
 
     --note: this formula is only accurate for level 75 - 76+ may have a different intercept and/or slope
-    local damage = math.floor(512 + 0.172 * tp + (pet:getStat(xi.mod.INT) - target:getStat(xi.mod.INT)) * 1.5)
+    local damage = math.floor((1024 + (0.172 * tp) + ((intDiff) * 2)))
 
     damage = xi.mobskills.mobMagicalMove(pet, target, petskill, damage, xi.element.FIRE, 1, xi.mobskills.magicalTpBonus.NO_EFFECT, 0)
     damage = xi.mobskills.mobAddBonuses(pet, target, damage, xi.element.FIRE, petskill)

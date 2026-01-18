@@ -150,11 +150,9 @@ bool CWeaponSkillState::Update(timer::time_point tick)
                         m_PEntity->delModifier(Mod::ALL_WSDMG_FIRST_HIT, wsBonus);
                     }
 
-                    // --- HEAD START (tunable) ---
                     constexpr uint16 HEAD_START = 10; // e.g. keep 10% after WS
 
-                    // If you have a dynamic cap (50 + JP/Merit), clamp head start to it
-                    uint16 cap = 50; // replace with your dynamic cap function if you have it
+                    uint16 cap = 50; 
                     uint16 seed = std::min<uint16>(HEAD_START, cap);
 
                     if (seed > 0)

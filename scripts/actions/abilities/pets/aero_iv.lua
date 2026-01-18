@@ -11,7 +11,8 @@ end
 abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
     xi.job_utils.summoner.onUseBloodPact(target, petskill, summoner, action)
 
-    local damage = math.floor(325 + 0.025 * pet:getTP() + (pet:getStat(xi.mod.INT) - target:getStat(xi.mod.INT)) * 1.5)
+    -- Updated formula to match Aero IV Spell (Base: 660, Multiplier: 2.0) * 1.33
+    local damage = math.floor(638 + (pet:getStat(xi.mod.INT) * 10.64 - target:getStat(xi.mod.INT)))
 
     damage = xi.mobskills.mobMagicalMove(pet, target, petskill, damage, xi.element.WIND, 1, xi.mobskills.magicalTpBonus.NO_EFFECT, 0)
     damage = xi.mobskills.mobAddBonuses(pet, target, damage, xi.element.WIND, petskill)

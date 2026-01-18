@@ -11,7 +11,8 @@ end
 abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
     xi.job_utils.summoner.onUseBloodPact(target, petskill, summoner, action)
 
-    local damage = math.floor(45 + 0.025 * pet:getTP() + (pet:getStat(xi.mod.INT) - target:getStat(xi.mod.INT)) * 1.5)
+    -- Updated formula to match Stone II Spell (Base: 117, Multiplier: 1.0) * 1.33
+    local damage = math.floor(133 + (pet:getStat(xi.mod.INT) * 2.33 - target:getStat(xi.mod.INT)))
 
     damage = xi.mobskills.mobMagicalMove(pet, target, petskill, damage, xi.element.EARTH, 1, xi.mobskills.magicalTpBonus.NO_EFFECT, 0)
     damage = xi.mobskills.mobAddBonuses(pet, target, damage, xi.element.EARTH, petskill)
