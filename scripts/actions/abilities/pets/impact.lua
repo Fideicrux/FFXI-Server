@@ -13,41 +13,67 @@ abilityObject.onAbilityCheck = function(player, target, ability)
 end
 
 abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
-    -- Single huge dark magical hit. Scales with the avatar's INT and pet TP.
+    -- Impact: Dark Elemental Damage + All Stats Down
     xi.job_utils.summoner.onUseBloodPact(target, petskill, summoner, action)
 
     local tp = pet:getTP()
-    local intBonus = summoner:getMainLvl() ^ 2
-    local intDiff = (intBonus) - target:getStat(xi.mod.INT)
+    local level = summoner:getMainLvl()
+    local summoningSkill = summoner:getSkillLevel(xi.skill.SUMMONING_MAGIC)
+    local playerINT = summoner:getStat(xi.mod.INT)
 
-    local damage = math.floor(3000 + 0.172 * tp + intDiff * 2.5)
+    -- 1. Base Power Calculation
+    -- Impact should hit hard. We use a high flat base + Summoning Skill scaling.
+    -- Example: 1000 base + (450 skill * 1.5) = ~1675 base power before TP/INT
+    local basePower = 1000 + (summoningSkill * 1.5) + (level * 2) + (playerINT * 1.5)
 
+    -- 2. Attribute Scaling (dINT)
+    -- Impact is Dark based, so we check Player INT vs Target INT
+    local dINT = summoner:getStat(xi.mod.INT) - target:getStat(xi.mod.INT)
+    if dINT < 0 then dINT = 0 end
+
+    -- 3. TP Multiplier
+    -- TP scales the damage multiplier significantly (1.0x to 3.0x)
+    local tpMultiplier = xi.combat.physical.calculateTPfactor(tp, { 1.0, 2.0, 3.0 })
+
+    -- 4. Final Damage Calculation
+    local damage = (basePower + (dINT * 2.0)) * tpMultiplier
+
+    -- 5. Magic Processing (Resists, Shell, M.Def)
     damage = xi.mobskills.mobMagicalMove(pet, target, petskill, damage, xi.element.DARK, 1, xi.mobskills.magicalTpBonus.NO_EFFECT, 0)
+    
+    -- 6. Apply Bonuses (Weather, Day, Staff, Affinity)
     damage = xi.mobskills.mobAddBonuses(pet, target, damage, xi.element.DARK, petskill)
 
-    local totaldamage = xi.summon.avatarFinalAdjustments(damage, pet, petskill, target, xi.attackType.MAGICAL, xi.damageType.DARK, 1)
+    -- 7. Final Adjustments (Avatar specific, BP Damage gear)
+    damage = xi.summon.avatarFinalAdjustments(damage, pet, petskill, target, xi.attackType.MAGICAL, xi.damageType.DARK, xi.mobskills.shadowBehavior.WIPE_SHADOWS)
 
-    if totaldamage > 0 then
-        -- Potency varies with summoning skill: approximately -floor(skill/20) to all stats
-        local summoningSkill = summoner:getSkillLevel(xi.skill.SUMMONING_MAGIC)
+    -- Apply Damage
+    target:takeDamage(damage, pet, xi.attackType.MAGICAL, xi.damageType.DARK)
+    target:updateEnmityFromDamage(pet, damage)
+
+    -- 8. Status Effects (All Stats Down)
+    -- Only apply if damage was dealt (not fully resisted/immune)
+    if damage > 0 then
+        -- Potency scales with summoning skill.
+        -- Skill 400 / 20 = -20 Stats. Skill 600 / 20 = -30 Stats.
         local power = math.floor(summoningSkill / 20)
-        local duration = 180
+        local duration = 180 -- 3 Minutes
 
         if power > 0 then
-            xi.mobskills.mobStatusEffectMove(pet, target, xi.effect.STR_DOWN, power, 0, duration)
-            xi.mobskills.mobStatusEffectMove(pet, target, xi.effect.DEX_DOWN, power, 0, duration)
-            xi.mobskills.mobStatusEffectMove(pet, target, xi.effect.VIT_DOWN, power, 0, duration)
-            xi.mobskills.mobStatusEffectMove(pet, target, xi.effect.AGI_DOWN, power, 0, duration)
-            xi.mobskills.mobStatusEffectMove(pet, target, xi.effect.INT_DOWN, power, 0, duration)
-            xi.mobskills.mobStatusEffectMove(pet, target, xi.effect.MND_DOWN, power, 0, duration)
-            xi.mobskills.mobStatusEffectMove(pet, target, xi.effect.CHR_DOWN, power, 0, duration)
+            -- Table of effects to iterate through for cleaner code
+            local effects = {
+                xi.effect.STR_DOWN, xi.effect.DEX_DOWN, xi.effect.VIT_DOWN,
+                xi.effect.AGI_DOWN, xi.effect.INT_DOWN, xi.effect.MND_DOWN,
+                xi.effect.CHR_DOWN
+            }
+
+            for _, effectId in ipairs(effects) do
+                xi.mobskills.mobStatusEffectMove(pet, target, effectId, power, 0, duration)
+            end
         end
     end
 
-    target:takeDamage(totaldamage, pet, xi.attackType.MAGICAL, xi.damageType.DARK)
-    target:updateEnmityFromDamage(pet, totaldamage)
-
-    return totaldamage
+    return damage
 end
 
 return abilityObject

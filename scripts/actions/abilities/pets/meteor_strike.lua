@@ -1,5 +1,5 @@
 -----------------------------------
--- Geocrush
+-- Meteor Strike
 -----------------------------------
 ---@type TAbilityPet
 local abilityObject = {}
@@ -9,24 +9,21 @@ abilityObject.onAbilityCheck = function(player, target, ability)
 end
 
 abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
+    local meritType = xi.merit.METEOR_STRIKE
+    local intMult   = 40 
+    local tpMult    = 2.5
+
     xi.job_utils.summoner.onUseBloodPact(target, petskill, summoner, action)
 
     local tp = pet:getTP()
-    local intBonus = summoner:getMainLvl() * 15
-    local intDiff = (intBonus) - target:getStat(xi.mod.INT)
-
-    -- Merit TP bonus.
-    local merits = 0
-
-    if summoner and summoner:isPC() then
-        merits = summoner:getMerit(xi.merit.METEOR_STRIKE)
+    if summoner:isPC() then
+        tp = tp + summoner:getMerit(meritType)
     end
+    tp = utils.clamp(tp - 400, 0, 3000)
 
-    tp = utils.clamp(tp + merits - 400, 0, 3000)
+    local damage = math.floor((summoner:getStat(xi.mod.INT) * intMult) - target:getStat(xi.mod.INT) + (tp * tpMult))
 
-    --note: this formula is only accurate for level 75 - 76+ may have a different intercept and/or slope
-    local damage = math.floor((1024 + (0.172 * tp) + ((intDiff) * 2)))
-
+    -- 4. Standard Magic Processing
     damage = xi.mobskills.mobMagicalMove(pet, target, petskill, damage, xi.element.FIRE, 1, xi.mobskills.magicalTpBonus.NO_EFFECT, 0)
     damage = xi.mobskills.mobAddBonuses(pet, target, damage, xi.element.FIRE, petskill)
     damage = xi.summon.avatarFinalAdjustments(damage, pet, petskill, target, xi.attackType.MAGICAL, xi.damageType.FIRE, 1)

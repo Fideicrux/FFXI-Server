@@ -10,23 +10,33 @@ abilityObject.onAbilityCheck = function(player, target, ability)
 end
 
 abilityObject.onPetAbility = function(target, pet, petskill, summoner, action)
-    -- Dark elemental magical Blood Pact with TP scaling
+    -- Lunar Bay is a Magical Blood Pact (Dark Damage)
     xi.job_utils.summoner.onUseBloodPact(target, petskill, summoner, action)
 
     local tp = pet:getTP()
-    local intBonus = summoner:getMainLvl() ^ 2
-    local intDiff = (intBonus) - target:getStat(xi.mod.INT)
+    local level = summoner:getMainLvl()
+    local summoningSkill = summoner:getSkillLevel(xi.skill.SUMMONING_MAGIC)
+    local playerINT = summoner:getStat(xi.mod.INT)
 
-    local damage = math.floor(1750 + 0.5 * tp + intDiff * 2.0)
+    local basePower = (summoningSkill * 0.8) + (level * 2) + (playerINT * 1.5)
+
+
+    local dINT = summoner:getStat(xi.mod.INT) - target:getStat(xi.mod.INT)
+    if dINT < 0 then dINT = 0 end
+
+
+    local tpMultiplier = xi.combat.physical.calculateTPfactor(tp, { 1.0, 1.5, 2.0 })
+
+    local damage = (basePower + (dINT * 1.5) + 500) * tpMultiplier
 
     damage = xi.mobskills.mobMagicalMove(pet, target, petskill, damage, xi.element.DARK, 1, xi.mobskills.magicalTpBonus.NO_EFFECT, 0)
     damage = xi.mobskills.mobAddBonuses(pet, target, damage, xi.element.DARK, petskill)
-    local totaldamage = xi.summon.avatarFinalAdjustments(damage, pet, petskill, target, xi.attackType.MAGICAL, xi.damageType.DARK, 1)
+    damage = xi.summon.avatarFinalAdjustments(damage, pet, petskill, target, xi.attackType.MAGICAL, xi.damageType.DARK, xi.mobskills.shadowBehavior.WIPE_SHADOWS)
 
-    target:takeDamage(totaldamage, pet, xi.attackType.MAGICAL, xi.damageType.DARK)
-    target:updateEnmityFromDamage(pet, totaldamage)
+    target:takeDamage(damage, pet, xi.attackType.MAGICAL, xi.damageType.DARK)
+    target:updateEnmityFromDamage(pet, damage)
 
-    return totaldamage
+    return damage
 end
 
 return abilityObject
