@@ -58,7 +58,7 @@ end
 -----------------------------------
 
 xi.job_utils.blue_mage.useAzureLore = function(player, target, ability, action)
-    player:addStatusEffect(xi.effect.AZURE_LORE, 1, 0, 30)
+    player:addStatusEffect(xi.effect.AZURE_LORE, 1, 0, 60)
 
     return xi.effect.AZURE_LORE
 end
@@ -90,13 +90,25 @@ xi.job_utils.blue_mage.useEfflux = function(player, target, ability, action)
 end
 
 xi.job_utils.blue_mage.useUnbridledWisdom = function(player, target, ability, action)
-    target:addStatusEffect(xi.effect.UNBRIDLED_WISDOM, 16, 1, 30)
+    target:addStatusEffect(xi.effect.UNBRIDLED_WISDOM, 16, 1, 180)
+    target:resetRecast(xi.recast.ABILITY) --Burst Affinity
+    target:resetRecast(xi.recast.ABILITY) --Chain Affinity
+    target:resetRecast(xi.recast.ABILITY) --Convergence
+    target:resetRecast(xi.recast.ABILITY) --Diffusion
+    target:resetRecast(xi.recast.ABILITY) --Efflux
+    target:resetRecast(xi.recast.ABILITY) --Unbridled Learning
+
 
     return xi.effect.UNBRIDLED_WISDOM
 end
 
 xi.job_utils.blue_mage.useUnbridledLearning = function(player, target, ability, action)
-    target:addStatusEffect(xi.effect.UNBRIDLED_LEARNING, 16, 1, 60)
+    local restore = player:getMaxMP() * 0.25
+    
+    target:addStatusEffect(xi.effect.UNBRIDLED_LEARNING, 16, 1, 60) 
+    
+    player:addMP(restore)
+
 
     return xi.effect.UNBRIDLED_LEARNING
 end
