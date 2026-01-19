@@ -19,7 +19,7 @@ end
 abilityObject.onUseAbility = function(player, target, ability)
     target:fold()
 
-    local merit = target:getMerit(xi.merit.FOLD) -10
+    local merit = target:getMerit(xi.merit.FOLD)
 
     if math.random(0, 99) < merit then
         target:resetRecast(xi.recast.ABILITY, 193)

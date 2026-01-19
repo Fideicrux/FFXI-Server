@@ -114,7 +114,7 @@ local function atMaxCorsairBusts(caster)
 end
 
 local function corsairSetup(caster, ability, action, effect, job)
-    local roll = math.random(1, 6)
+    local roll  = math.random(1, 6)
 
     caster:delStatusEffectSilent(xi.effect.DOUBLE_UP_CHANCE)
     caster:addStatusEffectEx(xi.effect.DOUBLE_UP_CHANCE, xi.effect.DOUBLE_UP_CHANCE, roll, 0, 45, 0, effect, job, 0, xi.effectSourceType.CORSAIR_ROLL, ability:getID(), caster:getID(), true)
@@ -139,8 +139,9 @@ end
 
 -- in_ability == current_ability if not using doubleup. current_ability is used to set the message whether you're using a doubleup or not.
 local function applyRoll(caster, target, inAbility, action, total, isDoubleup, currentAbility)
+    local merit        = 1 + (caster:getMerit(xi.merit.PHANTOM_ROLL_RECAST / 10))
     local abilityId    = inAbility:getID()
-    local duration     = 300 + caster:getMerit(xi.merit.WINNING_STREAK) + caster:getMod(xi.mod.PHANTOM_DURATION) + caster:getJobPointLevel(xi.jp.PHANTOM_ROLL_DURATION) * 2
+    local duration     = 600 + caster:getMerit(xi.merit.WINNING_STREAK) + caster:getMod(xi.mod.PHANTOM_DURATION) + caster:getJobPointLevel(xi.jp.PHANTOM_ROLL_DURATION) * 2
     local effectpowers = corsairRollMods[abilityId][1]
     local effectpower  = effectpowers[total]
     local doBonus      = getRandomEnhancementRoll(caster, abilityId)
@@ -158,6 +159,7 @@ local function applyRoll(caster, target, inAbility, action, total, isDoubleup, c
     local phantomBase = corsairRollMods[abilityId][2] -- Base increment buff
     local phantomMult = caster:getMaxGearMod(xi.mod.PHANTOM_ROLL)
     effectpower       = effectpower + (phantomBase * phantomMult)
+    effectpower       = effectpower * merit
 
     -- Effect Power varies depending on COR level (Main vs Sub)
     local actorLevel  = utils.getActiveJobLevel(caster, xi.job.COR)
