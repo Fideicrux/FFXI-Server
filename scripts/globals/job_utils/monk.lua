@@ -87,7 +87,7 @@ xi.job_utils.monk.useChiBlast = function(player, target, ability)
     end
 
 
-    local base = player:getStat(xi.mod.VIT) * 2
+    local base = player:getStat(xi.mod.VIT) * 10
     local dmg = math.floor(base * multiplier)
 
     dmg = xi.ability.adjustDamage(dmg, player, ability, target, xi.attackType.BREATH, xi.damageType.ELEMENTAL, xi.mobskills.shadowBehavior.IGNORE_SHADOWS)
