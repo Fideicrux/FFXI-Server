@@ -36,7 +36,7 @@ abilityObject.onPetAbility = function(target, pet, skill, summoner, action)
 
     -- Insta-kill: Highly innacurate against regular monsters.
     else
-        local chance = 100 * power
+        local chance = 100
 
         if
             math.random(1, 100) <= chance and
