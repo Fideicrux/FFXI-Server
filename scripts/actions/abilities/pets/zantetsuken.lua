@@ -52,6 +52,11 @@ abilityObject.onPetAbility = function(target, pet, skill, summoner, action)
             returnParam = 0
         end
     end
+    pet:timer(6000, function()
+        if summoner then
+            summoner:despawnPet()
+        end
+    end)
 
     return returnParam
 end

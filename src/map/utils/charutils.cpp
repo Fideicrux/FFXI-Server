@@ -4847,15 +4847,15 @@ void DistributeExperiencePoints(CCharEntity* PChar, CMobEntity* PMob)
                     // Per monster caps pulled from: https://ffxiclopedia.fandom.com/wiki/Experience_Points
                     if (PMember->GetMLevel() <= 50)
                     {
-                        exp = std::fmin(exp, 400.0f);
+                        exp = std::fmin(exp, 500.0f);
                     }
                     else if (PMember->GetMLevel() <= 60)
                     {
-                        exp = std::fmin(exp, 500.0f);
+                        exp = std::fmin(exp, 1000.0f);
                     }
                     else
                     {
-                        exp = std::fmin(exp, 600.0f);
+                        exp = std::fmin(exp, 2000.0f);
                     }
 
                     if (mobCheck > EMobDifficulty::DecentChallenge)
@@ -4872,19 +4872,19 @@ void DistributeExperiencePoints(CCharEntity* PChar, CMobEntity* PMob)
                                     exp *= 1.2f;
                                     break;
                                 case 2:
-                                    exp *= 1.25f;
-                                    break;
-                                case 3:
-                                    exp *= 1.3f;
-                                    break;
-                                case 4:
                                     exp *= 1.4f;
                                     break;
+                                case 3:
+                                    exp *= 1.6f;
+                                    break;
+                                case 4:
+                                    exp *= 1.8f;
+                                    break;
                                 case 5:
-                                    exp *= 1.5f;
+                                    exp *= 2.0f;
                                     break;
                                 default:
-                                    exp *= 1.55f;
+                                    exp *= 2.5f;
                                     break;
                             }
                         }
