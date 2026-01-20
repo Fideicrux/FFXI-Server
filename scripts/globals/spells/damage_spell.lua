@@ -464,21 +464,21 @@ xi.spells.damage.calculateBaseDamage = function(caster, target, spellId, spellGr
     return utils.clamp(spellDamage, 0, 99999)
 end
 
--- Calculate: Multiple Target Damage Reduction (MTDR)
-xi.spells.damage.calculateMTDR = function(caster, spell)
-    -- Only players are subject to this penalty.
-    if not caster:isPC() then
-        return 1
-    end
+-- Calculate: Multiple Target Damage Reduction (MTDR) --Remove this after testing.
+-- xi.spells.damage.calculateMTDR = function(caster, spell)
+--     -- Only players are subject to this penalty.
+--     if not caster:isPC() then
+--         return 1
+--     end
 
-    -- Calculate MTDR penaly.
-    local targetAmount = spell:getTotalTargets()
-    if targetAmount == 1 then
-        return 1
-    else
-        return utils.clamp(0.9 - 0.05 * targetAmount, 0.4, 1)
-    end
-end
+--     -- Calculate MTDR penaly.
+--     local targetAmount = spell:getTotalTargets()
+--     if targetAmount == 1 then
+--         return 1
+--     else
+--         return utils.clamp(0.9 - 0.05 * targetAmount, 0.4, 1)
+--     end
+-- end
 
 -- Bonus elemental damage from Elemetal Staves.
 xi.spells.damage.calculateElementalStaffBonus = function(caster, spellElement)

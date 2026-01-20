@@ -57,7 +57,7 @@ end
 
 -- On Ability Use Overdrive
 xi.job_utils.puppetmaster.onAbilityUseOverdrive = function(player, target, ability)
-    player:addStatusEffect(xi.effect.OVERDRIVE, 0, 0, 180)
+    player:addStatusEffect(xi.effect.OVERDRIVE, 0, 0, 120)
 
     return xi.effect.OVERDRIVE
 end

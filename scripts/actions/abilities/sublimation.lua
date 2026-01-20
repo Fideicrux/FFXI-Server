@@ -41,7 +41,6 @@ abilityObject.onUseAbility = function(player, target, ability)
     else
         local refreshTier = player:hasStatusEffect(xi.effect.REFRESH) and player:getStatusEffect(xi.effect.REFRESH):getTier() or 0
         if refreshTier < 3 then
-            player:delStatusEffect(xi.effect.REFRESH)
             player:addStatusEffect(xi.effect.SUBLIMATION_ACTIVATED, 0, 3, 7200)
         else
             ability:setMsg(xi.msg.basic.JA_NO_EFFECT_2)
