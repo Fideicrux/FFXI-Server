@@ -15,7 +15,7 @@ abilityObject.onAbilityCheck = function(player, target, ability)
 end
 
 abilityObject.onUseAbility = function(player, target, ability)
-    target:addStatusEffect(xi.effect.GRAND_PAS, 19, 1, 30)
+    target:addStatusEffect(xi.effect.GRAND_PAS, 19, 1, 60)
 end
 
 return abilityObject

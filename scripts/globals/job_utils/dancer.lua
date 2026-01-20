@@ -21,8 +21,8 @@ local waltzAbilities =
     [xi.jobAbility.CURING_WALTZ_III] = { 500, 0.75, 270 },
     [xi.jobAbility.CURING_WALTZ_IV ] = { 650, 1.00, 450 },
     [xi.jobAbility.CURING_WALTZ_V  ] = { 800, 1.25, 600 },
-    [xi.jobAbility.DIVINE_WALTZ    ] = { 400, 0.25,  60 },
-    [xi.jobAbility.DIVINE_WALTZ_II ] = { 800, 0.75, 270 },
+    [xi.jobAbility.DIVINE_WALTZ    ] = { 400, 0.50,  130 },
+    [xi.jobAbility.DIVINE_WALTZ_II ] = { 800, 1.00, 450 },
 }
 
 local animationTable =
@@ -240,7 +240,7 @@ xi.job_utils.dancer.checkWaltzAbility = function(player, target, ability)
             player:hasStatusEffect(xi.effect.FAN_DANCE) and
             fanDanceMeritValue > 5 -- 1 merit = Value of 5.
         then
-            newRecast = newRecast * (105 - fanDanceMeritValue) / 100
+            newRecast = newRecast * (100 - fanDanceMeritValue) / 100
         end
 
         ability:setRecast(utils.clamp(newRecast, 0, newRecast))
@@ -285,7 +285,6 @@ xi.job_utils.dancer.useStepAbility = function(player, target, ability, action, s
 
         if player:hasStatusEffect(xi.effect.PRESTO) then
             debuffStacks = debuffStacks + 4
-            player:delStatusEffect(xi.effect.PRESTO)
         end
 
         -- Handle Target Debuffs
@@ -332,7 +331,7 @@ xi.job_utils.dancer.useStepAbility = function(player, target, ability, action, s
 end
 
 xi.job_utils.dancer.usePrestoAbility = function(player, target, ability, action)
-    target:addStatusEffect(xi.effect.PRESTO, 19, 3, 30)
+    target:addStatusEffect(xi.effect.PRESTO, 19, 3, 600)
 
     return xi.effect.PRESTO
 end
@@ -373,7 +372,7 @@ xi.job_utils.dancer.useAnimatedFlourishAbility = function(player, target, abilit
     local veGranted = numMoves >= 2 and 1500 or 1000
     local usedMoves = numMoves >= 2 and 2 or 1
 
-    target:addEnmity(player, 0, veGranted + jpBonusVE)
+    target:addEnmity(player, 360, veGranted + jpBonusVE)
     setFinishingMoves(player, numMoves - usedMoves)
 end
 

@@ -10,14 +10,14 @@ effectObject.onEffectGain = function(target, effect)
     target:delStatusEffect(xi.effect.ASPIR_SAMBA)
     target:delStatusEffect(xi.effect.DRAIN_SAMBA)
     target:delStatusEffect(xi.effect.SABER_DANCE)
-    target:addMod(xi.mod.ENMITY, 15)
+    target:addMod(xi.mod.ENMITY, 25)
 end
 
 effectObject.onEffectTick = function(target, effect)
 end
 
 effectObject.onEffectLose = function(target, effect)
-    target:delMod(xi.mod.ENMITY, 15)
+    target:delMod(xi.mod.ENMITY, 25)
 end
 
 return effectObject
