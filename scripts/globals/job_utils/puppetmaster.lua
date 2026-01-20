@@ -335,9 +335,9 @@ xi.job_utils.puppetmaster.onAbilityUseTacticalSwitch = function(player, target, 
     local pet      = player:getPet()
     local pettp    = pet:getTP()
 
-    player:addTP(utils.clamp(pettp - playertp), 0, 3000)
-    pet:addTP(utils.clamp(playertp - pettp), 0, 3000)
-    
+    player:setTP(pettp)
+    pet:setTP(playertp)
+
     -- target:addStatusEffect(xi.effect.TACTICAL_SWITCH, 18, 1, 1) -- TODO: implement xi.effect.TACTICAL_SWITCH
 end
 
