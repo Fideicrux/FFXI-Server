@@ -57,7 +57,7 @@ end
 
 -- On Ability Use Overdrive
 xi.job_utils.puppetmaster.onAbilityUseOverdrive = function(player, target, ability)
-    player:addStatusEffect(xi.effect.OVERDRIVE, 0, 0, 60)
+    player:addStatusEffect(xi.effect.OVERDRIVE, 0, 0, 180)
 
     return xi.effect.OVERDRIVE
 end
@@ -259,7 +259,7 @@ end
 xi.job_utils.puppetmaster.onAbilityUseRoleReversal = function(player, target, ability)
     local pet = player:getPet()
     if pet then
-        local bonus    = 1 + (player:getMerit(xi.merit.ROLE_REVERSAL) - 5) / 100
+        local bonus    = 1 + (player:getMerit(xi.merit.ROLE_REVERSAL)) / 100
         local playerHP = player:getHP()
         local petHP    = pet:getHP()
 
@@ -297,7 +297,7 @@ xi.job_utils.puppetmaster.onAbilityUseVentriloquy = function(player, target, abi
         end
 
         if playerfound and petfound then
-            local bonus             = (player:getMerit(xi.merit.VENTRILOQUY) - 5) / 100
+            local bonus             = (player:getMerit(xi.merit.VENTRILOQUY)) / 100
             local playerCE          = target:getCE(player)
             local playerVE          = target:getVE(player)
             local petCE             = target:getCE(pet)
@@ -331,6 +331,13 @@ end
 
 -- On Ability Use Tactical Switch
 xi.job_utils.puppetmaster.onAbilityUseTacticalSwitch = function(player, target, ability)
+    local playertp = player:getTP()
+    local pet      = player:getPet()
+    local pettp    = pet:getTP()
+
+    player:addTP(utils.clamp(pettp - playertp), 0, 3000)
+    pet:addTP(utils.clamp(playertp - pettp), 0, 3000)
+    
     -- target:addStatusEffect(xi.effect.TACTICAL_SWITCH, 18, 1, 1) -- TODO: implement xi.effect.TACTICAL_SWITCH
 end
 
@@ -368,6 +375,52 @@ end
 -- On Ability Use Heady Artiface
 xi.job_utils.puppetmaster.onAbilityUseHeadyArtiface = function(player, target, ability)
     -- target:addStatusEffect(xi.effect.HEADY_ARTIFICE, 18, 1, 1) -- TODO: implement xi.effect.HEADY_ARTIFICE
+    local pet  = player:getPet()
+    local head = pet:getHead()
+
+    if head == "HARLEQUIN" then
+        pet:addStatusEffect(xi.effect.MIGHTY_STRIKES, 1, 0, 60)
+    elseif head == "VALOREDGE" then
+        pet:addStatusEffect(xi.effect.INVINCIBLE, 1, 0, 60)
+    elseif head == "SHARPSHOT" then
+        if player:getWeaponSkillType(xi.slot.RANGED) == xi.skill.MARKSMANSHIP then
+            action:setAnimation(target:getID(), action:getAnimation(target:getID()) + 1)
+        end
+       local params = {}
+
+        params.numHits = 1
+
+        -- TP params.
+        local tp          = 1000 -- to ensure ftp multiplier is applied
+        params.ftpMod     = { 5.0, 5.0, 5.0 }
+        params.critVaries = { 0.0, 0.0, 0.0 }
+
+        -- Stat params.
+        params.str_wsc = 1
+        params.dex_wsc = 0
+        params.vit_wsc = 0
+        params.agi_wsc = 1
+        params.int_wsc = 0
+        params.mnd_wsc = 0
+        params.chr_wsc = 0
+
+        params.enmityMult = 0.5
+
+
+        local damage, _, tpHits, extraHits = xi.weaponskills.doRangedWeaponskill(player, target, 0, params, tp, action, true)
+
+    -- Set the message id ourselves
+        if tpHits + extraHits > 0 then
+            action:messageID(target:getID(), xi.msg.basic.JA_DAMAGE)
+        else
+            action:messageID(target:getID(), xi.msg.basic.JA_MISS_2)
+        end
+
+        return damage
+
+
+    end
+    
 end
 
 -- On Ability Check Deploy
