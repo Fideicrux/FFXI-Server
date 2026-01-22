@@ -25,7 +25,13 @@ abilityObject.onAbilityCheck = function(player, target, ability)
 end
 
 abilityObject.onUseAbility = function(player, target, ability)
+    local merit = player:getMerit(xi.merit.EQUANIMITY)
+
     player:addStatusEffect(xi.effect.EBULLIENCE, 1, 0, 60)
+
+    if merit > 0 then
+        player:addStatusEffect(xi.effect.EQUANIMITY, player:getMerit(xi.merit.EQUANIMITY), 0, 60)
+    end
 
     return xi.effect.EBULLIENCE
 end

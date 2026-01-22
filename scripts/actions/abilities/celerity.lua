@@ -25,7 +25,13 @@ abilityObject.onAbilityCheck = function(player, target, ability)
 end
 
 abilityObject.onUseAbility = function(player, target, ability)
+    local merit = player:getMerit(xi.merit.ALTRUISM)
+
     player:addStatusEffect(xi.effect.CELERITY, 1, 0, 60)
+
+    if merit > 0 then
+        player:addStatusEffect(xi.effect.ALTRUISM, player:getMerit(xi.merit.ALTRUISM), 0, 60)
+    end
 
     return xi.effect.CELERITY
 end

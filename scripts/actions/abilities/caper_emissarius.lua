@@ -20,6 +20,7 @@ end
 
 abilityObject.onUseAbility = function(player, target, ability)
     target:transferEnmity(player, 99, 20.6)
+    target:addMod(xi.mod.PDT, -2500, 0, 60) --will this work? lol
 end
 
 return abilityObject

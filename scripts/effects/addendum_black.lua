@@ -11,10 +11,12 @@ effectObject.onEffectGain = function(target, effect)
 
     local bonus = effect:getPower()
     local helix = effect:getSubPower()
+    local merit = target:getMerit(xi.merit.GRIMOIRE_RECAST)
 
     target:addMod(xi.mod.BLACK_MAGIC_COST, -bonus)
     target:addMod(xi.mod.BLACK_MAGIC_CAST, -bonus)
     target:addMod(xi.mod.BLACK_MAGIC_RECAST, -bonus)
+    effect:addMod(xi.mod.FASTCAST, merit)
 
     if not (target:hasStatusEffect(xi.effect.TABULA_RASA)) then
         target:addMod(xi.mod.BLACK_MAGIC_COST, -10)
