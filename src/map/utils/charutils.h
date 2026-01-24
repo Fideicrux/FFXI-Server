@@ -101,7 +101,7 @@ void DistributeGil(CCharEntity* PChar, CMobEntity* PMob);
 void DistributeItem(CCharEntity* PChar, CBaseEntity* PEntity, uint16 itemid, uint16 droprate);
 void AddExperiencePoints(bool expFromRaise, CCharEntity* PChar, CBaseEntity* PMob, uint32 exp, EMobDifficulty mobCheck = EMobDifficulty::TooWeak, bool isexpchain = false);
 
-uint16 AddCapacityBonus(CCharEntity* PChar, uint16 capacityPoints);
+float AddCapacityBonus(CCharEntity* PChar, float capacityPoints);
 void   AddCapacityPoints(CCharEntity* PChar, CBaseEntity* PMob, uint32 capacityPoints, int16 levelDiff = 0, bool isCapacityChain = false);
 void   DistributeCapacityPoints(CCharEntity* PChar, CMobEntity* PMob);
 

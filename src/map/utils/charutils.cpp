@@ -5153,7 +5153,7 @@ void DistributeCapacityPoints(CCharEntity* PChar, CMobEntity* PMob)
                 return;
             }
 
-            if PMember->GetMLevel() < 75)
+            if (PMember->GetMLevel() < 75)
             {
                 // Do not grant Capacity points without Job Breaker or Level 99
                 return;
@@ -5194,7 +5194,7 @@ void DistributeCapacityPoints(CCharEntity* PChar, CMobEntity* PMob)
                 }
 
                 capacityPoints = AddCapacityBonus(PMember, capacityPoints);
-                AddCapacityPoints(PMember, PMob, capacityPoints, levelDiff, chainActive);
+                AddCapacityPoints(PMember, PMob, static_cast<uint32>(capacityPoints), levelDiff, chainActive);
             }
         });
 }
@@ -5206,7 +5206,7 @@ void DistributeCapacityPoints(CCharEntity* PChar, CMobEntity* PMob)
  *                                                                       *
  ************************************************************************/
 
-uint16 AddCapacityBonus(CCharEntity* PChar, uint16 capacityPoints)
+float AddCapacityBonus(CCharEntity* PChar, float capacityPoints)
 {
     TracyZoneScoped;
 
