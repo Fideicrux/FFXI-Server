@@ -290,7 +290,7 @@ end
 -----------------------------------
 xi.job_utils.geomancer.bolster = function(player, target, ability)
     local bonusTime = player:getMod(xi.mod.BOLSTER_EFFECT)
-    player:addStatusEffect(xi.effect.BOLSTER, 0, 3, 240 + bonusTime)
+    player:addStatusEffect(xi.effect.BOLSTER, 0, 3, 180 + bonusTime)
 
     return xi.effect.BOLSTER
 end
@@ -307,8 +307,8 @@ xi.job_utils.geomancer.fullCircle = function(player, target, ability)
     local crMerit      = player:getMerit(xi.merit.CURATIVE_RECANTATION)
     local fcMod        = player:getMod(xi.mod.FULL_CIRCLE)
     local crMod        = player:getMod(xi.mod.CURATIVE_RECANTATION)
-    local mpMultiplier = 0.5 + (fcMerit / 10) + (fcMod / 10)
-    local hpMultiplier = 0.5 + (0.7 * crMerit) + (crMod / 10)
+    local mpMultiplier = 1 + (fcMerit / 10) + (fcMod / 10)
+    local hpMultiplier = 1 + (0.7 * crMerit) + (crMod / 10)
     local mpReturned   = 0
     local hpReturned   = 0
 
@@ -329,7 +329,7 @@ xi.job_utils.geomancer.lastingEmanation = function(player, target, ability, acti
     local luopan = getLuopan(player)
     if luopan then
         local hpDrain = luopan:getMod(xi.mod.REGEN_DOWN)
-        luopan:setMod(xi.mod.REGEN_DOWN, hpDrain - math.floor(luopan:getMainLvl() / 14))
+        luopan:setMod(xi.mod.REGEN_DOWN, hpDrain - math.floor(luopan:getMainLvl() / 5))
         -- Self cast ability but targets Luopan
         action:ID(player:getID(), luopan:getID())
     end
@@ -384,9 +384,10 @@ xi.job_utils.geomancer.lifeCycle = function(player, target, ability, action)
 
     local hpAmount   = math.floor(0.25 * player:getHP())
     local hpTransfer = hpAmount
+    hpTransfer = hpTransfer * (1 + 0.02 * player:getMerit(xi.merit.LIFE_CYCLE_RECAST))
 
     if player:getMod(xi.mod.LIFE_CYCLE_EFFECT) > 0 then
-        hpTransfer = hpAmount * player:getMod(xi.mod.LIFE_CYCLE_EFFECT) / 10
+        hpTransfer = hpAmount * player:getMod(xi.mod.LIFE_CYCLE_EFFECT) / 10       
     end
 
     luopan:restoreHP(hpTransfer)
@@ -402,8 +403,10 @@ end
 
 xi.job_utils.geomancer.dematerialize = function(player, target, ability, action)
     local luopan = getLuopan(player)
+    local merit  = player:getMerit(xi.merit.DEMATERIALIZE_RECAST)
     if luopan then
         luopan:addStatusEffect(xi.effect.DEMATERIALIZE, 0, 3, 60)
+        player:addStatusEffect(xi.effect.DEMATERIALIZE_2, merit, 0, 60) --need to make this
         -- Self-cast ability but reports effect on Luopan
         action:ID(player:getID(), luopan:getID())
     end
@@ -541,7 +544,7 @@ xi.job_utils.geomancer.spawnLuopan = function(player, target, spell)
 
     if player:hasStatusEffect(xi.effect.BLAZE_OF_GLORY) then
         player:delStatusEffect(xi.effect.BLAZE_OF_GLORY)
-        luopan:setHP((luopan:getMaxHP() / 2) + (luopan:getMaxHP() * (0.01 * player:getJobPointLevel(xi.jp.BLAZE_OF_GLORY_EFFECT))))
+        luopan:setHP((luopan:getMaxHP() / 2) + (luopan:getMaxHP() * (0.05 * player:getMerit(xi.merit.BLAZE_OF_GLORY_RECAST))) + (luopan:getMaxHP() * (0.01 * player:getJobPointLevel(xi.jp.BLAZE_OF_GLORY_EFFECT))))
     end
 
     -- Set HP loss over time

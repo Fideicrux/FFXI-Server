@@ -11,7 +11,7 @@ end
 abilityObject.onPetAbility = function(target, pet, petskill, master, action)
     local masterEquippedHead = master:getEquipID(xi.slot.HEAD)
     local dmgBoost           = master:getJobPointLevel(xi.jp.CONCENTRIC_PULSE_EFFECT)
-    local dmg                = pet:getHP()
+    local dmg                = pet:getHP() * 1.5
 
     if
         masterEquippedHead == xi.item.BAGUA_GALERO_P2 or
