@@ -748,7 +748,7 @@ xi.job_utils.rune_fencer.useGambit = function(player, target, ability, action)
     local highestRune           = player:getHighestRuneEffect()
     local weaponSkillType       = player:getWeaponSkillType(xi.slot.MAIN)
     local runeEffects           = player:getAllRuneEffects()
-    local sdtPower              = -10
+    local sdtPower              = -10 - player:getMerit(xi.merit.MERIT_GAMBIT_EFFECT)
     local jobPointBonusDuration = player:getJobPointLevel(xi.jp.GAMBIT_DURATION)
     local gearBonusDuration     = player:getMod(xi.mod.GAMBIT_DURATION)
     
