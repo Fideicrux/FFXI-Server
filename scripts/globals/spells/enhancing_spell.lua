@@ -440,7 +440,7 @@ xi.spells.enhancing.calculateEnhancingDuration = function(caster, target, spell,
         target:hasStatusEffect(xi.effect.EMBOLDEN) and
         spellGroup == xi.magic.spellGroup.WHITE
     then
-        local emboldenDurationModifier = 0.5 + target:getMod(xi.mod.EMBOLDEN_DURATION) / 100 -- 1 point = 1%
+        local emboldenDurationModifier = 1 + target:getMod(xi.mod.EMBOLDEN_DURATION) / 100 -- 1 point = 1%
         duration = duration * emboldenDurationModifier
     end
 

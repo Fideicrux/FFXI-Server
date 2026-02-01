@@ -26,8 +26,8 @@ local function applyRuneEnhancement(effectType, player)
     local jobPointBonus = player:getJobPointLevel(xi.jp.RUNE_ENCHANTMENT_EFFECT) -- 1 more elemental resistance per level for a maximum total of 20
 
     -- see https://www.bg-wiki.com/ffxi/Category:Rune
-    local power = math.floor((49 * runLevel / 99) + 5.5) + meritBonus + jobPointBonus
-    player:addStatusEffect(effectType, power, 0, 300)
+    local power = math.floor((49 * runLevel / 75) + 5.5) + meritBonus + jobPointBonus
+    player:addStatusEffect(effectType, power, 0, 7200)
 end
 
 local function enforceRuneCounts(target)
@@ -58,7 +58,7 @@ local function getRuneHealAmount(type, target)
             [xi.effect.LUX]    = xi.mod.CHR,
         }
 
-        return math.floor(target:getStat(runeStatMap[type]) * 0.5)
+        return math.floor(target:getStat(runeStatMap[type]) * 1)
     end
 
     return 0
@@ -68,7 +68,7 @@ end
 local function calculateVivaciousPulseHealing(target)
     local divineMagicSkillLevel = target:getSkillLevel(xi.skill.DIVINE_MAGIC)
     local hpHealAmount          = 10 + math.floor(divineMagicSkillLevel / 2 * (100 + target:getJobPointLevel(xi.jp.VIVACIOUS_PULSE_EFFECT)) / 100) -- Bonus of 1-20%  from Vivacious pulse job points.
-    local tenebraeRuneCount     = 0
+    local tenebraeRuneCount     = 3
     local bonusPct              = (100 + target:getMod(xi.mod.VIVACIOUS_PULSE_POTENCY)) / 100
     local debuffs               = {}
     local debuffCount           = 0
@@ -320,14 +320,14 @@ end
 
 xi.job_utils.rune_fencer.useSwordplay = function(player, target, ability)
     -- Calculate power. (Accuracy and Evasion) https://www.bg-wiki.com/ffxi/Swordplay
-    local power = 3                                               -- Naked swordplay starts at 3. Retail confirmed.
+    local power = player:getRUNLevel()                                               -- Naked swordplay starts at 3. Retail confirmed.
     power       = power + power * player:getMod(xi.mod.SWORDPLAY) -- "Swordplay + X" Where X is TICKS.
 
     -- Calculate subPower. (Subtle blow) https://www.bg-wiki.com/ffxi/Sleight_of_Sword
     local subPower = player:getMerit(xi.merit.MERIT_SLEIGHT_OF_SWORD)                            -- Each merit adds 5 "Subtle Blow".
     subPower       = subPower + (subPower / 5) * player:getMod(xi.mod.AUGMENTS_SLEIGHT_OF_SWORD) -- Add augment effect IF player has augment.
 
-    player:addStatusEffect(xi.effect.SWORDPLAY, power, 3, 120, 0, subPower, 0)
+    player:addStatusEffect(xi.effect.SWORDPLAY, power, 3, 7220, 0, subPower, 0)
 
     return xi.effect.SWORDPLAY
 end
@@ -351,7 +351,7 @@ xi.job_utils.rune_fencer.onSwordplayEffectTick = function(target, effect)
     local power         = effect:getPower()
     local tickPower     = 3
     local jobPointBonus = target:getJobPointLevel(xi.jp.SWORDPLAY_EFFECT)
-    local maxPower      = 60 + jobPointBonus  -- ACC/EVA bonus caps at 60, + 1 per level of job point.
+    local maxPower      = 130 + jobPointBonus  -- ACC/EVA bonus caps at 60, + 1 per level of job point.
 
     if power < maxPower then
         if power + tickPower > maxPower then
@@ -403,8 +403,8 @@ xi.job_utils.rune_fencer.useVallationValiance = function(player, target, ability
 
         if
             abilityID == xi.jobAbility.VALIANCE and
-            target:hasStatusEffect(xi.effect.VALLATION) or
-            target:hasStatusEffect(xi.effect.LIEMENT)
+            target:hasStatusEffect(xi.effect.VALLATION)
+            --target:hasStatusEffect(xi.effect.LIEMENT)
         then
             -- Valiance is being used on them, and they have Vallation already up or they have liement
             ability:setMsg(xi.msg.basic.NO_EFFECT) -- "No effect on <Target>"
@@ -436,12 +436,12 @@ xi.job_utils.rune_fencer.useVallationValiance = function(player, target, ability
 
     if abilityID == xi.jobAbility.VALIANCE then -- apply effects to entire party (including target) (Valiance)
         local party    = player:getParty()
-        local duration = 180 + jobPointBonusDuration
+        local duration = 120 + jobPointBonusDuration
 
         for _, member in pairs(party) do
             if
-                not member:hasStatusEffect(xi.effect.VALLATION) and
-                not target:hasStatusEffect(xi.effect.LIEMENT)
+                not member:hasStatusEffect(xi.effect.VALLATION)
+                --not target:hasStatusEffect(xi.effect.LIEMENT)
             then
                 -- Valiance has no effect if Vallation is up, or no effect if Liement is up
                 member:delStatusEffectSilent(xi.effect.VALIANCE) -- Remove Valiance if it's already up. The new one will overwrite.
@@ -455,28 +455,37 @@ xi.job_utils.rune_fencer.useVallationValiance = function(player, target, ability
             end
         end
     else -- apply effects to target (Vallation)
-        if target:hasStatusEffect(xi.effect.LIEMENT) then -- no effect if Liement is up
-            ability:setMsg(xi.msg.basic.JA_NO_EFFECT_2)
-        else
-            local duration = 120 + jobPointBonusDuration
+        
+            local duration = 90 + jobPointBonusDuration
+
 
             target:delStatusEffectSilent(xi.effect.VALIANCE) -- Vallation overwrites Valiance
             applyVallationValianceSDTMods(target, sdtTypes, sdtPower, xi.effect.VALLATION, duration)
+            
 
             if inspirationFCBonus > 0 then
                 target:addStatusEffect(xi.effect.FAST_CAST, inspirationFCBonus, 0, duration)
             end
 
             return xi.effect.VALLATION
-        end
+        
     end
 end
 
 xi.job_utils.rune_fencer.onVallationValianceEffectGain = function(target, effect)
+    local meritBonus            = target:getMerit(xi.merit.MERIT_VALLATION_EFFECT) * -100
+
+    target:addMod(xi.mod.UDMGPHYS, meritBonus)
+    target:addMod(xi.mod.UDMGRANGE, meritBonus)
+    target:addMod(xi.mod.UDMGBREATH, meritBonus)
     -- intentionally blank, handled in applyVallationValianceSDTMods
 end
 
 xi.job_utils.rune_fencer.onVallationValianceEffectLose = function(target, effect)
+    local meritBonus            = target:getMerit(xi.merit.MERIT_VALLATION_EFFECT) * -100
+    target:delMod(xi.mod.UDMGPHYS, meritBonus)
+    target:delMod(xi.mod.UDMGRANGE, meritBonus)
+    target:delMod(xi.mod.UDMGBREATH, meritBonus)
     -- intentionally blank, the effect has a mod list that is deleted after this event is called in CStatusEffectContainer::RemoveStatusEffect
 end
 
@@ -484,8 +493,8 @@ end
 xi.job_utils.rune_fencer.useBattuta = function(player, target, ability, action)
     local meritPower      = player:getMerit(xi.merit.MERIT_BATTUTA) -- power is 4
     local modBonus        = 1 + (player:getMod(xi.mod.ENHANCES_BATTUTA) * meritPower / 4) / 100
-    local inquartataPower = 36 + meritPower -- base 36% + merit power of 4% each = max of 56%
-    local spikesPower     = 6 + meritPower  -- damage is static 26 per rune barring SDT/MDT at 5/5 Battuta merits. 6 + 4*5 = 26.
+    local inquartataPower = 15 + meritPower -- base 36% + merit power of 4% each = max of 56%
+    local spikesPower     = 10 + meritPower  -- damage is static 26 per rune barring SDT/MDT at 5/5 Battuta merits. 6 + 4*5 = 26.
     local runeCount       = target:getActiveRuneCount()
 
     spikesPower = spikesPower * runeCount
@@ -593,7 +602,7 @@ xi.job_utils.rune_fencer.useSwipeLunge = function(player, target, ability, actio
     for i = 0, numHits-1, 1 do
         newestRuneEffect = player:getNewestRuneEffect()
         local element = getSwipeLungeElement(newestRuneEffect)
-        player:removeNewestRune() --rune is always consumed if target is still alive
+        --player:removeNewestRune() --rune is always consumed if target is still alive
         runesUsed = runesUsed + 1 -- keep track of runes used to change effect later
 
         local shadows = utils.takeShadows(target, 1, 1)
@@ -608,6 +617,7 @@ xi.job_utils.rune_fencer.useSwipeLunge = function(player, target, ability, actio
 
             local multipliers = getSwipeLungeDamageMultipliers(player, target, element, bonusMacc) -- store multipliers in case we need them for lowering rune strength on lunge
             local damage      = calculateSwipeLungeDamage(player, target, skillModifier, gearBonus, runeStrength, multipliers)
+            damage            = damage * (1 + player:getMerit(xi.merit.MERIT_LUNGE_EFFECT) / 100)
 
             -- set absorb flag in case we end up dealing 0 damage cumulatively. For example using a wind swipe/lunge vs Puk with full hp will report it "absorbed" 0 HP.
             if multipliers.absorb == -1 then
@@ -741,6 +751,7 @@ xi.job_utils.rune_fencer.useGambit = function(player, target, ability, action)
     local sdtPower              = -10
     local jobPointBonusDuration = player:getJobPointLevel(xi.jp.GAMBIT_DURATION)
     local gearBonusDuration     = player:getMod(xi.mod.GAMBIT_DURATION)
+    
 
     action:info(target:getID(), getSpecEffectElementEffusion(highestRune)) -- set element color for animation.
     action:setAnimation(target:getID(), getAnimationEffusion(weaponSkillType, 10)) -- set animation for currently equipped weapon
@@ -760,7 +771,35 @@ xi.job_utils.rune_fencer.useGambit = function(player, target, ability, action)
 
     applyGambitSDTMods(target, sdtTypes, sdtPower, xi.effect.GAMBIT, duration)
 
-    player:removeAllRunes()
+    --player:removeAllRunes()
+    --Rayke
+    local meritValue      = player:getMerit(xi.merit.MERIT_RAYKE)
+    local duration2        = 30 + player:getMerit(xi.merit.MERIT_RAYKE)              -- 1 merit = 30 seconds (27 + 3)
+    local modDuration     = player:getMod(xi.mod.RAYKE_DURATION) * meritValue / 3
+    local effectAdded = target:addStatusEffect(xi.effect.RAYKE, 0, 0, duration2 + modDuration)
+
+    if effectAdded then
+        local effect        = target:getStatusEffect(xi.effect.RAYKE)
+        local raykeElements = 0
+        local i             = 0
+        local runeEffects   = player:getAllRuneEffects()
+
+        for _, rune in ipairs(runeEffects) do
+            local resRankMod = getRaykeResistanceRankMod(rune)
+            local element    = getRaykeElement(rune)
+
+            raykeElements = raykeElements + bit.lshift(element, 4 * i) -- pack 4 bit damage type into 16 bit int
+            effect:addMod(resRankMod, -1)
+
+            i = i + 1
+        end
+
+        effect:setSubPower(raykeElements)
+
+        if i * 4 > 16 then -- This will trip if a custom module overrides current retail behavior and give RUN 5 runes or more.
+            print('ERROR: useRayke trying to pack more than 16 bits into 16 bit datatype! Does Rune Fencer have 5 or more runes enabled?')
+        end
+    end
 
     -- Gambit doesn't seem to inform you if it had no effect? -- TODO: double check
     return xi.effect.GAMBIT
@@ -771,7 +810,7 @@ xi.job_utils.rune_fencer.useRayke = function(player, target, ability, action)
     local highestRune     = player:getHighestRuneEffect()
     local weaponSkillType = player:getWeaponSkillType(xi.slot.MAIN)
     local meritValue      = player:getMerit(xi.merit.MERIT_RAYKE)
-    local duration        = 27 + player:getMerit(xi.merit.MERIT_RAYKE)              -- 1 merit = 30 seconds (27 + 3)
+    local duration        = 30 + player:getMerit(xi.merit.MERIT_RAYKE)              -- 1 merit = 30 seconds (27 + 3)
     local modDuration     = player:getMod(xi.mod.RAYKE_DURATION) * meritValue / 3 -- Futhark boots aug
 
     action:info(target:getID(), getSpecEffectElementEffusion(highestRune)) -- set element color for animation.
@@ -802,20 +841,20 @@ xi.job_utils.rune_fencer.useRayke = function(player, target, ability, action)
         end
     end
 
-    player:removeAllRunes()
+    --player:removeAllRunes()
 
     return xi.effect.RAYKE -- Rayke doesn't seem to inform you if it had no effect? -- TODO: double check
 end
 
 -- see https://www.bg-wiki.com/ffxi/One_for_All
 xi.job_utils.rune_fencer.useOneForAll = function(player, target, ability, action)
-    local duration = 30 + player:getJobPointLevel(xi.jp.ONE_FOR_ALL_DURATION)
+    local duration = 60 + player:getJobPointLevel(xi.jp.ONE_FOR_ALL_DURATION)
 
     if player:getID() ~= target:getID() then -- Only the caster can apply effects, including to the party
         return
     end
 
-    local power = player:getMaxHP() * 0.2
+    local power = player:getMaxHP() * 0.25
     local party = player:getParty()
 
     for _, member in pairs(party) do
@@ -837,8 +876,8 @@ local function applyLiementEffect(target, absorbTypes, absorbPower, duration)
         print('ERROR: applyLiementEffect trying to pack more than 16 bits into 16 bit datatype! Does Rune Fencer have 5 or more runes enabled?')
     end
 
-    target:delStatusEffectSilent(xi.effect.VALLATION) -- Liement overwrites Vallation
-    target:delStatusEffectSilent(xi.effect.VALIANCE)  -- Liement overwrites Valiance
+    --target:delStatusEffectSilent(xi.effect.VALLATION) -- Liement overwrites Vallation
+    --target:delStatusEffectSilent(xi.effect.VALIANCE)  -- Liement overwrites Valiance
     target:delStatusEffectSilent(xi.effect.LIEMENT)   -- Remove Liement if it's already up. The new one will overwrite regardless of strength.
 
     target:addStatusEffect(xi.effect.LIEMENT, absorbPower, 0, duration, 0, absorbBits)
@@ -857,7 +896,7 @@ xi.job_utils.rune_fencer.useLiement = function(player, target, ability, action)
     end
 
     local runeEffects = target:getAllRuneEffects()
-    local absorbPower = 15 -- in core -> 85 + 15 * (1, 2, or 3) = 100, 115, 130
+    local absorbPower = 50 -- in core -> 85 + 15 * (1, 2, or 3) = 100, 115, 130
     local duration    = 10 + player:getMod(xi.mod.LIEMENT_DURATION)
     local absorbTypes = {} -- one absorb type per rune which can be additive
     local i           = 0
@@ -879,4 +918,24 @@ xi.job_utils.rune_fencer.useLiement = function(player, target, ability, action)
     end
 
     return xi.effect.LIEMENT
+end
+
+xi.job_utils.rune_fencer.useOdyllicSubterfuge = function(player, target, ability)
+    -- TODO: Retail testing to determine damage
+    local skill      = player:getSkillLevel(xi.skill.PARRY) 
+    local damage     = math.floor(player:getMainLvl() * 4) + skill * 2
+
+
+    target:addStatusEffect(xi.effect.ODYLLIC_SUBTERFUGE, 1, 0, 60)
+
+    local randomizer = 1 + (math.random(1, 5) / 100)
+
+    damage = damage * randomizer
+    damage = utils.handleStoneskin(target, damage)
+
+    target:takeDamage(damage, player, xi.attackType.PHYSICAL, xi.damageType.SLASHING)
+    target:updateEnmityFromDamage(player, damage)
+    ability:setMsg(xi.msg.basic.JA_DAMAGE)
+
+    return damage
 end

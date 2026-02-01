@@ -6835,7 +6835,7 @@ float CheckLiementAbsorb(CBattleEntity* PBattleEntity, DAMAGE_TYPE DamageType)
             if (runeAbsorbCount > 0)
             {
                 PBattleEntity->StatusEffectContainer->DelStatusEffectSilent(EFFECT_LIEMENT); // Liement absorbs once and disappears.
-                float absorbMultiplier = (85 + runeAbsorbCount * absorbPower) / 100.0;
+                float absorbMultiplier = (50 + runeAbsorbCount * absorbPower) / 100.0;
 
                 return absorbMultiplier * -1;
             }
