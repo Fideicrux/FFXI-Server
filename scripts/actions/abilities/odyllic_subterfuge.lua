@@ -9,11 +9,11 @@
 local abilityObject = {}
 
 abilityObject.onAbilityCheck = function(player, target, ability)
-    return xi.job_utils.paladin.checkOdyllicSubterfuge(player, target, ability)
+    return xi.job_utils.rune_fencer.checkOdyllicSubterfuge(player, target, ability)
 end
 
 abilityObject.onUseAbility = function(player, target, ability)
-    return xi.job_utils.paladin.useOdyllicSubterfuge(player, target, ability)
+    return xi.job_utils.rune_fencer.useOdyllicSubterfuge(player, target, ability)
 end
 
 return abilityObject
