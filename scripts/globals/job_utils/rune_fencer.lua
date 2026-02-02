@@ -320,7 +320,7 @@ end
 
 xi.job_utils.rune_fencer.useSwordplay = function(player, target, ability)
     -- Calculate power. (Accuracy and Evasion) https://www.bg-wiki.com/ffxi/Swordplay
-    local power = player:getRUNLevel()                                               -- Naked swordplay starts at 3. Retail confirmed.
+    local power = getRUNLevel(player)                                               -- Naked swordplay starts at 3. Retail confirmed.
     power       = power + power * player:getMod(xi.mod.SWORDPLAY) -- "Swordplay + X" Where X is TICKS.
 
     -- Calculate subPower. (Subtle blow) https://www.bg-wiki.com/ffxi/Sleight_of_Sword
@@ -502,7 +502,7 @@ xi.job_utils.rune_fencer.useBattuta = function(player, target, ability, action)
     local highestRune = target:getHighestRuneEffect()
     action:info(target:getID(), getSpecEffectElementWard(highestRune)) -- set element color for animation.
 
-    target:addStatusEffect(xi.effect.BATTUTA, inquartataPower, 0, 90, 0, math.floor(spikesPower * modBonus), 0)
+    target:addStatusEffect(xi.effect.BATTUTA, inquartataPower, 0, 7200, 0, math.floor(spikesPower * modBonus), 0)
 
     return xi.effect.BATTUTA
 end
