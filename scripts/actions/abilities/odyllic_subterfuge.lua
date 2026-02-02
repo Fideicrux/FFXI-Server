@@ -9,7 +9,7 @@
 local abilityObject = {}
 
 abilityObject.onAbilityCheck = function(player, target, ability)
-    return xi.job_utils.rune_fencer.checkOdyllicSubterfuge(player, target, ability)
+    return 0, 0
 end
 
 abilityObject.onUseAbility = function(player, target, ability)
