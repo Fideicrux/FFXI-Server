@@ -36,7 +36,7 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
         end
     end
 
-    local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary)
+    local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
 
     if not target:isUndead() then
         player:addHP((damage / 100) * drain)

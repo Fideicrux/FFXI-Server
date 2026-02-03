@@ -1,5 +1,5 @@
 -----------------------------------
--- Soul Eater
+-- Crimson Blade
 -- Greatsword weapon skill
 -- Skill Level: 275
 -- Drains a percentage of damage dealt to HP varies with TP.
@@ -20,7 +20,7 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     local drain = 25 + math.floor(tp / 1000) * 25
     local params = {}
     params.ftpMod = { 4.0, 4.0, 4.0 }
-    params.str_wsc = 0.5 
+    params.str_wsc = 0.5
     params.int_wsc = 0.5
     params.hybridWS = true
     params.ele = xi.element.DARK
@@ -36,7 +36,7 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
         end
     end
 
-    local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary)
+    local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
 
     if not target:isUndead() then
         player:addHP((damage / 100) * drain)
