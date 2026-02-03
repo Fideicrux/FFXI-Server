@@ -17,6 +17,7 @@ local weaponskillObject = {}
 
 weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary, action, taChar)
     local params = {}
+    params.numHits = 1
     params.ftpMod = { 1.0, 2.375, 2.875 }
     params.dex_wsc = 0.3
     params.int_wsc = 0.25
