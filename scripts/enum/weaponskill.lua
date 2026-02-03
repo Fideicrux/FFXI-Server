@@ -101,6 +101,7 @@ xi.weaponskill =
     RESOLUTION          = 60,
     DIMIDIATION         = 61,
     FIMBULVETR          = 62,
+    SOULEATER           = 256,
 
     -----------------------------------
     -- AXE
@@ -297,7 +298,7 @@ xi.weaponskill =
     -----------------------------------
     -- Not yet used
     -----------------------------------
-    -- placeholder         = 63,
+    -- placeholder         = 63, -- soul_eater?
     -- placeholder         = 79,
     -- placeholder         = 95,
     -- placeholder         = 111,
