@@ -16,17 +16,20 @@ local weaponskillObject = {}
 
 weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary, action, taChar)
     local params      = {}
-    params.ftpMod     = { 3.5, 3.5, 3.5 }
+    params.ftpMod     = { 4.0, 4.0, 4.0 }
     params.vit_wsc    = 0.6
+    params.hybridWS   = true
     params.ele        = xi.element.ICE
     params.skill      = xi.skill.GREAT_SWORD
     params.includemab = true
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
-        params.vit_wsc = 0.8
+        params.vit_wsc = 0.5
+        params.str_wsc = 0.5
+        params.atkVaries = { 1.5, 1.5, 1.5 }
     end
 
-    local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doMagicWeaponskill(player, target, wsID, params, tp, action, primary)
+    local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary)
 
     -- Handle status effect
     local effectId      = xi.effect.PARALYSIS

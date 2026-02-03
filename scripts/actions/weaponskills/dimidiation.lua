@@ -17,9 +17,10 @@ local weaponskillObject = {}
 weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary, action, taChar)
     local params = {}
     params.numHits = 2
-    params.ftpMod = { 2.25, 4.5, 6.75 }
-    params.dex_wsc = 0.8
-    params.atkVaries = { 1.25, 1.25, 1.25 }
+    params.ftpMod = { 5.0, 8.0, 11.0 }
+    params.dex_wsc = 0.5
+    params.str_wsc = 1.0
+    params.atkVaries = { 1.5, 1.5, 1.5 }
 
     -- Apply aftermath
     xi.aftermath.addStatusEffect(player, tp, xi.slot.MAIN, xi.aftermath.type.MYTHIC)
