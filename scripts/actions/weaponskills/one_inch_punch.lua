@@ -17,14 +17,15 @@ local weaponskillObject = {}
 weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary, action, taChar)
     local params = {}
     params.numHits = 1
-    params.ftpMod = { 1, 1, 1 }
+    params.ftpMod = { 3.5, 3.5, 3.5 }
     params.vit_wsc = 0.4
     -- Defense ignored is 0%, 30%, 50% as per http://www.bg-wiki.com/bg/One_Inch_Punch
-    params.ignoredDefense = { 0.2, 0.35, 0.55 }
+    params.ignoredDefense = { 0.2, 0.35, 0.5 }
+    params.atkVaries = { 1.5, 1.5, 1.5 }
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
         params.multiHitfTP = true -- http://wiki.ffo.jp/html/2418.html
-        params.dex_wsc = 0.5 params.vit_wsc = 0.5
+        params.str_wsc = 0.5 params.vit_wsc = 0.5
     end
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)

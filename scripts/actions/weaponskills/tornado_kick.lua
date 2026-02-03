@@ -20,9 +20,10 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
 
     params.ftpMod = { 2.25, 2.75, 3.5 }
     params.kick = true -- https://www.bluegartr.com/threads/112776-Dev-Tracker-Findings-Posts-%28NO-DISCUSSION%29?p=6712150&viewfull=1#post6712150
+    params.atkVaries = { 1.5, 1.5, 1.5 }
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
-        params.ftpMod = { 1.0, 1.5, 2.5 }
+        params.ftpMod = { 1.0, 1.5, 2.0 }
         params.str_wsc = 0.5 params.vit_wsc = 0.5
         params.multiHitfTP = true -- http://wiki.ffo.jp/html/20199.html
     end
