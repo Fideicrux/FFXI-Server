@@ -101,7 +101,7 @@ xi.weaponskill =
     RESOLUTION          = 60,
     DIMIDIATION         = 61,
     FIMBULVETR          = 62,
-    SOULEATER           = 256,
+    CRIMSON_BLADE       = 63,
 
     -----------------------------------
     -- AXE

@@ -63,7 +63,7 @@
   0060    Resolution           WeaponSkill
   0061    Dimidiation          WeaponSkill
   0062    .                    Unused
-  0063    .                    Unused
+  0063    Crimson Blade        WeaponSkill
   0064    Raging Axe           WeaponSkill
   0065    Smash Axe            WeaponSkill
   0066    Gale Axe             WeaponSkill
