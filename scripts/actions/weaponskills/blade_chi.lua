@@ -17,7 +17,8 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     local params = {}
     params.numHits = 2
     params.ftpMod = { 0.5, 0.75, 1.0 }
-    params.str_wsc = 0.2 params.int_wsc = 0.2
+    params.str_wsc = 0.2
+    params.int_wsc = 0.2
     params.hybridWS = true
     params.ele = xi.element.EARTH
     params.skill = xi.skill.KATANA
@@ -26,7 +27,8 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
         -- http://wiki.ffo.jp/html/720.html
         params.ftpMod = { 0.5, 1.375, 2.25 }
-        params.str_wsc = 0.3 params.int_wsc = 0.3
+        params.str_wsc = 0.3
+        params.int_wsc = 0.3
     end
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)

@@ -16,7 +16,8 @@ local weaponskillObject = {}
 weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary, action, taChar)
     local params = {}
     params.ftpMod = { 2.75, 3.5, 4 }
-    params.dex_wsc = 0.28 params.int_wsc = 0.28
+    params.dex_wsc = 0.28
+    params.int_wsc = 0.28
     params.hybridWS = true
     params.ele = xi.element.WIND
     params.skill = xi.skill.DAGGER
@@ -25,7 +26,8 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
         -- https://www.bg-wiki.com/bg/Aeolian_Edge
         params.ftpMod = { 2.5, 3.75, 5.0 }
-        params.dex_wsc = 0.5 params.int_wsc = 0.5
+        params.dex_wsc = 0.5
+        params.int_wsc = 0.5
     end
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary)

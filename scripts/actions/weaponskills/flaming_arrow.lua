@@ -17,7 +17,8 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     local params = {}
     params.numHits = 1
     params.ftpMod = { 1.0, 1.0, 1.0 }
-    params.str_wsc = 0.16 params.agi_wsc = 0.25
+    params.str_wsc = 0.16
+    params.agi_wsc = 0.25
     params.hybridWS = true
     params.ele = xi.element.FIRE
     params.skill = xi.skill.ARCHERY
@@ -25,7 +26,8 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
         params.ftpMod = { 0.5, 0.75, 1.0 }
-        params.str_wsc = 0.2 params.agi_wsc = 0.5
+        params.str_wsc = 0.2
+        params.agi_wsc = 0.5
     end
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doRangedWeaponskill(player, target, wsID, params, tp, action, primary)
