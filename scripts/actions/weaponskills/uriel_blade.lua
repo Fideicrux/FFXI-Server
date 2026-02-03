@@ -16,14 +16,15 @@ local weaponskillObject = {}
 
 weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary, action, taChar)
     local params      = {}
-    params.ftpMod     = { 4.5, 6, 7.5 }
-    params.str_wsc    = 0.32
-    params.mnd_wsc    = 0.32
+    params.ftpMod     = { 2.5, 3.75, 5.0 }
+    params.str_wsc    = 0.5
+    params.mnd_wsc    = 0.5
+    params.hybridWS   = true
     params.ele        = xi.element.LIGHT
     params.skill      = xi.skill.SWORD
     params.includemab = true
 
-    local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doMagicWeaponskill(player, target, wsID, params, tp, action, primary)
+    local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary)
 
     -- Handle status effect
     local effectId      = xi.effect.FLASH

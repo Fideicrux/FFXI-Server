@@ -26,7 +26,7 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     local params = {}
     params.numHits    = 2
     params.ftpMod     = { 1, 1.25, 1.5 }
-    params.str_wsc    = 0.4
+    params.str_wsc    = 0.5
     params.vit_wsc    = 0.5
     params.enmityMult = 1
 
@@ -55,7 +55,7 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     -- Calculate damage caps (item level and level based)
     local levelUsed       = player:getAverageItemLevel() > 99 and player:getAverageItemLevel() or player:getMainLvl()
     -- local hitDamageCap    = (levelUsed + 14) * 5 -- iLvl 119 -> 665
-    local globalDamageCap = levelUsed * 10       -- iLvl 119 -> 1190
+    local globalDamageCap = levelUsed * 40       -- iLvl 119 -> 1190
 
     -- If the target isn't a mob,theres no enmity to calculate with.
     if target:getObjType() ~= xi.objType.MOB then
