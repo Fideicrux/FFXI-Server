@@ -6,7 +6,7 @@ local weaponskillObject = {}
 
 -- https://www.bg-wiki.com/ffxi/Energy_Drain
 weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary, action, taChar)
-    local fTPAnchors = { 1.25, 2.5, 4.125 }
+    local fTPAnchors = { 2.0, 3.0, 4.0 }
 
     local startingAnchor = math.floor(tp / 1000)
 
@@ -25,9 +25,9 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     end
 
     local skill = player:getSkillLevel(xi.skill.DAGGER)
-    local wsc   = player:getStat(xi.mod.MND) * 1.0
+    local wsc   = player:getStat(xi.mod.INT) * 0.5 + player:getStat(xi.mod.DEX) * 0.5
 
-    local mpRestored = math.floor((math.floor(skill * 0.11) + wsc) * multiplier)
+    local mpRestored = math.floor((math.floor(skill * 0.25) + wsc) * multiplier)
 
     if target:isUndead() then
         mpRestored = 0
