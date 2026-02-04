@@ -298,7 +298,7 @@ xi.weaponskill =
     -----------------------------------
     -- Not yet used
     -----------------------------------
-    -- placeholder         = 63, -- soul_eater?
+    -- placeholder         = 63, -- crimson_blade?
     -- placeholder         = 79,
     -- placeholder         = 95,
     -- placeholder         = 111,
