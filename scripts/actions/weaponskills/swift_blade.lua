@@ -17,7 +17,7 @@ local weaponskillObject = {}
 weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary, action, taChar)
     local params = {}
     params.numHits = 3
-    params.ftpMod = { 2.2, 2.2, 2.2 }
+    params.ftpMod = { 1.75, 1.75, 1.75 }
     params.str_wsc = 0.3
     params.mnd_wsc = 0.3
     -- Sufficient data for ACC bonus/penalty does not exist; assuming no penalty and 10% increase per 1000 TP
@@ -33,6 +33,8 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     end
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
+
+    player:addHP(damage / 10)
 
     return tpHits, extraHits, criticalHit, damage
 end

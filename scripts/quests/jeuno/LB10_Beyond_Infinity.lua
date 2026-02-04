@@ -284,7 +284,7 @@ quest.sections =
                     local limitBreaker = player:hasKeyItem(xi.ki.LIMIT_BREAKER) and 1 or 2
 
                     if
-                        player:getMainLvl() >= 99 and
+                        player:getMainLvl() >= 75 and
                         not player:hasKeyItem(xi.ki.JOB_BREAKER)
                     then
                         return quest:progressEvent(10240, playerLevel, limitBreaker)
