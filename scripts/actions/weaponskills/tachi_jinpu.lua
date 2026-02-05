@@ -16,7 +16,7 @@ local weaponskillObject = {}
 
 weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary, action, taChar)
     local params = {}
-    params.numHits = 2
+    params.numHits = 1
     params.ftpMod = { 1.0, 1.0, 1.0 }
     params.str_wsc = 0.4
     params.hybridWS = true
@@ -25,8 +25,10 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     params.skill = xi.skill.GREAT_KATANA
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
-        params.ftpMod = { 0.5, 1.5, 2.5 }
-        params.str_wsc = 0.3
+        params.ftpMod = { 0.75, 1.125, 1.5 }
+        params.str_wsc = 0.75
+        params.int_wsc = 0.25
+        params.atkVaries = { 1.5, 1.5, 1.5 }
     end
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
