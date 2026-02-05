@@ -17,13 +17,11 @@ local weaponskillObject = {}
 weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary, action, taChar)
     local params   = {}
     params.numHits = 1
-    params.ftpMod  = { 1, 1, 1 }
-    params.str_wsc = 0.3
+    params.ftpMod  = { 4.5, 4.5, 4.5 }
+    params.str_wsc = 1.0
+    params.atkVaries = { 1.5, 1.5, 1.5 }
+    
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
-
-    if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
-        params.str_wsc = 1
-    end
 
     -- Handle status effect
     local effectId      = xi.effect.INT_DOWN
