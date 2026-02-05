@@ -19,10 +19,10 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     local params = {}
     params.numHits = 5
     params.ftpMod = { 1.0, 1.0, 1.0 }
-    params.str_wsc = 0.2
-    params.dex_wsc = 0.2
-    params.accVaries = { 0.8, 0.9, 1.0 } -- TODO: verify -- "Accuracy varies with TP" in retail. All current evidence points to that this modifier is static values, not percentages.
-    params.atkVaries = { 0.875, 0.875, 0.875 }
+    params.str_wsc = 0.5
+    params.dex_wsc = 0.5
+    params.accVaries = { 1.0, 1.5, 2.0 } -- TODO: verify -- "Accuracy varies with TP" in retail. All current evidence points to that this modifier is static values, not percentages.
+    params.atkVaries = { 1.5, 1.5, 1.5 }
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
     return tpHits, extraHits, criticalHit, damage
 end
