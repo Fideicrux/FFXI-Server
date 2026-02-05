@@ -101,7 +101,6 @@ xi.weaponskill =
     RESOLUTION          = 60,
     DIMIDIATION         = 61,
     FIMBULVETR          = 62,
-    CRIMSON_BLADE       = 63,
 
     -----------------------------------
     -- AXE
@@ -298,7 +297,7 @@ xi.weaponskill =
     -----------------------------------
     -- Not yet used
     -----------------------------------
-    -- placeholder         = 63, -- crimson_blade?
+    -- placeholder         = 63, 
     -- placeholder         = 79,
     -- placeholder         = 95,
     -- placeholder         = 111,
