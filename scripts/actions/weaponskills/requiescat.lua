@@ -21,15 +21,13 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     params.formless = true
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
-        params.mnd_wsc = 0.7 + (player:getMerit(xi.merit.REQUIESCAT) * 0.03)
-        params.str_wsc = 0.5
+        params.str_wsc_wsc = 0.5 + (player:getMerit(xi.merit.REQUIESCAT) * 0.15)
+        params.dex_wsc = 0.5
         params.multiHitfTP = true
         params.atkVaries = { 1.5, 1.5, 1.5 }
     end
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
-
-    player:addMP(damage * 0.03)
 
     return tpHits, extraHits, criticalHit, damage
 end

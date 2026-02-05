@@ -25,7 +25,8 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
 
-    player:addHP(damage / 10)
+    local drain = math.floor(damage * 0.25)
+    player:addHP(drain)
     
     return tpHits, extraHits, criticalHit, damage
 end

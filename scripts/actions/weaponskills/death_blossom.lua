@@ -32,8 +32,6 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
 
-    player:addHP(damage / 10)
-
     -- Handle status effect
     local effectId = xi.effect.MAGIC_EVASION_DOWN
     local power    = 10
