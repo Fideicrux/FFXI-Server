@@ -33,21 +33,61 @@ GP_SERV_COMMAND_ABIL_RECAST::GP_SERV_COMMAND_ABIL_RECAST(CCharEntity* PChar)
 {
     auto& packet = this->data();
 
-    uint8               count      = 1;
+    // Gather active ability recasts, prioritize special/mount, sort by expiry and trim to 31.
     const RecastList_t* RecastList = PChar->PRecastContainer->GetRecastList(RECAST_ABILITY);
+
+    struct Entry
+    {
+        Recast_t recast;
+        std::chrono::seconds remaining;
+    };
+
+    std::vector<Entry> active;
+    active.reserve(RecastList->size());
+
     for (auto&& recast : *RecastList)
     {
-        const auto remaining     = recast.RecastTime == 0s ? 0s : std::chrono::ceil<std::chrono::seconds>(recast.TimeStamp - timer::now() + recast.RecastTime);
-        const auto recastSeconds = static_cast<uint32>(std::max<int64>(timer::count_seconds(remaining), 0));
+        if (recast.RecastTime == 0s)
+        {
+            continue; // skip expired/placeholder entries
+        }
 
-        if (recast.ID == Recast::Mount) // borrowing this id for mount recast
+        const auto remaining = std::chrono::ceil<std::chrono::seconds>(recast.TimeStamp - timer::now() + recast.RecastTime);
+        const auto remsecs   = static_cast<int64>(std::max<int64>(timer::count_seconds(remaining), 0));
+
+        active.push_back(Entry{ recast, std::chrono::seconds(remsecs) });
+    }
+
+    // Prioritize: Mount first, then Special (2hr) entries, then soonest-expiring abilities
+    std::sort(active.begin(), active.end(), [](auto const& a, auto const& b)
+    {
+        if (a.recast.ID == Recast::Mount) return true;
+        if (b.recast.ID == Recast::Mount) return false;
+        if (a.recast.ID == Recast::Special) return true;
+        if (b.recast.ID == Recast::Special) return false;
+        return a.remaining < b.remaining;
+    });
+
+    if (active.size() > 31)
+    {
+        ShowWarning("GP_SERV_COMMAND_ABIL_RECAST: player '%s' has %zu active ability recasts, trimming to 31.", PChar->getName(), active.size());
+        active.resize(31);
+    }
+
+    uint8 count = 1;
+    for (auto const& e : active)
+    {
+        const auto& recast = e.recast;
+        const auto recastSeconds = static_cast<uint32>(e.remaining.count());
+
+        if (recast.ID == Recast::Mount)
         {
             packet.MountRecast   = recastSeconds;
             packet.MountRecastId = static_cast<uint32_t>(recast.ID);
         }
         else if (recast.ID != Recast::Special)
         {
-            packet.Timers[count].Timer   = recastSeconds;
+            packet.Timers[count].Timer   = static_cast<uint16_t>(recastSeconds);
             packet.Timers[count].TimerId = static_cast<uint8_t>(recast.ID);
 
             if (recast.maxCharges != 0)
@@ -59,33 +99,21 @@ GP_SERV_COMMAND_ABIL_RECAST::GP_SERV_COMMAND_ABIL_RECAST(CCharEntity* PChar)
 
                     if (baseChargeTime > actualChargeTime)
                     {
-                        packet.Timers[count].Calc1 = 0; // Not used in Ready, QD, Stratagems... Is this never used?
+                        packet.Timers[count].Calc1 = 0;
                         packet.Timers[count].Calc2 = 65536 - (baseChargeTime - actualChargeTime) * recast.maxCharges;
                     }
                 }
             }
             count++;
         }
-        else // 2hr edge case // TODO: retail uses Calc2 on 2hr for some reason...
+        else // Special (2hr) handling
         {
-            // Some clients treat Timers[0] specially (retail-like behavior), while others
-            // only parse the timer list starting at index 1.
-            // Populate both to ensure the recast is reflected in the menu.
             packet.Timers[0].Timer   = static_cast<uint16_t>(recastSeconds);
             packet.Timers[0].TimerId = 0;
 
             packet.Timers[count].Timer   = static_cast<uint16_t>(recastSeconds);
             packet.Timers[count].TimerId = 0;
             count++;
-        }
-
-        // Retail currently only allows 31 distinct recasts to be sent in the packet
-        // Reject 32 abilities and higher (zero-indexed)
-        // This may change with Master Levels, as there is some padding that appears to be not used for each recast that could be removed to add more abilities.
-        if (count > 30)
-        {
-            ShowWarning("GP_SERV_COMMAND_ABIL_RECAST constructor attempting to send recast packet to player '%s' with > 31 abilities. This is unsupported.", PChar->getName());
-            break;
         }
     }
 }
