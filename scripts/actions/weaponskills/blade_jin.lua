@@ -18,12 +18,13 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     local params = {}
     params.numHits = 3
     params.ftpMod = { 1.0, 1.0, 1.0 }
-    params.str_wsc = 0.3
-    params.dex_wsc = 0.3
-    params.critVaries = { 0.1, 0.3, 0.5 }
+    params.str_wsc = 0.5
+    params.dex_wsc = 0.5
+    params.critVaries = { 0.3, 0.6, 0.9 }
+    params.atkVaries = { 1.5, 1.5, 1.5 }
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
-        params.ftpMod = { 1.375, 1.375, 1.375 }
+        params.ftpMod = { 2.0, 2.0, 2.0 }
         params.multiHitfTP = true -- https://www.bg-wiki.com/ffxi/Blade:_Jin
     end
 
