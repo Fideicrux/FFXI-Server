@@ -24,10 +24,15 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     params.chr_wsc = 0.4
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
+        params.multiHitFtp = true
+        params.accVaries = { 1.0, 1.25, 1.5 }
+        params.atkVaries = { 1.5, 1.5, 1.5 }
+        params.critVaries = { 0.1, 0.1, 0.1 } -- unless crit varies with TP.
         params.str_wsc = 1.0
         params.vit_wsc = 0.5
-        params.mnd_wsc = 0.3
+        params.mnd_wsc = 0.25
         params.chr_wsc = 0.0
+        params.ftpMod = { 5.0, 10.0, 15.0 }
     end
 
     -- Apply aftermath
