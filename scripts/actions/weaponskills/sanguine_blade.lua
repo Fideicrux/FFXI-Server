@@ -27,7 +27,6 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     params.ele = xi.element.DARK
     params.skill = xi.skill.SWORD
     params.includemab = true
-    params.atkVaries = { 1.5, 1.5, 1.5 }
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
         if tp >= 2000 and tp <= 2999 then
@@ -35,6 +34,14 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
         elseif tp == 3000 then
             drain = 150
         end
+        params.multiHitFtp = true
+        params.accVaries = { 1.0, 1.25, 1.5 }
+        params.atkVaries = { 1.5, 1.5, 1.5 }
+        params.critVaries = { 0.1, 0.1, 0.1 } -- unless crit varies with TP.
+        params.str_wsc = 0.35
+        params.dex_wsc = 0.35
+        params.mnd_wsc = 0.35
+        params.ftpMod = { 2.375, 4.75, 7.125 }
     end
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
