@@ -1,6 +1,5 @@
 -----------------------------------
 -- Metatron Torment
--- Hand-to-Hand Skill level: 5 Description: Delivers a threefold attack. Damage varies wit weapon skill
 -- Great Axe Weapon Skill
 -- Skill Level: N/A
 -- Lowers target's defense. Additional effect: temporarily lowers damage taken from enemies.
@@ -28,8 +27,13 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     params.atkVaries = { 1.5, 1.5, 1.5 }
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
-        params.str_wsc = 0.75
+        params.multiHitFtp = true
+        params.accVaries = { 1.0, 1.25, 1.5 }
+        params.atkVaries = { 1.5, 1.5, 1.5 }
+        params.critVaries = { 0.1, 0.1, 0.1 } -- unless crit varies with TP.
+        params.str_wsc = 1.0
         params.vit_wsc = 0.5
+        params.ftpMod = { 5.0, 10.0, 15.0 }
     end
 
     -- Apply aftermath
