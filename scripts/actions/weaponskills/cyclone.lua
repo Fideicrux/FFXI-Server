@@ -25,13 +25,15 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     params.ele = xi.element.WIND
     params.skill = xi.skill.DAGGER
     params.includemab = true
-    params.atkVaries = { 1.5, 1.5, 1.5 }
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
-        -- http://wiki.ffo.jp/html/685.html
+        params.multiHitFtp = true
+        params.accVaries = { 1.0, 1.25, 1.5 }
+        params.atkVaries = { 1.5, 1.5, 1.5 }
+        params.critVaries = { 0.1, 0.1, 0.1 } -- unless crit varies with TP.
         params.dex_wsc = 0.5
         params.int_wsc = 0.5
-        params.ftpMod = { 1.0, 1.5, 2.0 }
+        params.ftpMod = { 1.0, 2.0, 3.0 }
     end
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary)
