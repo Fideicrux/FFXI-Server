@@ -16,16 +16,18 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     -- number of normal hits for ws
     params.numHits = 2
     -- stat-modifiers (0.0 = 0%, 0.2 = 20%, 0.5 = 50%..etc)
-    params.vit_wsc = 0.6
+    params.vit_wsc = 0.5
     params.ftpMod = { 4.0, 4.0, 4.0 }
     params.atkVaries = { 1.5, 1.5, 1.5 }
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
-        params.vit_wsc = 0.5
+        params.multiHitFtp = true
+        params.accVaries = { 1.0, 1.25, 1.5 }
+        params.atkVaries = { 1.5, 1.5, 1.5 }
+        params.critVaries = { 0.1, 0.1, 0.1 } -- unless crit varies with TP.
         params.str_wsc = 0.5
-        params.multiHitfTP = true
-        -- as of 02.03.2022 the ws doesnt yet apply ftp to all stage, was delaied to be done in line with other relic ws
-        -- http://wiki.ffo.jp/html/2426.html and https://forum.square-enix.com/ffxi/threads/55998-October-2019-FINAL-FANTASY-XI-Digest?highlight=2019+update
+        params.dex_wsc = 0.5
+        params.ftpMod = { 2.5, 5.0, 7.5 }
     end
 
     -- Apply aftermath
