@@ -15,19 +15,22 @@ local weaponskillObject = {}
 
 weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary, action, taChar)
     local params = {}
-    params.ftpMod = { 1.0, 2.5, 3.0 }
+    params.numHits = 1
+    params.ftpMod = { 0.75, 1.125, 1.5 }
     params.str_wsc = 0.3
     params.int_wsc = 0.3
+    params.hybridWS = true
     params.ele = xi.element.DARK
     params.skill = xi.skill.SCYTHE
     params.includemab = true
+    params.atkVaries = { 1.5, 1.5, 1.5 }
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
-        params.str_wsc = 0.4
-        params.int_wsc = 0.4
+        params.str_wsc = 0.75
+        params.int_wsc = 0.25
     end
 
-    local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doMagicWeaponskill(player, target, wsID, params, tp, action, primary)
+    local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary)
     return tpHits, extraHits, criticalHit, damage
 end
 

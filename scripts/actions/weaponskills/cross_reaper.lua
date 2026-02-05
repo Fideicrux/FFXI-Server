@@ -17,14 +17,19 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     -- wscs are in % so 0.2=20%
     params.str_wsc = 0.3
     params.mnd_wsc = 0.3
+    params.atkVaries = { 1.5, 1.5, 1.5 }
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
-        params.ftpMod = { 2.0, 4.0, 7.0 }
-        params.str_wsc = 0.6
-        params.mnd_wsc = 0.6
+        params.ftpMod = { 4.0, 6.5, 9.0 }
+        params.str_wsc = 0.75
+        params.int_wsc = 0.25
     end
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
+    
+    local drain = math.floor(damage * 0.2)
+    player:addMP(drain) -- Restore MP equal to 20% of damage dealt
+
     return tpHits, extraHits, criticalHit, damage
 end
 
