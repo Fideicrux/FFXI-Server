@@ -16,18 +16,22 @@ local weaponskillObject = {}
 
 weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary, action, taChar)
     local params      = {}
-    params.ftpMod     = { 3.5, 3.5, 3.5 }
+    params.numHits    = 1
+    params.ftpMod     = { 1.75, 1.75, 1.75 }
     params.str_wsc    = 0.3
     params.int_wsc    = 0.3
+    params.hybridWS   = true
     params.ele        = xi.element.DARK
     params.skill      = xi.skill.SCYTHE
     params.includemab = true
+    params.atkVaries = { 1.5, 1.5, 1.5 }
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
-        params.int_wsc = 0.7
+        params.str_wsc = 0.5
+        params.int_wsc = 0.5
     end
 
-    local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doMagicWeaponskill(player, target, wsID, params, tp, action, primary)
+    local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary)
 
     -- Handle status effect
     local effectId      = xi.effect.ATTACK_DOWN
