@@ -20,11 +20,15 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     params.ftpMod = { 6.5, 6.5, 6.5 }
     params.str_wsc = 0.5
     -- Defense ignored is 50%, 75%, 100% (50% at 100 TP is accurate, other values are guesses)
-    params.ignoredDefense = { 0.5, 0.75, 1.0 }
-    params.atkVaries = { 1.5, 1.5, 1.5 }
+    params.ignoredDefense = { 0.1, 0.2, 0.3 }
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
+        params.multiHitFtp = true
+        params.accVaries = { 1.0, 1.25, 1.5 }
+        params.atkVaries = { 1.5, 1.5, 1.5 }
+        params.critVaries = { 0.1, 0.1, 0.1 } -- unless crit varies with TP.
         params.str_wsc = 1.0
+        params.ftpMod = { 3.75, 7.5, 11.25 }
     end
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)
