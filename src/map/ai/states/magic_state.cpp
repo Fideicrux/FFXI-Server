@@ -450,7 +450,7 @@ void CMagicState::SpendCost()
         int16 rate = m_PEntity->getMod(Mod::CONSERVE_MP);
 
        
-        cost = (int16)(cost * (rate/100));
+        cost = (int16)(cost * (100 - rate)/100.0f);
         
 
         m_PEntity->addMP(-cost);
