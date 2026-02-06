@@ -30,6 +30,18 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doRangedWeaponskill(player, target, wsID, params, tp, action, primary)
 
+    local rangedItem = player:getEquippedItem(xi.slot.RANGED)
+    if rangedItem then
+        local itemId = rangedItem:getItemID()
+        for _, id in ipairs(xi.equipment.relicIDs[xi.equipment.relic.ANNIHILATOR]) do
+            if itemId == id then
+                params.dex_wsc = 0.25
+                params.agi_wsc = 0.25
+                break
+            end
+        end
+    end
+
     -- Apply aftermath
     xi.aftermath.addStatusEffect(player, tp, xi.slot.RANGED, xi.aftermath.type.RELIC)
 

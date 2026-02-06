@@ -27,11 +27,19 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
         params.atkVaries = { 1.5, 1.5, 1.5 }
         params.critVaries = { 0.1, 0.1, 0.1 } -- unless crit varies with TP.
         params.dex_wsc = 1.0
+        params.str_wsc = 0.0
         params.ftpMod = { 5.0, 10.0, 15.0 }
     end
 
-    if player:getEquippedItem(xi.slot.MAIN) and player:getEquippedItem(xi.slot.MAIN):getItemID() == xi.item.MANDAU then
-        params.str_wsc = 0.25
+    local mainItem = player:getEquippedItem(xi.slot.MAIN)
+    if mainItem then
+        local itemId = mainItem:getItemID()
+        for _, id in ipairs(xi.equipment.relicIDs[xi.equipment.relic.MANDAU]) do
+            if itemId == id then
+                params.str_wsc = 0.25
+                break
+            end
+        end
     end
 
     -- Apply aftermath

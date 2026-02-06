@@ -26,8 +26,18 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
         params.ftpMod  = { 8, 8, 8 }
         params.dex_wsc = 1.0
-        params.str_wsc = 0.5
         params.atkVaries = { 1.5, 1.5, 1.5 }
+    end
+
+    local mainItem = player:getEquippedItem(xi.slot.MAIN)
+    if mainItem then
+        local itemId = mainItem:getItemID()
+        for _, id in ipairs(xi.equipment.relicIDs[xi.equipment.relic.KIKOKU]) do
+            if itemId == id then
+                params.str_wsc = 0.25
+                break
+            end
+        end
     end
 
     -- Apply aftermath

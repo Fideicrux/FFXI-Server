@@ -33,6 +33,17 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
         params.ftpMod = { 5.0,  10.0, 15.0 }
     end
 
+    local mainItem = player:getEquippedItem(xi.slot.MAIN)
+    if mainItem then
+        local itemId = mainItem:getItemID()
+        for _, id in ipairs(xi.equipment.relicIDs[xi.equipment.relic.GUTTLER]) do
+            if itemId == id then
+                params.dex_wsc = 0.25
+                break
+            end
+        end
+    end
+
     -- Apply aftermath
     xi.aftermath.addStatusEffect(player, tp, xi.slot.MAIN, xi.aftermath.type.RELIC)
 
