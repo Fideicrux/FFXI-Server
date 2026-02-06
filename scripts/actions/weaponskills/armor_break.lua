@@ -29,7 +29,8 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
         params.accVaries = { 1.0, 1.25, 1.5 }
         params.atkVaries = { 1.25, 1.25, 1.25 }
         params.critVaries = { 0.1, 0.1, 0.1 } -- unless crit varies with TP.
-        params.str_wsc = 1.0
+        params.str_wsc = 0.3
+        params.vit_wsc = 0.0
         params.ftpMod = { 2.25, 4.5, 6.75 }
     end
 
