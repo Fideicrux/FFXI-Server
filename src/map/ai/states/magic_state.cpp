@@ -443,7 +443,7 @@ void CMagicState::SpendCost()
         {
             CCharEntity* PChar = static_cast<CCharEntity*>(m_PEntity);
 
-            cost = (int16)(cost * (1.0f - (float)((PChar->PJobPoints->GetJobPointValue(JP_QUICK_MAGIC_EFFECT) * 2) / 100)));
+            cost = (int16)(cost * (1.0f - (PChar->PJobPoints->GetJobPointValue(JP_QUICK_MAGIC_EFFECT) * 2 / 100.0f)));
         }
 
         // conserve mp
