@@ -156,7 +156,7 @@ local function getMPCost(baseMPCost, player, petskill)
         local bloodBoonRate = player:getMod(xi.mod.BLOOD_BOON)
         -- assuming it works like Conserve MP... https://www.bg-wiki.com/ffxi/Conserve_MP
 
-        mpCost = mpCost * ((100 - bloodBoonRate) / 100)
+        mpCost = mpCost * math.floor((100 - bloodBoonRate) / 100)
         
     end
 
