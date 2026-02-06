@@ -24,11 +24,14 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
         params.multiHitFtp = true
         params.accVaries = { 1.0, 1.25, 1.5 }
-        params.atkVaries = { 1.25, 1.25, 1.25 }
+        params.atkVaries = { 1.5, 1.5, 1.5 }
         params.critVaries = { 0.1, 0.1, 0.1 } -- unless crit varies with TP.
         params.dex_wsc = 1.0
-        params.str_wsc = 0.5
         params.ftpMod = { 5.0, 10.0, 15.0 }
+    end
+
+    if player:getEquippedItem(xi.slot.MAIN) and player:getEquippedItem(xi.slot.MAIN):getItemID() == xi.item.MANDAU then
+        params.str_wsc = 0.25
     end
 
     -- Apply aftermath
