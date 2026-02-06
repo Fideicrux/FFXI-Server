@@ -33,18 +33,6 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
         params.ftpMod = { 4.0, 8.0, 12.0 }
     end
 
-    local mainItem = player:getEquippedItem(xi.slot.MAIN)
-    if mainItem then
-        local itemId = mainItem:getItemID()
-        for _, id in ipairs(xi.equipment.relicIDs[xi.equipment.relic.APOCALYPSE]) do
-            if itemId == id then
-                params.int_wsc = 0.25
-                params.agi_wsc = 0.25
-                break
-            end
-        end
-    end
-
     -- Apply aftermath
     xi.aftermath.addStatusEffect(player, tp, xi.slot.MAIN, xi.aftermath.type.RELIC)
 

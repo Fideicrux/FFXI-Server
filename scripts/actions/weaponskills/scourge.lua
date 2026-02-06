@@ -34,17 +34,6 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
         params.ftpMod = { 5.0, 8.75, 12.5 }
     end
 
-    local mainItem = player:getEquippedItem(xi.slot.MAIN)
-    if mainItem then
-        local itemId = mainItem:getItemID()
-        for _, id in ipairs(xi.equipment.relicIDs[xi.equipment.relic.RAGNAROK]) do
-            if itemId == id then
-                params.vit_wsc = 0.25
-                break
-            end
-        end
-    end
-
     -- Apply aftermath
     xi.aftermath.addStatusEffect(player, tp, xi.slot.MAIN, xi.aftermath.type.RELIC)
 
