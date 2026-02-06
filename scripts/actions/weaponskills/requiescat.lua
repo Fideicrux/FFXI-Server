@@ -24,7 +24,7 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
         params.str_wsc_wsc = 0.5 + (player:getMerit(xi.merit.REQUIESCAT) * 0.15)
         params.dex_wsc = 0.5
         params.multiHitfTP = true
-        params.atkVaries = { 1.5, 1.5, 1.5 }
+        params.atkVaries = { 1.25, 1.25, 1.25 }
     end
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doPhysicalWeaponskill(player, target, wsID, params, tp, action, primary, taChar)

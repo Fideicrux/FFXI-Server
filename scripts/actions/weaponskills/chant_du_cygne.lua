@@ -24,7 +24,7 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
         params.dex_wsc = 0.5
         params.str_wsc = 0.5
         params.multiHitfTP = true -- https://www.bg-wiki.com/ffxi/Chant_du_Cygne
-        params.atkVaries = { 1.5, 1.5, 1.5 }
+        params.atkVaries = { 1.25, 1.25, 1.25 }
     end
 
     -- Apply aftermath
