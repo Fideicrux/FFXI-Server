@@ -29,10 +29,13 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
         params.atkVaries = { 1.5, 1.5, 1.5 }
         params.critVaries = { 0.15, 0.15, 0.15 } -- unless crit varies with TP.
         params.str_wsc = 1.0
-        params.vit_wsc = 0.0
         params.mnd_wsc = 0.0
         params.chr_wsc = 0.0
-        params.ftpMod = { 5.0, 10.0, 15.0 }
+        params.ftpMod = { 5.0, 8.75, 12.5 }
+    end
+
+    if player:getEquippedItem(xi.slot.MAIN) and player:getEquippedItem(xi.slot.MAIN):getItemID() == xi.item.RAGNAROK then
+        params.vit_wsc = 0.25
     end
 
     -- Apply aftermath
