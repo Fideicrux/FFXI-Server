@@ -116,6 +116,14 @@ CPMAddPackage(
         "EFSW_INSTALL OFF"
 ) # defines: efsw
 
+if(TARGET efsw)
+    target_compile_options(efsw PRIVATE
+        $<$<CXX_COMPILER_ID:GNU>:-Wno-unused-result>
+        $<$<CXX_COMPILER_ID:Clang>:-Wno-unused-result>
+        $<$<CXX_COMPILER_ID:AppleClang>:-Wno-unused-result>
+    )
+endif()
+
 # TODO: std::expected lands in C++23. Remove this once all compilers for all platforms implement.
 CPMAddPackage(
     NAME expected-lite
