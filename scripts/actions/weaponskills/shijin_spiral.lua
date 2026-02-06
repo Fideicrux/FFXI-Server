@@ -19,7 +19,7 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     params.numHits   = 5
     params.ftpMod    = { 1.0625, 1.0625, 1.0625 }
     params.dex_wsc   = player:getMerit(xi.merit.SHIJIN_SPIRAL) * 0.17
-    params.atkVaries = { 1.5, 1.5, 1.5 }
+    params.atkVaries = { 1.25, 1.25, 1.25 }
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
         params.multiHitfTP = true -- http://wiki.ffo.jp/html/25607.html
