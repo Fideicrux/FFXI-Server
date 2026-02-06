@@ -21,7 +21,7 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     params.ftpMod = { 2.0, 2.0, 2.0 }
     params.str_wsc = player:getMerit(xi.merit.RUINATOR) * 0.17
     params.accVaries = { 1.0, 1.5, 2.0 } -- TODO: verify -- "Accuracy varies with TP" in retail. All current evidence points to that this modifier is static values, not percentages.
-    params.atkVaries = { 1.5, 1.5, 1.5 }
+    params.atkVaries = { 1.25, 1.25, 1.25 }
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
         params.str_wsc = 0.5 + (player:getMerit(xi.merit.RUINATOR) * 0.03)
