@@ -19,7 +19,7 @@ local weaponskillObject = {}
 weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary, action, taChar)
     local params = {}
     params.numHits = 1
-    params.ftpMod = { 8.0, 8.0, 8.0 }
+    params.ftpMod = { 8.0, 16.0, 24.0 }
     params.mnd_wsc = 0.4
     params.chr_wsc = 0.4
 
@@ -31,7 +31,7 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
         params.str_wsc = 1.0
         params.mnd_wsc = 0.0
         params.chr_wsc = 0.0
-        params.ftpMod = { 5.0, 8.75, 12.5 }
+        params.ftpMod = { 5.0, 10.0, 15.0 }
     end
 
     -- Apply aftermath
