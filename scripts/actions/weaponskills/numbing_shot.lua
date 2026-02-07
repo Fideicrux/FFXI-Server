@@ -20,10 +20,20 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     params.agi_wsc = 0.6
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
-        params.agi_wsc = 0.8
+        params.multiHitFtp = true
+        params.accVaries = { 1.0, 1.25, 1.5 }
+        params.atkVaries = { 1.5, 1.5, 1.5 }
+        params.critVaries = { 0.1, 0.1, 0.1 } -- unless crit varies with TP.
+        params.str_wsc = 0.35
+        params.agi_wsc = 0.35
+        params.int_wsc = 0.35
+        params.hybridws = true
+        params.ele = xi.element.THUNDER
+        params.skill = xi.skill.MARKSMANSHIP
+        params.ftpMod = { 1.0, 2.0, 3.0 }
     end
 
-    local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doRangedWeaponskill(player, target, wsID, params, tp, action, primary)
+    local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doMagicWeaponskill(player, target, wsID, params, tp, action, primary)
 
     -- Handle status effect
     local effectId      = xi.effect.PARALYSIS

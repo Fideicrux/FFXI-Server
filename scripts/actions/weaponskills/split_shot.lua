@@ -22,13 +22,23 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     params.rangedAccuracyBonus = 30 -- https://www.ffxiah.com/forum/topic/52018/luck-of-the-draw-a-corsairs-guide-new/127/#3726841
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
-        params.agi_wsc = 0.7
+        params.multiHitFtp = true
+        params.accVaries = { 1.0, 1.25, 1.5 }
+        params.atkVaries = { 1.25, 1.25, 1.25 }
+        params.critVaries = { 0.1, 0.1, 0.1 } -- unless crit varies with TP.
+        params.agi_wsc = 0.15
+        params.int_wsc = 0.15
+        params.hybridWS = true
+        params.ele = xi.element.ICE
+        params.skill = xi.skill.MARKSMANSHIP
+        params.ftpMod = { 0.75, 1.5, 2.25 }
+        params.includedMAB = true
     end
 
     -- Defense ignored is 0%, 35%, 50% as per wiki.bluegartr.com
     params.ignoredDefense = { 0.0, 0.35, 0.5 }
 
-    local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doRangedWeaponskill(player, target, wsID, params, tp, action, primary)
+    local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doMagicWeaponskill(player, target, wsID, params, tp, action, primary)
     return tpHits, extraHits, criticalHit, damage
 end
 

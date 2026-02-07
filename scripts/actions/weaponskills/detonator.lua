@@ -24,11 +24,21 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     params.rangedAccuracyBonus = 100 -- https://www.ffxiah.com/forum/topic/52018/luck-of-the-draw-a-corsairs-guide-new/127/#3726841
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
-        params.ftpMod  = { 1.5, 2.5, 5.0 }
-        params.agi_wsc = 0.7
+        params.multiHitFtp = true
+        params.accVaries = { 1.0, 1.25, 1.5 }
+        params.atkVaries = { 1.5, 1.5, 1.5 }
+        params.critVaries = { 0.1, 0.1, 0.1 } -- unless crit varies with TP.
+        params.str_wsc = 0.35
+        params.agi_wsc = 0.35
+        params.int_wsc = 0.35
+        params.hybridWS = true
+        params.ele = xi.element.FIRE
+        params.skill = xi.skill.MARKSMANSHIP
+        params.includemab = true
+        params.ftpMod = { 2.25, 4.5, 6.75 }
     end
 
-    local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doRangedWeaponskill(player, target, wsID, params, tp, action, primary)
+    local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doMagicWeaponskill(player, target, wsID, params, tp, action, primary)
     return tpHits, extraHits, criticalHit, damage
 end
 

@@ -21,14 +21,23 @@ local weaponskillObject = {}
 weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary, action, taChar)
     local params = {}
     params.numHits = 1
-    params.ftpMod = { 3.0, 3.0, 3.0 }
-    params.dex_wsc = 0.4
-    params.agi_wsc = 0.4
+    params.multiHitFtp = true
+    params.accVaries = { 1.0, 1.25, 1.5 }
+    params.atkVaries = { 1.5, 1.5, 1.5 }
+    params.critVaries = { 0.1, 0.1, 0.1 } -- unless crit varies with TP.
+    params.agi_wsc = 0.75
+    params.str_wsc = 0.25
+    params.int_wsc = 0.25
+    params.hybridws = true
+    params.ele = xi.element.DARK
+    params.skill = xi.skill.MARKSMANSHIP
+    params.includemab = true
+    params.ftpMod = { 2.5, 5.0, 7.5 }
     params.overrideCE = 80
     params.overrideVE = 240
     params.rangedAccuracyBonus = 100
 
-    local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doRangedWeaponskill(player, target, wsID, params, tp, action, primary)
+    local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doMagicWeaponskill(player, target, wsID, params, tp, action, primary)
 
     -- Apply aftermath
     xi.aftermath.addStatusEffect(player, tp, xi.slot.RANGED, xi.aftermath.type.RELIC)
