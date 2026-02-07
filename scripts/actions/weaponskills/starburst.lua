@@ -25,8 +25,13 @@ weaponskillObject.onUseWeaponSkill = function(player, target, wsID, tp, primary,
     end
 
     if xi.settings.main.USE_ADOULIN_WEAPON_SKILL_CHANGES then
-        params.str_wsc = 0.4
-        params.mnd_wsc = 0.4
+        params.multiHitFtp = true
+        params.accVaries = { 1.0, 1.25, 1.5 }
+        params.atkVaries = { 1.25, 1.25, 1.25 }
+        params.critVaries = { 0.1, 0.1, 0.1 } -- unless crit varies with TP.
+        params.mnd_wsc = 0.15
+        params.int_wsc = 0.15
+        params.ftpMod = { 2.75, 5.5, 8.25 }
     end
 
     local damage, criticalHit, tpHits, extraHits = xi.weaponskills.doMagicWeaponskill(player, target, wsID, params, tp, action, primary)
